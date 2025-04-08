@@ -2,10 +2,11 @@
 
 @theme {
   --color-main: #009c7c;
-  --color-mainHover: rgb(0, 172, 137) c;
+  --color-mainHover: rgb(0, 172, 137);
   --color-bodyBg: #1d1d1d;
   --color-sectionBg: #101010;
   --color-navBg: #262626;
+  --color-darkBg: #1b1b1b;
   --color-textHead: #e8e8e8;
   --color-textDesc: #8e8e8e;
   --color-text60: rgba(232, 232, 232, 0.6);
@@ -13,12 +14,22 @@
   --color-sidebarBg: #202020;
   --color-sidebarText: #bbb;
 
+  --font-robotoGeoCaps: "robotoGeoCaps";
+  --font-robotoGeo: "robotoGeo";
   --font-mainRegular: "mainRegular";
   --font-mainMedium: "mainMedium";
   --font-mainSemiBold: "mainSemiBold";
   --font-mainBold: "mainBold";
 
   --spacing-navHeight: 54px;
+}
+@font-face {
+  font-family: robotoGeoCaps;
+  src: url("fonts/RobotoGeoCaps.ttf");
+}
+@font-face {
+  font-family: robotoGeo;
+  src: url("fonts/RobotoGeo.ttf");
 }
 @font-face {
   font-family: mainRegular;
@@ -39,7 +50,15 @@
 
 body {
   color: var(--color-textHead);
-  font-family: var(--font-mainRegular);
+  font-family: var(--font-robotoGeoCaps), sans-serif;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  background-color: var(--color-bodyBg);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-main);
 }
 input,
 button {
@@ -72,6 +91,25 @@ input {
 .side_line:hover:before {
   background-color: var(--color-main);
 }
+.my_tooltip::before {
+  content: attr(aria-title);
+  position: absolute;
+  top: 0;
+  transform: translateY(100%);
+  z-index: 9;
+  padding: 5px 5px;
+  letter-spacing: 0.5px;
+  color: var(--color-textHead);
+  background-color: var(--color-bodyBg);
+  visibility: hidden;
+  font-size: 12px;
+  opacity: 0;
+  transition: visibility, opacity 0.2s ease-in-out;
+}
+.my_tooltip:hover:before {
+  visibility: visible;
+  opacity: 1;
+}
 
 @media (min-width: 768px) {
   .my_container {
@@ -93,9 +131,9 @@ input {
     width: 1370px;
   }
 }
-@media (min-width: 1600px) {
+@media (min-width: 1680px) {
   .my_container {
-    width: 1570px;
+    width: 1610px;
   }
 }
 

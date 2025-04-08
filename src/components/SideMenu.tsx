@@ -9,7 +9,7 @@ export default function SideMenu() {
   }, []);
 
   return (
-    <div className="fixed h-full w-full top-navHeight">
+    <div className="fixed h-full w-full top-navHeight z-50">
       <div className="h-full w-[300px] bg-sidebarBg relative z-10 case_up">
         <div className="flex flex-col py-5">
           <p className="px-5  text-textDesc tracking-wide text-[14px]">
