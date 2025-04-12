@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { IMDbIcon, TrailerIcon } from "../assets/icons/MyIcons";
 
 type TMovieCard = {
@@ -19,9 +20,13 @@ export default function MovieCard({ small }: TMovieCard) {
             ქარ
           </span>
         </div>
-        <div className="h-full w-full absolute top-0 left-0 bg-[rgba(0,0,0,0.5)]  pointer-events-none group-hover/card:pointer-events-auto opacity-0 group-hover/card:opacity-100 z-90">
+        <div className="h-full w-full absolute top-0 left-0  pointer-events-none group-hover/card:pointer-events-auto opacity-0 group-hover/card:opacity-100 z-90">
+          <Link
+            to={"movie/0001/Lilo-&-Stitch"}
+            className="h-full w-full top-0 left-0 bg-[rgba(0,0,0,0.5)] absolute"
+          ></Link>
           <div
-            className="absolute top-3 right-3 my_tooltip flex justify-center"
+            className="absolute top-1.5 right-1.5 my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
             aria-title="თრეილერი"
           >
             <TrailerIcon className="h-5 aspect-square" />
@@ -42,11 +47,11 @@ export default function MovieCard({ small }: TMovieCard) {
         </div>
       </div>
       <div className="flex items-start justify-between px-2.5 pr-1 pt-2.5  pb-2.5 group-hover/card:bg-[#ffffff]/10">
-        <div className="flex flex-col gap-1 case_up uppercase tracking-wide">
+        <div className="flex flex-col gap-0.5 case_up uppercase tracking-wide">
           <p className="text-textHead font-robotoGeoCaps text-[16px]">
             ლილო და სტიჩი
           </p>
-          <p className="text-textDesc text-[15px]">Lilo & Stitch</p>
+          <p className="text-textDesc text-[14px]">Lilo & Stitch (2025)</p>
         </div>
         <div className="h-[32px] aspect-square flex justify-center items-center rounded-full transition-colors hover:bg-[rgba(255,255,255,0.1)] cursor-pointer">
           <div className="flex flex-col gap-[3px] cursor-pointer">

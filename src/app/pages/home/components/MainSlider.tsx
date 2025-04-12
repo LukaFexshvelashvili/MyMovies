@@ -1,18 +1,20 @@
-import { IMDbIcon, PlayIcon } from "../../../../assets/icons/MyIcons";
+import { IMDbIcon } from "../../../../assets/icons/MyIcons";
 
 export default function MainSlider() {
   return (
-    <div className="relative h-[450px] bg-black justify-center">
+    <div className="relative h-[470px] bg-black justify-center">
       <div className="relative w-full h-full">
-        <div className="my_container relative z-20 h-full flex items-end py-8">
+        <div className="my_container relative z-20 h-full flex items-end py-10">
           <div className="flex flex-col tracking-wider">
-            <h3 className="text-head text-2xl">პადინგტონი პერუში</h3>
-            <h4 className="text-textDesc text-xl">Paddington in Peru (2024)</h4>
-            <div className="flex items-center gap-4 font-mainSemiBold text-md tracking-wider mt-3">
+            <h3 className="text-head text-[20px]">პადინგტონი პერუში</h3>
+            <h4 className="text-textDesc text-[18px]">
+              Paddington in Peru (2024)
+            </h4>
+            <div className="flex items-center gap-4 font-mainSemiBold text-md tracking-wider mt-1">
               <IMDbIcon className="h-[30px] w-[40px]" />
               7.1
             </div>
-            <button className="h-[38px] w-[150px] bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg flex items-center gap-2 justify-center mt-3">
+            <button className="h-[38px] w-[150px] bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg flex items-center gap-2 justify-center mt-4">
               უყურე
             </button>
           </div>

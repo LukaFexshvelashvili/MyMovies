@@ -10,6 +10,7 @@
   --color-textHead: #e8e8e8;
   --color-textDesc: #8e8e8e;
   --color-text60: rgba(232, 232, 232, 0.6);
+  --color-text40: rgba(232, 232, 232, 0.4);
   --color-icon: #d4d4d4;
   --color-sidebarBg: #202020;
   --color-sidebarText: #bbb;
@@ -25,27 +26,27 @@
 }
 @font-face {
   font-family: robotoGeoCaps;
-  src: url("fonts/RobotoGeoCaps.ttf");
+  src: url("/fonts/RobotoGeoCaps.ttf");
 }
 @font-face {
   font-family: robotoGeo;
-  src: url("fonts/RobotoGeo.ttf");
+  src: url("/fonts/RobotoGeo.ttf");
 }
 @font-face {
   font-family: mainRegular;
-  src: url("fonts/OnService-Regular.woff2");
+  src: url("/fonts/OnService-Regular.woff2");
 }
 @font-face {
   font-family: mainMedium;
-  src: url("fonts/OnService-Medium.woff2");
+  src: url("/fonts/OnService-Medium.woff2");
 }
 @font-face {
   font-family: mainSemiBold;
-  src: url("fonts/OnService-SemiBold.woff2");
+  src: url("/fonts/OnService-SemiBold.woff2");
 }
 @font-face {
   font-family: mainBold;
-  src: url("fonts/OnService-Bold.woff2");
+  src: url("/fonts/OnService-Bold.woff2");
 }
 
 body {
@@ -71,6 +72,9 @@ input {
 .case_up {
   font-feature-settings: "case";
 }
+.case_normal {
+  font-feature-settings: none;
+}
 .my_container {
   padding-right: 15px;
   padding-left: 15px;
@@ -94,7 +98,7 @@ input {
 .my_tooltip::before {
   content: attr(aria-title);
   position: absolute;
-  top: 0;
+  bottom: -5px;
   transform: translateY(100%);
   z-index: 9;
   padding: 5px 5px;
