@@ -179,3 +179,29 @@ export const RatingStarClearIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </g>
   </svg>
 );
+export const FiltersIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" {...props} viewBox="0 0 20 20">
+    <path fill="currentColor" d="m12 12l8-8V0H0v4l8 8v8l4-4v-4z" />
+  </svg>
+);
+export const SortHorizontalIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg fill="none" viewBox="0 0 15 15" {...props}>
+    <path
+      fill="#5B5B5B"
+      d="M6 12h3v3H6v-3zM0 12h3v3H0v-3zM12 6h3v3h-3V6zM6 6h3v3H6V6zM0 6h3v3H0V6zM12 12h3v3h-3v-3zM12 0h3v3h-3V0zM6 0h3v3H6V0zM0 0h3v3H0V0z"
+    ></path>
+  </svg>
+);
+export const SortVerticalIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg width="18" height="15" viewBox="0 0 18 15" fill="none" {...props}>
+    <path
+      d="M0 9H3V6H0V9ZM0 3H3V0H0V3ZM0 15H3V12H0V15ZM6 9H18V6H6V9ZM6 3H18V0H6V3ZM6 15H18V12H6V15Z"
+      fill="#5B5B5B"
+    ></path>
+  </svg>
+);
+export const DropDownIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg fill="none" viewBox="0 0 12 8" {...props}>
+    <path fill="#777" d="M1.4.6L6 5.2 10.6.6 12 2 6 8 0 2 1.4.6z"></path>
+  </svg>
+);

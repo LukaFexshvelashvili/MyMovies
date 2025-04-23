@@ -1,9 +1,16 @@
 import { useState } from "react";
 import SideMenu from "./SideMenu";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
+import QuickSearch from "./QuickSearch";
+import { useEffectSkipFirst } from "../app/hooks/useEffectSkipFirst";
 
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+  const location = useLocation();
+  useEffectSkipFirst(() => {
+    setShowSearch(false);
+  }, [location.pathname]);
   return (
     <>
       <header>
@@ -26,8 +33,9 @@ export default function Navbar() {
               <div className=" w-full">
                 <input
                   type="text"
-                  className="h-[36px] bg-[#333333] border-2 border-[#3d3d3d] w-full placeholder:text-[#757575]"
+                  className="h-[36px] bg-[#333333] border-2 border-[#3d3d3d] w-full placeholder:text-[#757575] font-mainRegular"
                   placeholder="ძიება"
+                  onFocus={() => setShowSearch(true)}
                 />
               </div>
             </div>
@@ -36,6 +44,7 @@ export default function Navbar() {
         </nav>
       </header>
       {showMenu && <SideMenu />}
+      {showSearch && <QuickSearch hideSearch={() => setShowSearch(false)} />}
     </>
   );
 }

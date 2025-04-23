@@ -2,7 +2,7 @@ import { IMDbIcon } from "../../../../assets/icons/MyIcons";
 
 export default function MainSlider() {
   return (
-    <div className="relative h-[470px] bg-black justify-center">
+    <div className="relative h-[470px] bg-black flex justify-center">
       <div className="relative w-full h-full">
         <div className="my_container relative z-20 h-full flex items-end py-10">
           <div className="flex flex-col tracking-wider">
@@ -26,8 +26,8 @@ export default function MainSlider() {
           className="h-full w-full top-0 left-0 absolute object-cover object-[0px_-200px]"
         />
       </div>
-      <div className="my_container left-0 h-6 z-20 bottom-0 absolute">
-        <div className="flex gap-3 items-center absolute h-6 bottom-7 right-0">
+      <div className="my_container  h-6 z-20 bottom-0 absolute">
+        <div className="flex gap-3 items-center absolute h-6 bottom-7 right-0 px-[15px]">
           <div className="h-[12px] cursor-pointer aspect-square bg-white rounded-xl"></div>
           <div className="h-[12px] cursor-pointer aspect-square bg-white/50 rounded-xl transition-colors hover:bg-white/80 "></div>
           <div className="h-[12px] cursor-pointer aspect-square bg-white/50 rounded-xl transition-colors hover:bg-white/80 "></div>
