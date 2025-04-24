@@ -14,20 +14,23 @@ import { useQuery } from "@tanstack/react-query";
 import { TMovieCard } from "../../types/MovieTypes";
 import RatedMovies from "./components/RatedMovies";
 
-const fetchMovies = async () => {
+const fetchAnimations = async () => {
   const { data } = await axios.get("https://moviesgo.ge/server/getmovies.php");
   return data;
 };
-export default function Movies() {
+export default function Animations() {
   const { data, isPending } = useQuery({
-    queryKey: ["movies"],
-    queryFn: fetchMovies,
+    queryKey: ["Animations"],
+    queryFn: fetchAnimations,
   });
 
   return (
     <main>
       <div className="bg-[rgb(17,_17,_17)] h-[200px] bg-[url('decorations/background.svg')] bg-no-repeat bg-cover bg-center w-full"></div>
-      <RatedMovies title="რჩეული ფილმები" image="decorations/movies.png" />
+      <RatedMovies
+        title="რჩეული ანიმაციები"
+        image="decorations/animationsRated.jpg"
+      />
       <Filters />
       <div className="my_container flex justify-between items-center py-5">
         <div className="flex items-center gap-5">

@@ -10,20 +10,33 @@ export default function Navbar() {
   const location = useLocation();
   useEffectSkipFirst(() => {
     setShowSearch(false);
+    setShowMenu(false);
   }, [location.pathname]);
   return (
     <>
-      <header>
-        <nav className="h-navHeight w-full bg-navBg sticky top-0 items-center flex ">
+      <header className=" sticky top-0 z-50">
+        <nav className="h-navHeight w-full bg-navBg items-center flex ">
           <div className="my_container flex justify-between">
             <div className="flex gap-5 items-center text-main font-mainMedium tracking-wider text-[20px]">
               <div
-                className=" h-[16px] w-[22px] flex flex-col justify-between cursor-pointer"
+                className=" h-[22px] w-[22px] flex flex-col justify-center items-center gap-1 cursor-pointer"
                 onClick={() => setShowMenu((prev) => !prev)}
               >
-                <div className="w-full h-[2px] bg-[#686868]"></div>
-                <div className="w-full h-[2px] bg-[#686868]"></div>
-                <div className="w-full h-[2px] bg-[#686868]"></div>
+                <div
+                  className={`w-full h-[2px] bg-[#686868] transition-transform ${
+                    showMenu ? "translate-y-1.5 rotate-45" : ""
+                  } `}
+                ></div>
+                <div
+                  className={`w-full h-[2px] bg-[#686868] transition-opacity ${
+                    showMenu ? "opacity-0" : ""
+                  } `}
+                ></div>
+                <div
+                  className={`w-full h-[2px] bg-[#686868] transition-transform ${
+                    showMenu ? "-translate-y-1.5 -rotate-45" : ""
+                  } `}
+                ></div>
               </div>
               <Link to="/" className="cursor-pointer">
                 MYMOVIES
@@ -43,7 +56,7 @@ export default function Navbar() {
           </div>
         </nav>
       </header>
-      {showMenu && <SideMenu />}
+      <SideMenu active={showMenu} closeSideMenu={() => setShowMenu(false)} />
       {showSearch && <QuickSearch hideSearch={() => setShowSearch(false)} />}
     </>
   );

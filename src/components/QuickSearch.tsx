@@ -18,7 +18,7 @@ export default function QuickSearch(props: { hideSearch: Function }) {
   return (
     <div className="fixed h-full w-full top-0 left-0  z-30 py-10">
       <div
-        className="absolute top-0 left-0 h-full w-full bg-black/60 z-0"
+        className="absolute top-0 left-0 h-full w-full bg-black/70 z-0"
         onClick={() => props.hideSearch()}
       ></div>
       <div className="my_container relative">

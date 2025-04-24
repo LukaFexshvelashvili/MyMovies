@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import MovieCard from "./MovieCard";
+import MovieCard, { MovieCardSkeleton } from "./MovieCard";
 
 type TMovieSlider = {
   title: string;
@@ -29,7 +29,7 @@ export default function MovieSlider({ title, icon, link }: TMovieSlider) {
         </div>
       </div>
       <div className="flex gap-5 overflow-x-hidden overflow-y-auto">
-        <MovieCard />
+        <MovieCardSkeleton />
         <MovieCard />
         <MovieCard />
         <MovieCard />

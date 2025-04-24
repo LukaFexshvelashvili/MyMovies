@@ -1,85 +1,65 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
+import RoutesList from "../routes/NavigationList";
 
-export default function SideMenu() {
+export default function SideMenu(props: {
+  active: boolean;
+  closeSideMenu: Function;
+}) {
   const [activeLink, setActiveLink] = useState<string>("მთავარი");
-  const [mounted, setMounted] = useState<boolean>(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
-    <div className="fixed h-full w-full top-navHeight z-50">
-      <div className="h-full w-[300px] bg-sidebarBg relative z-10 case_up">
+    <div
+      className={`fixed h-full w-full top-navHeight z-50 transition-all duration-300 ${
+        props.active ? "visible opacity-1000" : "invisible opacity-0"
+      }`}
+    >
+      <div
+        className={`h-full w-[300px] bg-sidebarBg relative z-10 case_up duration-250 transition-transform ${
+          props.active ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         <div className="flex flex-col py-5">
           <p className="px-5  text-textDesc tracking-wide text-[14px]">
             სარჩევი
           </p>
           <div className="flex flex-col py-2">
-            <SideBarButton
-              title="სიახლე"
-              link="/"
-              icon={<></>}
-              setActive={setActiveLink}
-              active={activeLink}
-            />
-            <SideBarButton
-              title="სიახლე"
-              link="/"
-              icon={<></>}
-              setActive={setActiveLink}
-              active={activeLink}
-            />
-            <SideBarButton
-              title="სიახლე"
-              link="/"
-              icon={<></>}
-              setActive={setActiveLink}
-              active={activeLink}
-            />
-            <SideBarButton
-              title="სიახლე"
-              link="/"
-              icon={<></>}
-              setActive={setActiveLink}
-              active={activeLink}
-            />
+            {RoutesList.mainRoutes.map((route) => (
+              <SideBarButton
+                key={route.title}
+                title={route.title}
+                icon={<></>}
+                link={route.path}
+                setActive={setActiveLink}
+                active={activeLink}
+              />
+            ))}
           </div>
         </div>
-        <div className="w-full h-1 bg-[rgba(255,255,255,0.05)]"></div>
+        <div className="w-full h-[2px] bg-[rgba(255,255,255,0.05)]"></div>
         <div className="flex flex-col py-5">
           <p className="px-5  text-textDesc tracking-wide text-[14px]">
             ჟანრები
           </p>
           <div className="flex flex-col py-2">
-            <SideBarButton
-              title="სიახლე"
-              link="/"
-              setActive={setActiveLink}
-              active={activeLink}
-            />
-            <SideBarButton
-              title="სიახლე"
-              link="/"
-              setActive={setActiveLink}
-              active={activeLink}
-            />
-            <SideBarButton
-              title="სიახლე"
-              link="/"
-              setActive={setActiveLink}
-              active={activeLink}
-            />
-            <SideBarButton
-              title="სიახლე"
-              link="/"
-              setActive={setActiveLink}
-              active={activeLink}
-            />
+            {RoutesList.mainRoutes.map((route) => (
+              <SideBarButton
+                key={route.title}
+                title={route.title}
+                link={route.path}
+                setActive={setActiveLink}
+                active={activeLink}
+              />
+            ))}
           </div>
         </div>
       </div>
-      <div className="h-full w-full bg-[rgba(0,0,0,0.4)] absolute top-0 left-0"></div>
+      <div
+        className={`h-full w-full bg-[rgba(0,0,0,0.4)] transition-opacity ${
+          props.active ? "opacity-100" : "opacity-0"
+        } absolute top-0 left-0`}
+        onClick={() => props.closeSideMenu()}
+      ></div>
     </div>
   );
 }
