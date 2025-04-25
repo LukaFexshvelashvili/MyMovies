@@ -17,20 +17,20 @@ export default function Movie() {
       </div>
       <section className="mt-6">
         <div className="my_container">
-          <div className="w-full h-[660px] flex">
-            <div className="h-full aspect-video bg-black"></div>
-            <div className="h-full w-full bg-[#282828]"></div>
+          <div className="w-full h-[590px] flex">
+            <div className="h-full aspect-video bg-[rgb(36,36,36)]"></div>
+            <div className="h-full w-full bg-[rgb(40,40,40)]"></div>
           </div>
-          <div className="flex items-center gap-2.5 py-5">
+          <div className="flex items-center gap-3 py-5">
             <div className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10">
-              <HeartIcon height={18} />
+              <HeartIcon height={16} />
             </div>
             <div className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10">
-              <BookmarkIcon height={18} />
+              <BookmarkIcon height={16} />
             </div>
 
             <div className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10">
-              <WarningIcon height={18} />
+              <WarningIcon height={16} />
             </div>
           </div>
         </div>
