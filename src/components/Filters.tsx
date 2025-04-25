@@ -14,34 +14,34 @@ export default function Filters() {
   // const [filtersList, setFiltersList] = useState({});
   return (
     <div className="">
-      <div className="bg-[#292929] w-full h-[60px] flex items-center">
+      <div className="bg-[#292929] w-full h-[70px] flex items-center">
         <div className="my_container flex h-full items-center ">
           <div className="flex items-center gap-3 text-textDesc ">
             <FiltersIcon className="h-[18px] aspect-square" />
             ფილტრი
           </div>
           <div className="flex ml-10 h-full ">
-            <div className="group relative px-8 border-l gap-3 text-textHead border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
+            <div className="group relative px-8 border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
               ჟანრი
               <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc " />
               <FilterBlock list={genres} />
             </div>
-            <div className="group relative px-8 border-l gap-3 text-textHead border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
+            <div className="group relative px-8 border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
               გახმოვანება
               <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc" />
               <FilterBlock list={languages} />
             </div>
-            <div className="group relative px-8 border-l gap-3 text-textHead border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
+            <div className="group relative px-8 border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
               წელი
               <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc" />
               <FilterBlock list={years} />
             </div>
-            <div className="group relative px-8 last:border-r border-l gap-3 text-textHead border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
+            <div className="group relative px-8 last:border-r border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
               IMDb რეიტინგი
               <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc" />
               <FilterBlock list={imdbs} />
             </div>
-            <div className="group relative px-8 last:border-r border-l gap-3 text-textHead border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
+            <div className="group relative px-8 last:border-r border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
               დამატებები
               <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc" />
               <FilterBlock list={addons} />
@@ -65,7 +65,7 @@ function FilterBlock(props: { list: any[] }) {
   );
 
   return (
-    <div className="invisible group-hover:visible absolute z-10 left-0 w-[250px] h-auto max-h-[300px] pb-2 bg-bodyBg shadow-lg top-[60px] cursor-default flex flex-col">
+    <div className="invisible group-hover:visible absolute z-10 left-0 w-[250px] h-auto max-h-[300px] pb-2 bg-bodyBg shadow-lg top-[70px] cursor-default flex flex-col">
       <div className="flex items-center p-3">
         <input
           className="w-full h-[36px] border-2 border-white/10 text-textHead text-sm"

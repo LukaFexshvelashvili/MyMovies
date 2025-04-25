@@ -7,7 +7,7 @@ import {
   PlayIcon,
   PopularsIcon,
 } from "../../../assets/icons/MyIcons";
-import MovieCard from "../../../components/MovieCard";
+import MovieCard, { MovieCardSkeleton } from "../../../components/MovieCard";
 import MainSlider from "./components/MainSlider";
 import MovieSlider from "../../../components/MovieSlider";
 
@@ -97,16 +97,16 @@ function PopularsSection({ title, icon, link }: TPopularsSection) {
         </div>
       </div>
       <div className="flex gap-5 overflow-x-hidden overflow-y-auto flex-wrap justify-between">
-        <MovieCard small />
-        <MovieCard small />
-        <MovieCard small />
-        <MovieCard small />
-        <MovieCard small />
-        <MovieCard small />
-        <MovieCard small />
-        <MovieCard small />
-        <MovieCard small />
-        <MovieCard small />
+        <MovieCardSkeleton small />
+        <MovieCardSkeleton small />
+        <MovieCardSkeleton small />
+        <MovieCardSkeleton small />
+        <MovieCardSkeleton small />
+        <MovieCardSkeleton small />
+        <MovieCardSkeleton small />
+        <MovieCardSkeleton small />
+        <MovieCardSkeleton small />
+        <MovieCardSkeleton small />
       </div>
     </>
   );

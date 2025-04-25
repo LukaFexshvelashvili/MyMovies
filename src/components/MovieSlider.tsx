@@ -30,10 +30,10 @@ export default function MovieSlider({ title, icon, link }: TMovieSlider) {
       </div>
       <div className="flex gap-5 overflow-x-hidden overflow-y-auto">
         <MovieCardSkeleton />
-        <MovieCard />
-        <MovieCard />
-        <MovieCard />
-        <MovieCard />
+        <MovieCardSkeleton />
+        <MovieCardSkeleton />
+        <MovieCardSkeleton />
+        <MovieCardSkeleton />
       </div>
     </div>
   );

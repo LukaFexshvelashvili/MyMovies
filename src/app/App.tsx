@@ -7,6 +7,7 @@ import Movies from "./pages/movies/Movies";
 import TvShows from "./pages/movies/TvShows";
 import Animations from "./pages/movies/Animations";
 import Animes from "./pages/movies/Animes";
+import TrailerOverlay from "./components/TrailerOverlay";
 
 function App() {
   const [isDomLoaded, setIsDomLoaded] = useState(false);
@@ -21,6 +22,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <TrailerOverlay />
       <Suspense fallback={<SuspenseLoader />}>
         <Routes>
           <Route path="/">
