@@ -3,10 +3,18 @@ import {
   BookmarkIcon,
   HeartIcon,
   IMDbIcon,
+  InfoIcon,
   TrailerIcon,
 } from "../assets/icons/MyIcons";
 import { TMovieCard } from "../app/types/MovieTypes";
 import useTrailerOverlay from "../app/store/useTrailerOverlay";
+import {
+  decodeHtmlEntities,
+  image_resize,
+  movie_link_generate,
+} from "../app/hooks/Customs";
+import { useState } from "react";
+import useDetailsOverlay from "../app/store/useDetailsOverlay";
 
 export default function MovieCard({
   small,
@@ -15,6 +23,9 @@ export default function MovieCard({
   movie: TMovieCard;
   small?: boolean;
 }) {
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+
+  const { setDetailsId } = useDetailsOverlay();
   const { setTrailerLink } = useTrailerOverlay();
   const addons = movie.addons ? JSON.parse(movie.addons) : [];
 
@@ -26,32 +37,43 @@ export default function MovieCard({
     >
       <div className="relative w-full aspect-video bg-[#3b3b3b]">
         <div className="top-0 right-0 color-white absolute text-[13px] flex group-hover/card:opacity-0  pointer-events-none">
-          {addons.includes("ქართულად") && (
-            <span className="bg-main px-1.5 py-0.5 flex justify-center items-center">
-              ქარ
-            </span>
-          )}
           {addons.includes("ინგლისურად") && (
             <span className="bg-[#2c2c2cbb] px-1.5 py-0.5 flex justify-center items-center">
               ინგ
             </span>
           )}
+          {addons.includes("ქართულად") && (
+            <span className="bg-main px-1.5 py-0.5 flex justify-center items-center">
+              ქარ
+            </span>
+          )}
         </div>
         <div className="h-full w-full absolute top-0 left-0  pointer-events-none group-hover/card:pointer-events-auto opacity-0 group-hover/card:opacity-100 z-10">
           <Link
-            to={"/movie/0001/Lilo-&-Stitch"}
+            to={`/movie/${movie.id}/${movie_link_generate(movie.name_eng)}`}
             className="h-full w-full top-0 left-0 bg-[rgba(0,0,0,0.5)] absolute"
           ></Link>
-          <div
-            onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
-            className="absolute top-1.5 right-1.5 my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
-            aria-title="თრეილერი"
-          >
-            <TrailerIcon className="h-5 aspect-square" />
+          <div className="absolute gap-1 top-1.5 right-1.5 flex items-center">
+            <div
+              onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
+              className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
+              aria-title="თრეილერი"
+            >
+              <TrailerIcon className="h-5 aspect-square" />
+            </div>
+            <div
+              onClick={() => setDetailsId(Number(movie.id))}
+              className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
+              aria-title="ინფორმაცია"
+            >
+              <InfoIcon className="h-5 aspect-square" />
+            </div>
           </div>
         </div>
         <img
-          src={"https://cdn.moviesgo.ge/" + movie.thumbnail_url}
+          src={
+            "https://cdn.moviesgo.ge/" + image_resize(movie.thumbnail_url).small
+          }
           alt=""
           loading="lazy"
           className="h-full w-full object-cover"
@@ -67,13 +89,26 @@ export default function MovieCard({
       <div className="flex items-start justify-between px-2.5 pr-1 pt-2.5  pb-2.5 group-hover/card:bg-[#ffffff]/10">
         <div className="flex flex-col gap-0.5 case_up uppercase tracking-wide">
           <p className="text-textHead font-robotoGeoCaps text-[16px] truncate whitespace-normal line-clamp-1">
-            {movie.name}
+            {decodeHtmlEntities(movie.name)}
           </p>
           <p className="text-textDesc text-[14px] truncate whitespace-normal line-clamp-1">
-            {movie.name_eng}
+            {decodeHtmlEntities(movie.name_eng)}
           </p>
         </div>
-        <div className="h-[32px] aspect-square flex justify-center items-center rounded-full transition-colors hover:bg-[rgba(255,255,255,0.1)] cursor-pointer">
+        <div
+          onClick={() => setShowMenu((state) => !state)}
+          className="relative h-[32px] aspect-square flex justify-center items-center rounded-full transition-colors hover:bg-[rgba(255,255,255,0.1)] cursor-pointer"
+        >
+          {showMenu && (
+            <div className="absolute w-[200px]  bg-bodyBg bottom-12 right-2 z-30 text-sm">
+              <div className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5">
+                გაზიარება
+              </div>
+              <div className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5">
+                ჩანიშვნა
+              </div>
+            </div>
+          )}
           <div className="flex flex-col gap-[3px] cursor-pointer">
             <div className="bg-[rgba(255,255,255,0.8)] h-[3px] aspect-square rounded-[6px]"></div>
             <div className="bg-[rgba(255,255,255,0.8)] h-[3px] aspect-square rounded-[6px]"></div>
@@ -84,12 +119,18 @@ export default function MovieCard({
     </div>
   );
 }
-export function MovieCardSkeleton({ small }: { small?: boolean }) {
+export function MovieCardSkeleton({
+  small,
+  bg_clear,
+}: {
+  small?: boolean;
+  bg_clear?: boolean;
+}) {
   return (
     <div
-      className={` ${
-        small ? "w-[290px]" : "w-[365px]"
-      }  shrink-0 select-none bg-bodyBg`}
+      className={` ${small ? "w-[290px]" : "w-[365px]"}  shrink-0 select-none ${
+        bg_clear ? "bg-transparent" : "bg-bodyBg"
+      }`}
     >
       <div className="relative w-full aspect-video shrink-0 bg-[#333]  animate-pulse"></div>
 
@@ -128,7 +169,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
         <div className="top-0 right-0 color-white absolute text-[13px] flex group-hover/card:opacity-0  pointer-events-none"></div>
         <div className="h-full w-full absolute top-0 left-0  pointer-events-none group-hover/card:pointer-events-auto opacity-0 group-hover/card:opacity-100 z-10">
           <Link
-            to={"/movie/0001/Lilo-&-Stitch"}
+            to={`/movie/${movie.id}/${movie_link_generate(movie.name_eng)}`}
             className="h-full w-full top-0 left-0 bg-[rgba(0,0,0,0.5)] absolute"
           ></Link>
           <div
@@ -160,7 +201,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
         <div className="flex flex-col gap-0.5 case_up uppercase tracking-wide">
           <div className="flex justify-between">
             <p className="text-textHead font-robotoGeoCaps text-[16px]">
-              {movie.name}
+              {decodeHtmlEntities(movie.name)}
             </p>
             <div className="flex gap-2 text-white/40 mt-1 text-[14px]">
               {addons.includes("ქართულად") && (
@@ -172,7 +213,9 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
             </div>
           </div>
 
-          <p className="text-textDesc text-[14px]">{movie.name_eng}</p>
+          <p className="text-textDesc text-[14px]">
+            {decodeHtmlEntities(movie.name_eng)}
+          </p>
         </div>
         <p className="text-textDescLight text-[15px] mt-0.5 max-h-[100px] truncate whitespace-normal line-clamp-3">
           {movie.description}

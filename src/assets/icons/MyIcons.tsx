@@ -24,6 +24,16 @@ export const TrailerIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+export const InfoIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" {...props}>
+    <path fill="#fff" d="M9 4H7v2h2V4zM9 7H7v5h2V7z"></path>
+    <path
+      fill="#fff"
+      d="M8 0C3.584 0 0 3.584 0 8s3.584 8 8 8 8-3.584 8-8-3.584-8-8-8zm0 14.4A6.408 6.408 0 0 1 1.6 8c0-3.528 2.872-6.4 6.4-6.4 3.528 0 6.4 2.872 6.4 6.4 0 3.528-2.872 6.4-6.4 6.4z"
+    ></path>
+  </svg>
+);
+
 export const ContinueWatchIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     {...props}

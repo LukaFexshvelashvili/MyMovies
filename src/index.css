@@ -9,8 +9,11 @@
   --color-darkBg: #1b1b1b;
   --color-textHead: #e8e8e8;
   --color-textHead2: #c0c0c0;
+  --color-textDescDark2: #5e5e5e;
+  --color-textDescDark: #707070;
   --color-textDesc: #8e8e8e;
   --color-textDescLight: #a7a7a7;
+  --color-textDescLight2: #bebebe;
   --color-text60: rgba(232, 232, 232, 0.6);
   --color-text40: rgba(232, 232, 232, 0.4);
   --color-icon: #d4d4d4;
@@ -156,6 +159,7 @@ input {
 }
 
 .my_loader {
+  will-change: box-shadow;
   -webkit-animation: cssload-spin 4.6s ease infinite;
   animation: cssload-spin 4.6s ease infinite;
   position: absolute;
@@ -275,5 +279,24 @@ input {
       -12px -12px #4f4d49;
     box-shadow: 12px -12px #dfdfdf, 12px 12px #4f4d49, -12px 12px #dfdfdf,
       -12px -12px #4f4d49;
+  }
+}
+.alert_anim::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background-color: #009c7c;
+  animation: 2.5s alert_fill linear;
+  transform-origin: left;
+}
+@keyframes alert_fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }

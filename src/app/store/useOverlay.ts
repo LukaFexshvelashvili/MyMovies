@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 interface CounterState {
   link: string;
+  setLink: (link: string) => void;
 }
 
 const useOverlayStore = create<CounterState>((set) => ({

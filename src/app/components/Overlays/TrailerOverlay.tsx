@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useTrailerOverlay from "../store/useTrailerOverlay";
+import useTrailerOverlay from "../../store/useTrailerOverlay";
 
 export default function TrailerOverlay() {
   const { trailerLink, setTrailerLink } = useTrailerOverlay();
