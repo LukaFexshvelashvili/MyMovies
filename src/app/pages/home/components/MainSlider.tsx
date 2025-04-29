@@ -1,41 +1,173 @@
+import { useEffect, useRef, useState } from "react";
 import { IMDbIcon } from "../../../../assets/icons/MyIcons";
+import { useQuery } from "@tanstack/react-query";
+import { THomeList } from "../Home";
+import { fetchMoviesList } from "../../../../api/ServerFunctions";
+import { useWatchHistory } from "../../../store/useWatchHistory";
+import { TMovieCard } from "../../../types/MovieTypes";
 
 export default function MainSlider() {
+  const { history } = useWatchHistory();
+  const { data: moviesList, isLoading } = useQuery<THomeList>({
+    queryKey: ["moviesList"],
+    queryFn: () => fetchMoviesList(history),
+    staleTime: 1000000,
+  });
+
+  const SliderList: TMovieCard[] | null[] = moviesList?.main_slider
+    ? moviesList.main_slider
+    : [];
+
+  const SliderContainer = useRef<HTMLDivElement | null>(null);
+  const startX = useRef<number | null>(null);
+  const endX = useRef<number | null>(null);
+  const isDragging = useRef(false);
+  const [activeSlider, setActiveSlider] = useState(0);
+
+  const handleStart = (x: number) => {
+    startX.current = x;
+    isDragging.current = true;
+  };
+
+  const handleMove = (x: number) => {
+    if (isDragging.current) {
+      endX.current = x;
+    }
+  };
+
+  const handleEnd = () => {
+    if (!isDragging.current || startX.current === null || endX.current === null)
+      return;
+
+    const deltaX = startX.current - endX.current;
+
+    if (Math.abs(deltaX) > 50) {
+      if (deltaX > 0) {
+        setActiveSlider((state) =>
+          state === SliderList.length - 1 ? 0 : state + 1
+        );
+      } else {
+        setActiveSlider((state) =>
+          state === 0 ? SliderList.length - 1 : state - 1
+        );
+      }
+    }
+
+    isDragging.current = false;
+    startX.current = null;
+    endX.current = null;
+  };
+
+  useEffect(() => {
+    SliderContainer.current?.scrollTo({
+      left: SliderContainer.current.offsetWidth * activeSlider,
+      behavior: "smooth",
+    });
+  }, [activeSlider]);
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    const interval = setInterval(() => {
+      setActiveSlider((prev) =>
+        prev === SliderList.length - 1 ? 0 : prev + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isLoading]);
+
   return (
     <div className="relative h-[470px] bg-black flex justify-center">
-      <div className="relative w-full h-full">
-        <div className="my_container relative z-20 h-full flex items-end py-10">
-          <div className="flex flex-col tracking-wider">
-            <h3 className="text-head text-[20px]">პადინგტონი პერუში</h3>
-            <h4 className="text-textDesc text-[18px]">
-              Paddington in Peru (2024)
-            </h4>
-            <div className="flex items-center gap-4 font-mainSemiBold text-md tracking-wider mt-1">
-              <IMDbIcon className="h-[30px] w-[40px]" />
-              7.1
-            </div>
-            <button className="h-[38px] w-[150px] bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg flex items-center gap-2 justify-center mt-4">
-              უყურე
-            </button>
+      <div
+        className="h-full w-full flex overflow-hidden select-none"
+        ref={SliderContainer}
+        onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+        onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+        onTouchEnd={handleEnd}
+        onMouseDown={(e) => handleStart(e.clientX)}
+        onMouseMove={(e) => handleMove(e.clientX)}
+        onMouseUp={handleEnd}
+        onMouseLeave={handleEnd}
+        onDragStart={(e) => e.preventDefault()}
+      >
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, id) => (
+              <SliderCardSkeleton key={id} />
+            ))
+          : SliderList.map((movie) =>
+              movie ? <SliderCard key={movie.id} movie={movie} /> : null
+            )}
+      </div>
+      <div className="my_container h-6 z-20 bottom-0 absolute">
+        <div
+          className={`flex gap-3 items-center absolute h-6 bottom-7 right-0 px-[15px] ${
+            isLoading ? "animate-pulse" : ""
+          } `}
+        >
+          {SliderList.map((_, i) => (
+            <div
+              key={i}
+              onClick={() => setActiveSlider(i)}
+              className={`h-[12px] cursor-pointer aspect-square rounded-xl ${
+                activeSlider === i
+                  ? "bg-white"
+                  : "bg-white/50 transition-colors hover:bg-white/80"
+              }`}
+            ></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SliderCard({ movie }: { movie: TMovieCard }) {
+  return (
+    <div className="relative w-full h-full shrink-0 select-none ">
+      <div className="my_container relative z-20 h-full flex items-end py-10 ">
+        <div className="flex flex-col tracking-wider">
+          <h3 className="text-head text-[20px] ">{movie.name}</h3>
+          <h4 className="text-white/60 text-[18px]">
+            {movie.name_eng} ({movie.year})
+          </h4>
+          <div className="flex items-center gap-4 font-mainSemiBold text-md tracking-wider mt-1">
+            <IMDbIcon className="h-[30px] w-[40px]" />
+            {Number(movie.imdb).toFixed(1)}
           </div>
-        </div>
-        <div className="absolute w-full top-0 left-0 h-full z-[2] bg-gradient-to-r from-bodyBg/80 to-bodyBg/10"></div>
-        <img
-          src="https://cdn.moviesgo.ge/uploads/227/tQXhDuK.webp"
-          alt=""
-          className="h-full w-full top-0 left-0 absolute object-cover object-[0px_-200px]"
-        />
-      </div>
-      <div className="my_container  h-6 z-20 bottom-0 absolute">
-        <div className="flex gap-3 items-center absolute h-6 bottom-7 right-0 px-[15px]">
-          <div className="h-[12px] cursor-pointer aspect-square bg-white rounded-xl"></div>
-          <div className="h-[12px] cursor-pointer aspect-square bg-white/50 rounded-xl transition-colors hover:bg-white/80 "></div>
-          <div className="h-[12px] cursor-pointer aspect-square bg-white/50 rounded-xl transition-colors hover:bg-white/80 "></div>
-          <div className="h-[12px] cursor-pointer aspect-square bg-white/50 rounded-xl transition-colors hover:bg-white/80 "></div>
-          <div className="h-[12px] cursor-pointer aspect-square bg-white/50 rounded-xl transition-colors hover:bg-white/80 "></div>
-          <div className="h-[12px] cursor-pointer aspect-square bg-white/50 rounded-xl transition-colors hover:bg-white/80 "></div>
+          <button className="h-[38px] w-[150px] bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg flex items-center gap-2 justify-center mt-4">
+            უყურე
+          </button>
         </div>
       </div>
+      <div className="absolute w-full top-0 left-0 h-full z-[2] bg-gradient-to-r from-bodyBg/80 to-bodyBg/10"></div>
+      <img
+        src={"https://cdn.moviesgo.ge/" + movie.thumbnail_url}
+        alt={movie.name + " | " + movie.name_eng}
+        className="h-full w-full top-0 left-0 absolute object-cover object-[0px_-200px]"
+      />
+    </div>
+  );
+}
+
+function SliderCardSkeleton() {
+  return (
+    <div className="relative w-full h-full shrink-0 select-none ">
+      <div className="my_container relative z-20 h-full flex items-end py-10 tracking-[-1px]">
+        <div className="flex flex-col ">
+          <h3 className="text-[20px] text-textDesc animate-pulse font-blockfont">
+            movie.name
+          </h3>
+          <h4 className="text-[18px] text-textDescDark animate-pulse font-blockfont">
+            movie.name_eng (2024)
+          </h4>
+          <div className="flex items-center gap-4 text-md mt-1 text-textDescDark animate-pulse font-blockfont">
+            IMDB 2.2
+          </div>
+          <button className="h-[38px] w-[150px] animate-pulse bg-main transition-colors text-white text-lg flex items-center gap-2 justify-center mt-4"></button>
+        </div>
+      </div>
+      <div className="absolute w-full top-0 left-0 h-full z-[2] bg-gradient-to-r from-bodyBg/80 to-bodyBg/10"></div>
     </div>
   );
 }

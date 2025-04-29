@@ -1,7 +1,8 @@
 import { Link } from "react-router";
 import MovieCard, { MovieCardSkeleton } from "./MovieCard";
 import { TMovieCard } from "../app/types/MovieTypes";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "../swiper.css";
 type TMovieSlider = {
   isLoading: boolean;
   title: string;
@@ -49,9 +50,13 @@ export default function MovieSlider({
             <MovieCardSkeleton bg_clear={clear_skeletons} />
           </>
         ) : list ? (
-          list.map((movie: TMovieCard) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))
+          <Swiper spaceBetween={10} slidesPerView={4.1}>
+            {list.map((movie: TMovieCard) => (
+              <SwiperSlide key={movie.id}>
+                <MovieCard movie={movie} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         ) : null}
       </div>
     </div>

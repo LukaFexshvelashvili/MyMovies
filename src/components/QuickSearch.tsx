@@ -29,6 +29,31 @@ export default function QuickSearch(props: { hideSearch: Function }) {
       ></div>
       <div className="my_container relative">
         <QuickSearchAction />
+        {/* <div className="mt-10">
+          <p className="text-textHead font-mainMedium  text-[17px] tracking-wider text-center case_up">
+            კატეგორიები
+          </p>
+          <div className="flex items-center justify-center flex-wrap gap-5 mt-8">
+            <button className="w-[200px] h-[44px] bg-bodyBg border-2 border-[#2b2b2b] cursor-pointer hover:bg-[#242424]">
+              ფილმები
+            </button>
+            <button className="w-[200px] h-[44px] bg-bodyBg border-2 border-[#2b2b2b] cursor-pointer hover:bg-[#242424]">
+              სერიალები
+            </button>
+            <button className="w-[200px] h-[44px] bg-bodyBg border-2 border-[#2b2b2b] cursor-pointer hover:bg-[#242424]">
+              ანიმეები
+            </button>
+            <button className="w-[200px] h-[44px] bg-bodyBg border-2 border-[#2b2b2b] cursor-pointer hover:bg-[#242424]">
+              ანიმაციები
+            </button>
+            <button className="w-[200px] h-[44px] bg-bodyBg border-2 border-[#2b2b2b] cursor-pointer hover:bg-[#242424]">
+              თურქული
+            </button>
+            <button className="w-[200px] h-[44px] bg-bodyBg border-2 border-[#2b2b2b] cursor-pointer hover:bg-[#242424]">
+              დორამები
+            </button>
+          </div>
+        </div> */}
         <div className="mt-10">
           <MovieSlider
             isLoading={isLoading}

@@ -35,7 +35,7 @@ function GetDetails({ movieId }: { movieId: number }) {
 
   return (
     <div className="relative bg-bodyBg aspect-video w-full max-w-[900px] p-3 ">
-      <div className="flex items-stretch gap-3 overflow-hidden">
+      <div className="flex items-stretch gap-5 overflow-hidden">
         <div className="w-[240px] flex flex-col shrink-0 gap-3">
           <div className="aspect-[2/3] w-full bg-[rgb(37,37,37)]">
             <img
@@ -101,7 +101,7 @@ function GetDetails({ movieId }: { movieId: number }) {
               }
             />
           </div>
-          <div className="flex gap-2 text-white/40 mt-1 text-[14px]">
+          <div className="flex gap-2.5 text-white/40 mt-1 text-[14px]">
             <SkeletonSection
               isLoading={isLoading}
               placeholder="Garfi"
@@ -178,7 +178,7 @@ function GetDetails({ movieId }: { movieId: number }) {
                 show={<p>რეჟისორი:</p>}
               />
             </div>
-            <div className="flex flex-col gap-0.5 [&>p]:h-[32px] [&>p]:flex [&>p]:items-center [&>p]:text-[14px] [&>p]:text-white/70 uppercase">
+            <div className="flex flex-col gap-0.5 [&>p]:h-auto [&>p]:min-h-[32px] [&>p]:flex [&>p]:items-center [&>p]:text-[14px] [&>p]:text-white/70 uppercase">
               <SkeletonSection
                 isLoading={isLoading}
                 placeholder="Luka"
@@ -205,7 +205,7 @@ function GetDetails({ movieId }: { movieId: number }) {
                 placeholder="OnService"
                 show={
                   <>
-                    <p className="flex  gap-3">
+                    <p className="flex flex-wrap gap-3">
                       {data?.movie.genres
                         ? JSON.parse(data.movie.genres).map(
                             (genre: string, index: number) => (
@@ -237,7 +237,7 @@ function GetDetails({ movieId }: { movieId: number }) {
     </div>
   );
 }
-function SkeletonSection(props: {
+export function SkeletonSection(props: {
   isLoading: boolean;
   placeholder: string;
   show: React.JSX.Element;
