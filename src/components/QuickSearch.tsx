@@ -4,19 +4,15 @@ import { NewsIcon } from "../assets/icons/MyIcons";
 import { useQuery } from "@tanstack/react-query";
 import useDebounce from "../app/hooks/useDebounce";
 import { fetchMoviesList, fetchQuickSearch } from "../api/ServerFunctions";
-import { SuspenseLoader } from "../app/App";
-import MovieCard, { MovieCardSkeleton } from "./MovieCard";
-import { TMovie, TMovieCard } from "../app/types/MovieTypes";
+import MovieCard from "./MovieCard";
+import { TMovieCard } from "../app/types/MovieTypes";
 import { THomeList } from "../app/pages/home/Home";
 import { useWatchHistory } from "../app/store/useWatchHistory";
+import { useNavigate } from "react-router";
 
 export default function QuickSearch(props: { hideSearch: Function }) {
   const { history } = useWatchHistory();
-  const {
-    data: moviesList,
-    isLoading,
-    error,
-  } = useQuery<THomeList>({
+  const { data: moviesList, isLoading } = useQuery<THomeList>({
     queryKey: ["moviesList"],
     queryFn: () => fetchMoviesList(history),
     staleTime: 1000000,
@@ -70,6 +66,7 @@ export default function QuickSearch(props: { hideSearch: Function }) {
 }
 
 function QuickSearchAction() {
+  const navigate = useNavigate();
   const searchInput = useRef<null | HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState("");
   const debouncedInput = useDebounce(inputValue, 500);
@@ -96,18 +93,25 @@ function QuickSearchAction() {
       document.body.style.overflow = "auto";
     };
   }, []);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("a");
+    navigate("/search/" + inputValue);
+  };
   return (
     <>
       {" "}
       <div className="w-full">
-        <input
-          type="text"
-          className="h-[46px] bg-[#1a1a1a] border-2 border-[#2b2b2b] w-full placeholder:text-[#757575] font-mainRegular"
-          placeholder="ძიება"
-          ref={searchInput}
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <input
+            type="text"
+            className="h-[46px] bg-[#1a1a1a] border-2 border-[#2b2b2b] w-full placeholder:text-[#757575] font-mainRegular"
+            placeholder="ძიება"
+            ref={searchInput}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        </form>
       </div>
       {debouncedInput ? (
         <div className="mt-4">

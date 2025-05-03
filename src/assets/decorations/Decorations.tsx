@@ -1,1 +1,1 @@
-const SectionBackground = () => {};
+// const SectionBackground = () => {};

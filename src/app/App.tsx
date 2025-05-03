@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 import Navbar from "../components/Navbar";
 import Home from "./pages/home/Home";
 import { Suspense, useEffect, useState } from "react";
@@ -9,10 +9,15 @@ import Animations from "./pages/movies/Animations";
 import Animes from "./pages/movies/Animes";
 import Overlays from "./components/Overlays/Overlays";
 import Alerts from "../components/Alerts";
+import Search from "./pages/search/Search";
 
 function App() {
   const [isDomLoaded, setIsDomLoaded] = useState(false);
+  const location = useLocation();
 
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, [location.pathname]);
   useEffect(() => {
     setIsDomLoaded(true);
   }, []);
@@ -28,9 +33,10 @@ function App() {
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
+            <Route path="search/:search_query" element={<Search />} />
             <Route path="animations" element={<Animations />} />
             <Route path="animes" element={<Animes />} />
-            <Route path="tv_shows" element={<TvShows />} />
+            <Route path="tv_hows" element={<TvShows />} />
             <Route path="movies" element={<Movies />} />
             <Route path="movie/:id/:title" element={<Movie />} />
           </Route>

@@ -6,9 +6,9 @@ import {
 } from "../assets/icons/MyIcons";
 import { addons, genres, imdbs, languages, years } from "../api/themes";
 
-type TFiltersList = {
-  [key: string]: string;
-};
+// type TFiltersList = {
+//   [key: string]: string;
+// };
 
 export default function Filters() {
   // const [filtersList, setFiltersList] = useState({});

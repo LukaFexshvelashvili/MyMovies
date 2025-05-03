@@ -6,7 +6,6 @@ import {
 } from "../../../assets/icons/MyIcons";
 import Filters from "../../../components/Filters";
 import MovieCard, {
-  MovieCardSkeleton,
   MovieCardWide,
   MovieCardWideSkeleton,
 } from "../../../components/MovieCard";

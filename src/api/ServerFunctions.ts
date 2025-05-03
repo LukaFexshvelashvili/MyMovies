@@ -6,6 +6,12 @@ export async function fetchQuickSearch(query: string) {
   });
   return data;
 }
+export async function fetchSearch(filters: object) {
+  const { data } = await api.get(`/actions/search`, {
+    params: filters,
+  });
+  return data;
+}
 export async function fetchMovie(id: number) {
   const { data } = await api.get(`/movie/get`, {
     params: { id: id },

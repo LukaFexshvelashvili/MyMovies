@@ -149,6 +149,7 @@ export function MovieCardSkeleton({
 }
 
 export function MovieCardWide({ movie }: { movie: TMovieCard }) {
+  const { setDetailsId } = useDetailsOverlay();
   const { setTrailerLink } = useTrailerOverlay();
   const HeartMovie = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -172,12 +173,21 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
             to={`/movie/${movie.id}/${movie_link_generate(movie.name_eng)}`}
             className="h-full w-full top-0 left-0 bg-[rgba(0,0,0,0.5)] absolute"
           ></Link>
-          <div
-            onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
-            className="absolute top-1.5 right-1.5 my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
-            aria-title="თრეილერი"
-          >
-            <TrailerIcon className="h-5 aspect-square" />
+          <div className="absolute gap-1 top-1.5 right-1.5 flex items-center">
+            <div
+              onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
+              className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
+              aria-title="თრეილერი"
+            >
+              <TrailerIcon className="h-5 aspect-square" />
+            </div>
+            <div
+              onClick={() => setDetailsId(Number(movie.id))}
+              className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
+              aria-title="ინფორმაცია"
+            >
+              <InfoIcon className="h-5 aspect-square" />
+            </div>
           </div>
         </div>
         <img

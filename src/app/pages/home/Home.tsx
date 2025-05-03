@@ -18,6 +18,7 @@ import { useWatchHistory } from "../../store/useWatchHistory";
 export type THomeList = {
   watch_history: TMovieCard[];
   news: TMovieCard[];
+  populars: TMovieCard[];
   main_slider: TMovieCard[];
   movies: TMovieCard[];
   series: TMovieCard[];
@@ -27,11 +28,7 @@ export type THomeList = {
 
 export default function Home() {
   const { history } = useWatchHistory();
-  const {
-    data: moviesList,
-    isLoading,
-    error,
-  } = useQuery<THomeList>({
+  const { data: moviesList, isLoading } = useQuery<THomeList>({
     queryKey: ["moviesList"],
     queryFn: () => fetchMoviesList(history),
     staleTime: 1000000,
@@ -48,7 +45,7 @@ export default function Home() {
           link=""
         />
       </div>
-      <div className="bg-[rgb(17,_17,_17)] py-10 bg-[url('decorations/background.svg')] bg-no-repeat bg-cover bg-center">
+      <div className="bg-[rgb(17,_17,_17)] py-10 bg-[url('/decorations/background.svg')] bg-no-repeat bg-cover bg-center">
         <div className="my_container">
           <MovieSlider
             isLoading={isLoading}
@@ -66,11 +63,11 @@ export default function Home() {
           icon={<PopularsIcon />}
           title="პოპულარული"
           link=""
-          list={moviesList?.news ? moviesList.news : []}
+          list={moviesList?.populars ? moviesList.populars : []}
         />
       </div>
       <div
-        className="bg-[rgb(17,_17,_17)] py-10 bg-[url('decorations/animesBg.png')] bg-no-repeat bg-cover bg-center"
+        className="bg-[rgb(17,_17,_17)] py-10 bg-[url('/decorations/animesBg.png')] bg-no-repeat bg-cover bg-center"
         style={{ "--color-main": "#E24456" } as React.CSSProperties}
       >
         <div className="my_container">
@@ -94,7 +91,7 @@ export default function Home() {
         />
       </div>
       <div
-        className="bg-[rgb(17,_17,_17)] py-10 bg-[url('decorations/tvShowsBg.png')] bg-no-repeat bg-cover bg-center"
+        className="bg-[rgb(17,_17,_17)] py-10 bg-[url('/decorations/tvShowsBg.png')] bg-no-repeat bg-cover bg-center"
         style={{ "--color-main": "#1093cf" } as React.CSSProperties}
       >
         <div className="my_container">
@@ -109,7 +106,7 @@ export default function Home() {
         </div>
       </div>
       <div
-        className="bg-[rgb(17,_17,_17)] py-10 bg-[url('decorations/animationsBg.png')] bg-no-repeat bg-cover bg-center"
+        className="bg-[rgb(17,_17,_17)] py-10 bg-[url('/decorations/animationsBg.png')] bg-no-repeat bg-cover bg-center"
         style={{ "--color-main": "#01b698" } as React.CSSProperties}
       >
         <div className="my_container">

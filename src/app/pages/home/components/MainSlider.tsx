@@ -95,8 +95,10 @@ export default function MainSlider() {
           ? Array.from({ length: 3 }).map((_, id) => (
               <SliderCardSkeleton key={id} />
             ))
-          : SliderList.map((movie) =>
-              movie ? <SliderCard key={movie.id} movie={movie} /> : null
+          : SliderList.map((movie: TMovieCard, i: number) =>
+              movie ? (
+                <SliderCard eager={i == 0} key={movie.id} movie={movie} />
+              ) : null
             )}
       </div>
       <div className="my_container h-6 z-20 bottom-0 absolute">
@@ -122,7 +124,7 @@ export default function MainSlider() {
   );
 }
 
-function SliderCard({ movie }: { movie: TMovieCard }) {
+function SliderCard({ movie, eager }: { movie: TMovieCard; eager?: boolean }) {
   return (
     <div className="relative w-full h-full shrink-0 select-none ">
       <div className="my_container relative z-20 h-full flex items-end py-10 ">
@@ -144,6 +146,7 @@ function SliderCard({ movie }: { movie: TMovieCard }) {
       <img
         src={"https://cdn.moviesgo.ge/" + movie.thumbnail_url}
         alt={movie.name + " | " + movie.name_eng}
+        loading={eager ? "eager" : "lazy"}
         className="h-full w-full top-0 left-0 absolute object-cover object-[0px_-200px]"
       />
     </div>

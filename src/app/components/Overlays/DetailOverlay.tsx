@@ -22,7 +22,7 @@ export default function DetailsOverlay() {
 }
 
 function GetDetails({ movieId }: { movieId: number }) {
-  const { data, isLoading, error } = useQuery<{
+  const { data, isLoading } = useQuery<{
     movie: TMovie;
     similar_movies: TMovieCard[];
   }>({

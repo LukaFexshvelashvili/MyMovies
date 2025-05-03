@@ -5,11 +5,7 @@ import {
   SortVerticalIcon,
 } from "../../../assets/icons/MyIcons";
 import Filters from "../../../components/Filters";
-import MovieCard, {
-  MovieCardSkeleton,
-  MovieCardWide,
-  MovieCardWideSkeleton,
-} from "../../../components/MovieCard";
+import { MovieCardWideSkeleton } from "../../../components/MovieCard";
 import { useQuery } from "@tanstack/react-query";
 import { TMovieCard } from "../../types/MovieTypes";
 import RatedMovies from "./components/RatedMovies";

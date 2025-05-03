@@ -22,7 +22,7 @@ export default function Movie() {
   const { addToHistory } = useWatchHistory();
   const { id } = useParams();
   const { addAlert } = useAlerts();
-  const { data, isLoading, error } = useQuery<{
+  const { data, isLoading } = useQuery<{
     movie: TMovie;
     similar_movies: TMovieCard[];
   }>({
@@ -43,7 +43,7 @@ export default function Movie() {
   }, [id]);
 
   const addons = data?.movie.addons ? JSON.parse(data.movie.addons) : [];
-  const genres = data?.movie.genres ? JSON.parse(data.movie.genres) : [];
+  // const genres = data?.movie.genres ? JSON.parse(data.movie.genres) : [];
 
   return (
     <main className="pb-20">
@@ -91,10 +91,12 @@ export default function Movie() {
           <div className="flex items-start gap-8">
             <div className="w-[240px] flex flex-col shrink-0 gap-4">
               <div className="aspect-[2/3] w-full bg-[rgb(37,37,37)]">
-                <img
-                  src={"https://cdn.moviesgo.ge/" + data?.movie.poster_url}
-                  alt=""
-                />
+                {data?.movie.poster_url && (
+                  <img
+                    src={"https://cdn.moviesgo.ge/" + data.movie.poster_url}
+                    alt={data.movie.name + " | " + data.movie.name_eng}
+                  />
+                )}
               </div>
               <div className="py-3.5 px-3 text-textDesc bg-[rgb(37,37,37)] flex flex-col gap-3 text-sm">
                 <p>რეიტინგი</p>
