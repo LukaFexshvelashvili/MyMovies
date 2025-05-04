@@ -44,8 +44,8 @@ const SearchPagination: React.FC<SearchPaginationProps> = ({
       {currentPage == pages && currentPage > 3 && (
         <div
           onClick={() => {
-            setCurrentPage(currentPage - 2);
-            setSearchParams({ page: (currentPage - 2).toString() });
+            setCurrentPage(currentPage - 3);
+            setSearchParams({ page: (currentPage - 3).toString() });
           }}
           className="h-10 aspect-square flex justify-center items-center bg-white/5 hover:bg-white/10 text-textHead cursor-pointer"
         >
@@ -105,8 +105,8 @@ const SearchPagination: React.FC<SearchPaginationProps> = ({
       {currentPage == 1 && currentPage < pages - 1 && (
         <div
           onClick={() => {
-            setCurrentPage(currentPage + 1);
-            setSearchParams({ page: (currentPage + 1).toString() });
+            setCurrentPage(currentPage + 3);
+            setSearchParams({ page: (currentPage + 3).toString() });
           }}
           className="h-10 aspect-square flex justify-center items-center bg-white/5 hover:bg-white/10 text-textHead cursor-pointer"
         >

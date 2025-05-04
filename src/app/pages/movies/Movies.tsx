@@ -33,7 +33,7 @@ export default function Movies() {
         image="decorations/movies.png"
         list={data}
       />
-      <Filters />
+      <Filters setFilters={() => {}} />
       <div className="my_container flex justify-between items-center py-5">
         <div className="flex items-center gap-5">
           <p className="text-textDesc">329 შედეგი</p>

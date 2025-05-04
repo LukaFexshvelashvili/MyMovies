@@ -5,38 +5,79 @@ import {
   DropDownIcon,
   FiltersIcon,
 } from "../assets/icons/MyIcons";
-import { addons, genres, imdbs, languages, years } from "../api/themes";
+import { types, addons, genres, imdbs, languages, years } from "../api/themes";
 import { useSearchParams } from "react-router";
+import { useEffectSkipFirst } from "../app/hooks/useEffectSkipFirst";
 
 type TFiltersList = {
+  types: { title: string; filter: any[] };
   genres: { title: string; filter: any[] };
   languages: { title: string; filter: any[] };
   years: { title: string; filter: any[] };
   imdbs: { title: string; filter: any[] };
   addons: { title: string; filter: any[] };
 };
-type TFilterNames = "genres" | "languages" | "years" | "imdbs" | "addons";
+type TFilterNames =
+  | "types"
+  | "genres"
+  | "languages"
+  | "years"
+  | "imdbs"
+  | "addons";
 
-export default function Filters() {
-  const [_, setSearchParams] = useSearchParams();
-
+export default function Filters(props: {
+  initialFilters?: any;
+  setFilters: Function;
+}) {
   const initialFilters = {
-    genres: { title: "ჟანრები", filter: [] },
-    languages: { title: "ენა", filter: [] },
-    years: { title: "წელი", filter: [] },
-    imdbs: { title: "შეფასება (IMDb)", filter: [] },
-    addons: { title: "დამატებები", filter: [] },
+    types: {
+      title: "ტიპი",
+      filter: props.initialFilters?.types
+        ? JSON.parse(props.initialFilters.types)
+        : [],
+    },
+    genres: {
+      title: "ჟანრები",
+      filter: props.initialFilters?.genres
+        ? JSON.parse(props.initialFilters.genres)
+        : [],
+    },
+    languages: {
+      title: "ენა",
+      filter: props.initialFilters?.languages
+        ? JSON.parse(props.initialFilters.languages)
+        : [],
+    },
+    years: {
+      title: "წელი",
+      filter: props.initialFilters?.years
+        ? JSON.parse(props.initialFilters.years)
+        : [],
+    },
+    imdbs: {
+      title: "შეფასება (IMDb)",
+      filter: props.initialFilters?.imdbs
+        ? JSON.parse(props.initialFilters.imdbs)
+        : [],
+    },
+    addons: {
+      title: "დამატებები",
+      filter: props.initialFilters?.addons
+        ? JSON.parse(props.initialFilters.addons)
+        : [],
+    },
   };
-
+  const [_, setSearchParams] = useSearchParams();
   const [filtersList, setFiltersList] = useState<TFiltersList>(initialFilters);
   const removeFilter = (filter_name: TFilterNames) => {
     const updatedFilters = { ...filtersList };
     updatedFilters[filter_name].filter = [];
     setFiltersList(updatedFilters);
   };
-  useEffect(() => {
+  useEffectSkipFirst(() => {
     const params: any = {};
-
+    if (filtersList.types.filter.length)
+      params.types = JSON.stringify(filtersList.types.filter);
     if (filtersList.genres.filter.length)
       params.genres = JSON.stringify(filtersList.genres.filter);
     if (filtersList.languages.filter.length)
@@ -48,7 +89,7 @@ export default function Filters() {
     if (filtersList.addons.filter.length)
       params.addons = JSON.stringify(filtersList.addons.filter);
 
-    setSearchParams(params);
+    props.setFilters(params);
   }, [filtersList]);
 
   return (
@@ -59,7 +100,19 @@ export default function Filters() {
             <FiltersIcon className="h-[18px] aspect-square" />
             ფილტრი
           </div>
+
           <div className="flex ml-10 h-full ">
+            <div className="group relative px-8 border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
+              ტიპი
+              <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc " />
+              <FilterBlock
+                list={types}
+                name="types"
+                setFilter={setFiltersList}
+                filtered={filtersList.types.filter}
+                on_id
+              />
+            </div>
             <div className="group relative px-8 border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
               ჟანრი
               <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc " />
@@ -113,7 +166,35 @@ export default function Filters() {
           </div>
           <div
             className="flex items-center gap-3 text-textDesc hover:text-main cursor-pointer ml-auto"
-            onClick={() => setFiltersList(initialFilters)}
+            onClick={() => {
+              setFiltersList({
+                types: {
+                  title: "ტიპი",
+                  filter: [],
+                },
+                genres: {
+                  title: "ჟანრები",
+                  filter: [],
+                },
+                languages: {
+                  title: "ენა",
+                  filter: [],
+                },
+                years: {
+                  title: "წელი",
+                  filter: [],
+                },
+                imdbs: {
+                  title: "შეფასება (IMDb)",
+                  filter: [],
+                },
+                addons: {
+                  title: "დამატებები",
+                  filter: [],
+                },
+              });
+              setSearchParams({});
+            }}
           >
             გასუფთავება
           </div>
@@ -145,11 +226,13 @@ function FilterBlock({
   name,
   setFilter,
   filtered,
+  on_id,
 }: {
   list: any[];
   name: string;
   setFilter: (new_filters: any) => void;
   filtered: any[];
+  on_id?: boolean;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -175,14 +258,18 @@ function FilterBlock({
             onClick={() => {
               setFilter((prev: any) => {
                 const currentFilter = prev[name]?.filter || [];
-                const isActive = currentFilter.includes(item.title);
+                const isActive = currentFilter.includes(
+                  !on_id ? item.title : item.id
+                );
                 return {
                   ...prev,
                   [name]: {
                     ...prev[name],
                     filter: isActive
-                      ? currentFilter.filter((k: string) => k !== item.title)
-                      : [...currentFilter, item.title],
+                      ? currentFilter.filter(
+                          (k: string) => k !== (!on_id ? item.title : item.id)
+                        )
+                      : [...currentFilter, !on_id ? item.title : item.id],
                   },
                 };
               });
@@ -191,7 +278,7 @@ function FilterBlock({
             <div className="flex items-center gap-3">
               <div
                 className={`h-5 aspect-square border-2 border-white/10 flex items-center justify-center ${
-                  filtered.includes(item.title)
+                  filtered.includes(!on_id ? item.title : item.id)
                     ? "bg-main border-0 [&>svg]:block"
                     : "[&>svg]:hidden"
                 }`}

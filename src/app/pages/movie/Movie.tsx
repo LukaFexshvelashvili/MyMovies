@@ -195,7 +195,11 @@ export default function Movie() {
                     className="`mt-2  text-[16px]  leading-6.5 
                      font-mainRegular tracking-wider text-textDescLight2"
                   >
-                    {data?.movie.description}
+                    {decodeHtmlEntities(
+                      data?.movie.description
+                        ? data?.movie.description
+                        : "MOVIE_DESCRIPTION"
+                    )}
                   </p>
                 }
               />

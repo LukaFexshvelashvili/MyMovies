@@ -246,13 +246,13 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
               onClick={(e) => HeartMovie(e)}
               className="h-[34px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
             >
-              <HeartIcon height={16} />
+              <HeartIcon height={16} className="text-textDescLight" />
             </div>
             <div
               onClick={(e) => BookmarkMovie(e)}
               className="h-[34px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
             >
-              <BookmarkIcon height={16} />
+              <BookmarkIcon height={16} className="text-textDescLight" />
             </div>
           </div>
         </div>

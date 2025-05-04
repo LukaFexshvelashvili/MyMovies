@@ -18,15 +18,26 @@ type TSearchResponse = { total_rows: number; query: TMovieCard[] };
 export default function Search() {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [filters, setFilters] = useState<object>({
+    ...params,
+    ...Object.fromEntries(searchParams),
+  });
   const [currentPage, setCurrentPage] = useState<number>(
     searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1
   );
 
   const page_limit = 32;
   const { data: moviesList, isLoading } = useQuery<TSearchResponse>({
-    queryKey: ["search", { query: params.search_query, page: currentPage }],
+    queryKey: [
+      "search",
+      { query: params.search_query, page: currentPage, filters },
+    ],
     queryFn: () =>
-      fetchSearch({ query: params.search_query, page: currentPage }),
+      fetchSearch({
+        query: params.search_query,
+        page: currentPage,
+        ...filters,
+      }),
     staleTime: 1000000,
   });
 
@@ -37,12 +48,23 @@ export default function Search() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
+
   const [sortCard, setSortCard] = useState<"card" | "wide">("card");
 
   return (
     <main>
       <section>
-        <Filters />
+        <Filters
+          initialFilters={filters}
+          setFilters={(new_filters: object) => {
+            setFilters(new_filters);
+            setCurrentPage(1);
+            setSearchParams(() => ({
+              page: "1",
+              ...new_filters,
+            }));
+          }}
+        />
         <div className="my_container my-5 flex justify-between">
           <h1 className="text-textDesc">
             ძიება - {params.search_query} | ნაპოვნია: {moviesList?.total_rows}
@@ -108,7 +130,12 @@ export default function Search() {
             )}
           </div>
           <SearchPagination
-            setSearchParams={setSearchParams}
+            setSearchParams={(new_params) =>
+              setSearchParams((old_params) => ({
+                ...Object.fromEntries(old_params), // convert to object first
+                ...new_params,
+              }))
+            }
             setCurrentPage={setCurrentPage}
             pages={pages}
             currentPage={currentPage}

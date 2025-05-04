@@ -140,7 +140,7 @@ function GetDetails({ movieId }: { movieId: number }) {
                 className="`mt-2  text-[15px]  leading-6.5 
                            font-mainRegular tracking-wider text-textDescLight2  w-full line-clamp-6"
               >
-                {data?.movie.description}
+                {decodeHtmlEntities(data?.movie.description ? data?.movie.description : "MOVIE_DESCRIPTION")}
               </p>
             }
           />
