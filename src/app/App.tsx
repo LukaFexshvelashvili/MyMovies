@@ -11,6 +11,9 @@ import Overlays from "./components/Overlays/Overlays";
 import Alerts from "../components/Alerts";
 import Search from "./pages/search/Search";
 
+import UserDataControl from "../components/UserDataControl";
+import Logout from "./pages/Logout";
+
 function App() {
   const [isDomLoaded, setIsDomLoaded] = useState(false);
   const location = useLocation();
@@ -27,12 +30,14 @@ function App() {
   }
   return (
     <>
+      <UserDataControl />
       <Navbar />
       <Overlays />
       <Suspense fallback={<SuspenseLoader />}>
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
+            <Route path="logout" element={<Logout />} />
             <Route path="search/:search_query" element={<Search />} />
             <Route path="animations" element={<Animations />} />
             <Route path="animes" element={<Animes />} />

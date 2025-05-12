@@ -178,7 +178,9 @@ function PopularsSection({
             <MovieCardSkeleton small />
           </>
         ) : (
-          list.map((movie: TMovieCard) => <MovieCard small movie={movie} />)
+          list.map((movie: TMovieCard) => (
+            <MovieCard key={movie.id} small movie={movie} />
+          ))
         )}
       </div>
     </>

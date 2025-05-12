@@ -48,7 +48,12 @@ export default function Movie() {
   return (
     <main className="pb-20">
       <div className="h-[160px] w-full bg-[#0E0101] flex justify-center">
-        <img src="/decorations/movieBanner.png" alt="" className="max-w-full" />
+        <img
+          src="/decorations/movieBanner.png"
+          role="decorative"
+          alt=""
+          className="max-w-full"
+        />
       </div>
       <section className="mt-6">
         <div className="my_container">
@@ -66,7 +71,7 @@ export default function Movie() {
               }
               className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
             >
-              <HeartIcon height={16} />
+              <HeartIcon height={16} className="text-icon" />
             </div>
             <div
               onClick={() =>
@@ -77,11 +82,11 @@ export default function Movie() {
               }
               className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
             >
-              <BookmarkIcon height={16} />
+              <BookmarkIcon height={16} className="text-icon" />
             </div>
 
             <div className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10">
-              <WarningIcon height={16} />
+              <WarningIcon height={16} className="text-icon" />
             </div>
           </div>
         </div>
@@ -295,7 +300,7 @@ export default function Movie() {
         isLoading={isLoading}
         list={data?.similar_movies ? data.similar_movies : []}
       />
-      <MovieComments />
+      <MovieComments movie_id={id ? id : ""} />
     </main>
   );
 }

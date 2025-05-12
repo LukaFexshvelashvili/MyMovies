@@ -3,15 +3,21 @@ import SideMenu from "./SideMenu";
 import { Link, useLocation } from "react-router";
 import QuickSearch from "./QuickSearch";
 import { useEffectSkipFirst } from "../app/hooks/useEffectSkipFirst";
+import { BookmarkIcon, ContinueWatchIcon } from "../assets/icons/MyIcons";
+import useOverlayStore from "../app/store/useOverlay";
+import useUser from "../app/store/useUser";
 
 export default function Navbar() {
+  const { user } = useUser();
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showSearch, setShowSearch] = useState<boolean>(false);
+  const { setAuthOverlay } = useOverlayStore();
   const location = useLocation();
   useEffectSkipFirst(() => {
     setShowSearch(false);
     setShowMenu(false);
   }, [location.pathname]);
+
   return (
     <>
       <header className=" sticky top-0 z-50">
@@ -52,7 +58,37 @@ export default function Navbar() {
                 />
               </div>
             </div>
-            <div className="flex gap-4 items-center">ACTIONS</div>
+            <div className="flex gap-2 items-center">
+              <div
+                onClick={() => {}}
+                className="h-[32px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
+              >
+                <ContinueWatchIcon height={16} className="text-icon" />
+              </div>
+              <div
+                onClick={() => {}}
+                className="h-[32px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
+              >
+                <BookmarkIcon height={16} className="text-icon" />
+              </div>
+              {!user?.id ? (
+                <button
+                  onClick={() => setAuthOverlay(true)}
+                  className="ml-3 flex-1 h-[34px] min-w-[150px] text-sm text-textHead bg-main cursor-pointer hover:bg-mainHover"
+                >
+                  ავტორიზაცია
+                </button>
+              ) : (
+                <Link
+                  to={`/logout?returnTo=${encodeURIComponent(
+                    window.location.href
+                  )}`}
+                  className="ml-3 flex-1 h-[34px] min-w-[150px] text-sm text-textHead bg-main cursor-pointer hover:bg-mainHover flex justify-center items-center"
+                >
+                  გასვლა
+                </Link>
+              )}
+            </div>
           </div>
         </nav>
       </header>

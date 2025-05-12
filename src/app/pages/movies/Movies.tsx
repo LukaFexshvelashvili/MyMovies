@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   DropDownIcon,
   SortHorizontalIcon,
@@ -13,15 +12,20 @@ import { useQuery } from "@tanstack/react-query";
 import { TMovieCard } from "../../types/MovieTypes";
 import RatedMovies from "./components/RatedMovies";
 import { useState } from "react";
+import { fetchMovies } from "../../../api/ServerFunctions";
+import { useParams, useSearchParams } from "react-router";
+import { TSearchResponse } from "../search/Search";
 
-const fetchMovies = async () => {
-  const { data } = await axios.get("https://moviesgo.ge/server/getmovies.php");
-  return data;
-};
 export default function Movies() {
-  const { data, isPending } = useQuery({
-    queryKey: ["movies"],
-    queryFn: fetchMovies,
+  const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filters, setFilters] = useState<object>({
+    ...params,
+    ...Object.fromEntries(searchParams),
+  });
+  const { data, isPending } = useQuery<TSearchResponse>({
+    queryKey: ["movies", { filters }],
+    queryFn: () => fetchMovies({ types: JSON.stringify([0]), ...filters }),
   });
 
   const [sortCard, setSortCard] = useState<"card" | "wide">("wide");
@@ -31,12 +35,21 @@ export default function Movies() {
       <RatedMovies
         title="რჩეული ფილმები"
         image="decorations/movies.png"
-        list={data}
+        list={data?.query}
       />
-      <Filters setFilters={() => {}} />
+      <Filters
+        type_off
+        initialFilters={filters}
+        setFilters={(new_filters: object) => {
+          setFilters(new_filters);
+          setSearchParams(() => ({
+            ...new_filters,
+          }));
+        }}
+      />
       <div className="my_container flex justify-between items-center py-5">
         <div className="flex items-center gap-5">
-          <p className="text-textDesc">329 შედეგი</p>
+          <p className="text-textDesc">{data?.total_rows} შედეგი</p>
           <div className="flex gap-2 flex-wrap"></div>
         </div>
         <div className="flex items-center gap-5">
@@ -81,13 +94,13 @@ export default function Movies() {
         )}
         {sortCard === "card" ? (
           <div className="flex gap-6 justify-between flex-wrap py-5">
-            {data?.map((movie: TMovieCard) => (
+            {data?.query.map((movie: TMovieCard) => (
               <MovieCard small key={movie.id} movie={movie} />
             ))}{" "}
           </div>
         ) : (
           <div className="flex flex-col py-5 divide-y divide-white/5">
-            {data?.map((movie: TMovieCard) => (
+            {data?.query.map((movie: TMovieCard) => (
               <MovieCardWide key={movie.id} movie={movie} />
             ))}
           </div>

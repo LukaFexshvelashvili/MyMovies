@@ -23,6 +23,8 @@
 
   --color-lightBlack: rgb(91, 91, 91);
 
+  --color-warning: #e0004b;
+
   --font-robotoGeoCaps: "robotoGeoCaps";
   --font-robotoGeo: "robotoGeo";
   --font-mainRegular: "mainRegular";
@@ -35,16 +37,16 @@
 }
 @font-face {
   font-family: blockfont;
-  src: url("/fonts/blockfont.ttf");
+  src: url("/fonts/blockfont.woff2");
 }
 
 @font-face {
   font-family: robotoGeoCaps;
-  src: url("/fonts/RobotoGeoCaps.ttf");
+  src: url("/fonts/RobotoGeoCaps.woff2");
 }
 @font-face {
   font-family: robotoGeo;
-  src: url("/fonts/RobotoGeo.ttf");
+  src: url("/fonts/RobotoGeo.woff2");
 }
 @font-face {
   font-family: mainRegular;
@@ -114,7 +116,7 @@ input {
   background-color: var(--color-main);
 }
 .my_tooltip::before {
-  content: attr(aria-title);
+  content: attr(aria-label);
   position: absolute;
   bottom: -5px;
   transform: translateY(100%);

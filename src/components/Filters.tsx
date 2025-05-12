@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   CheckedIcon,
   CloseIcon,
@@ -26,6 +26,7 @@ type TFilterNames =
   | "addons";
 
 export default function Filters(props: {
+  type_off?: boolean;
   initialFilters?: any;
   setFilters: Function;
 }) {
@@ -102,17 +103,19 @@ export default function Filters(props: {
           </div>
 
           <div className="flex ml-10 h-full ">
-            <div className="group relative px-8 border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
-              ტიპი
-              <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc " />
-              <FilterBlock
-                list={types}
-                name="types"
-                setFilter={setFiltersList}
-                filtered={filtersList.types.filter}
-                on_id
-              />
-            </div>
+            {!props.type_off && (
+              <div className="group relative px-8 border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
+                ტიპი
+                <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc " />
+                <FilterBlock
+                  list={types}
+                  name="types"
+                  setFilter={setFiltersList}
+                  filtered={filtersList.types.filter}
+                  on_id
+                />
+              </div>
+            )}
             <div className="group relative px-8 border-l gap-3 text-textHead2 border-white/10 h-full flex items-center cursor-pointer hover:bg-bodyBg transition-colors">
               ჟანრი
               <DropDownIcon className="h-[12px] aspect-square [&>path]:fill-textDesc " />

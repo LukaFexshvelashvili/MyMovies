@@ -7,7 +7,6 @@ import { decodeHtmlEntities } from "../../hooks/Customs";
 
 export default function DetailsOverlay() {
   const { detailsId, setDetailsId } = useDetailsOverlay();
-  console.log(detailsId);
 
   if (detailsId == null) return null;
   return (
@@ -140,7 +139,11 @@ function GetDetails({ movieId }: { movieId: number }) {
                 className="`mt-2  text-[15px]  leading-6.5 
                            font-mainRegular tracking-wider text-textDescLight2  w-full line-clamp-6"
               >
-                {decodeHtmlEntities(data?.movie.description ? data?.movie.description : "MOVIE_DESCRIPTION")}
+                {decodeHtmlEntities(
+                  data?.movie.description
+                    ? data?.movie.description
+                    : "MOVIE_DESCRIPTION"
+                )}
               </p>
             }
           />

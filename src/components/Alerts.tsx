@@ -4,8 +4,8 @@ import useAlerts from "../app/store/useAlerts";
 export default function Alerts() {
   const { alerts, removeAlert } = useAlerts();
   return (
-    <div className="fixed bottom-5 right-5 flex flex-col gap-2">
-      {alerts.map((alert: { title: string; id: number }) => (
+    <div className="fixed bottom-5 right-5 flex flex-col-reverse gap-2 z-90">
+      {alerts.map((alert: { title: string; id: number | string }) => (
         <Alert
           key={alert.id}
           title={alert.title}

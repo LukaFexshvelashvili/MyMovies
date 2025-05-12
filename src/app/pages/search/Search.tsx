@@ -14,7 +14,7 @@ import {
   SortVerticalIcon,
 } from "../../../assets/icons/MyIcons";
 
-type TSearchResponse = { total_rows: number; query: TMovieCard[] };
+export type TSearchResponse = { total_rows: number; query: TMovieCard[] };
 export default function Search() {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();

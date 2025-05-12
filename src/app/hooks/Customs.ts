@@ -20,7 +20,11 @@ export function image_resize(url: string | undefined | null): {
     (_, ext) => `_sm2.${ext}`
   );
 
-  return { high: url, medium: posterMedium, small: posterSmall };
+  return {
+    high: "https://cdn.moviesgo.ge/" + url,
+    medium: "https://cdn.moviesgo.ge/" + posterMedium,
+    small: "https://cdn.moviesgo.ge/" + posterSmall,
+  };
 }
 export function decodeHtmlEntities(str: string): string {
   const entities: { [key: string]: string } = {

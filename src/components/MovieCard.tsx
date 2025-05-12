@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import {
   BookmarkIcon,
-  HeartIcon,
   IMDbIcon,
   InfoIcon,
   TrailerIcon,
@@ -15,6 +14,8 @@ import {
 } from "../app/hooks/Customs";
 import { useState } from "react";
 import useDetailsOverlay from "../app/store/useDetailsOverlay";
+import { useBookmarks } from "../app/store/useBookmarks";
+import useAlerts from "../app/store/useAlerts";
 
 export default function MovieCard({
   small,
@@ -24,11 +25,27 @@ export default function MovieCard({
   small?: boolean;
 }) {
   const [showMenu, setShowMenu] = useState<boolean>(false);
-
+  const { bookmarks, addToBookmarks, removeFromBookmarks } = useBookmarks();
+  const { addAlert } = useAlerts();
   const { setDetailsId } = useDetailsOverlay();
   const { setTrailerLink } = useTrailerOverlay();
   const addons = movie.addons ? JSON.parse(movie.addons) : [];
 
+  const toggleBookmark = () => {
+    if (bookmarks.includes(movie.id)) {
+      removeFromBookmarks(movie.id);
+      addAlert({
+        id: movie.id + "|" + Math.random() * 300,
+        title: "ჩანიშვნა გაუქმებულია",
+      });
+    } else {
+      addToBookmarks(movie.id);
+      addAlert({
+        id: movie.id + "|" + Math.random() * 300,
+        title: "ჩანიშვნა დამატებულია",
+      });
+    }
+  };
   return (
     <div
       className={` ${
@@ -57,24 +74,22 @@ export default function MovieCard({
             <div
               onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
               className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
-              aria-title="თრეილერი"
+              aria-label="თრეილერი"
             >
               <TrailerIcon className="h-5 aspect-square" />
             </div>
             <div
               onClick={() => setDetailsId(Number(movie.id))}
               className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
-              aria-title="ინფორმაცია"
+              aria-label="ინფორმაცია"
             >
               <InfoIcon className="h-5 aspect-square" />
             </div>
           </div>
         </div>
         <img
-          src={
-            "https://cdn.moviesgo.ge/" + image_resize(movie.thumbnail_url).small
-          }
-          alt=""
+          src={image_resize(movie.thumbnail_url).small}
+          alt={movie.name + " | " + movie.name_eng}
           loading="lazy"
           className="h-full w-full object-cover"
         />
@@ -82,7 +97,7 @@ export default function MovieCard({
         <div className=" px-2.5 absolute z-[2] bottom-2">
           <div className="flex items-center  gap-2 font-mainMedium text-white text-sm tracking-wider">
             <IMDbIcon className="w-[40px] h-[18px]" />
-            {movie.imdb ? parseInt(movie.imdb).toFixed(1) : "0.0"}
+            {movie.imdb ? parseFloat(movie.imdb).toFixed(1) : "0.0"}
           </div>
         </div>
       </div>
@@ -101,11 +116,19 @@ export default function MovieCard({
         >
           {showMenu && (
             <div className="absolute w-[200px]  bg-bodyBg bottom-12 right-2 z-30 text-sm">
-              <div className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5">
+              <div
+                onClick={() => setDetailsId(Number(movie.id))}
+                className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5"
+              >
                 გაზიარება
               </div>
-              <div className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5">
-                ჩანიშვნა
+              <div
+                onClick={toggleBookmark}
+                className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5"
+              >
+                {!bookmarks.includes(movie.id)
+                  ? "ჩანიშვნა"
+                  : "ჩანიშვნის გაუქმება"}
               </div>
             </div>
           )}
@@ -149,18 +172,35 @@ export function MovieCardSkeleton({
 }
 
 export function MovieCardWide({ movie }: { movie: TMovieCard }) {
+  const { bookmarks, addToBookmarks, removeFromBookmarks } = useBookmarks();
+  const { addAlert } = useAlerts();
+
   const { setDetailsId } = useDetailsOverlay();
   const { setTrailerLink } = useTrailerOverlay();
-  const HeartMovie = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-  const BookmarkMovie = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
+  // const HeartMovie = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  // };
+
   const addons = movie.addons ? JSON.parse(movie.addons) : [];
   const genres = movie.genres ? JSON.parse(movie.genres) : [];
+  const toggleBookmark = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (bookmarks.includes(movie.id)) {
+      removeFromBookmarks(movie.id);
+      addAlert({
+        id: movie.id + "|" + Math.random() * 300,
+        title: "ჩანიშვნა გაუქმებულია",
+      });
+    } else {
+      addToBookmarks(movie.id);
+      addAlert({
+        id: movie.id + "|" + Math.random() * 300,
+        title: "ჩანიშვნა დამატებულია",
+      });
+    }
+  };
 
   return (
     <div
@@ -177,25 +217,25 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
             <div
               onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
               className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
-              aria-title="თრეილერი"
+              aria-label="თრეილერი"
             >
               <TrailerIcon className="h-5 aspect-square" />
             </div>
             <div
               onClick={() => setDetailsId(Number(movie.id))}
               className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
-              aria-title="ინფორმაცია"
+              aria-label="ინფორმაცია"
             >
               <InfoIcon className="h-5 aspect-square" />
             </div>
           </div>
         </div>
         <img
-          src={"https://cdn.moviesgo.ge/" + movie.thumbnail_url}
+          src={image_resize(movie.thumbnail_url).small}
           alt={movie.name + " | " + movie.name_eng}
-          //       srcSet={`$poster_small2 480w,
-          // $poster_small 780w,
-          // $poster 1200w`}
+          srcSet={`${image_resize(movie.thumbnail_url).small} 480w,
+          ${image_resize(movie.thumbnail_url).small} 780w,
+          ${image_resize(movie.thumbnail_url).small} 1200w`}
           loading="lazy"
           className="h-full w-full object-cover"
         />
@@ -203,7 +243,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
         <div className=" px-2.5 absolute z-[2] bottom-2">
           <div className="flex items-center gap-2 font-mainMedium text-white text-sm tracking-wider">
             <IMDbIcon className="w-[40px] h-[18px]" />
-            {parseInt(movie.imdb).toFixed(1)}
+            {movie.imdb ? parseFloat(movie.imdb).toFixed(1) : "0.0"}
           </div>
         </div>
       </div>
@@ -242,17 +282,25 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
             ))}
           </div>
           <div className="flex items-center gap-2 ">
-            <div
+            {/* <div
               onClick={(e) => HeartMovie(e)}
               className="h-[34px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
             >
               <HeartIcon height={16} className="text-textDescLight" />
-            </div>
+            </div> */}
+
             <div
-              onClick={(e) => BookmarkMovie(e)}
+              onClick={toggleBookmark}
               className="h-[34px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
             >
-              <BookmarkIcon height={16} className="text-textDescLight" />
+              <BookmarkIcon
+                height={16}
+                className={` ${
+                  !bookmarks.includes(movie.id)
+                    ? "text-textDescLight"
+                    : "text-main"
+                } `}
+              />
             </div>
           </div>
         </div>

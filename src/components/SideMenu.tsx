@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import RoutesList from "../routes/NavigationList";
+import { genres } from "../api/themes";
 
 export default function SideMenu(props: {
   active: boolean;
@@ -23,12 +24,14 @@ export default function SideMenu(props: {
           <p className="px-5  text-textDesc tracking-wide text-[14px]">
             სარჩევი
           </p>
-          <div className="flex flex-col py-2">
+          <div className="flex flex-col py-2 ">
             {RoutesList.mainRoutes.map((route) => (
               <SideBarButton
                 key={route.title}
                 title={route.title}
-                icon={<></>}
+                icon={
+                  <route.icon className="text-textDesc h-3.5 aspect-square group-hover:text-white" />
+                }
                 link={route.path}
                 setActive={setActiveLink}
                 active={activeLink}
@@ -42,11 +45,11 @@ export default function SideMenu(props: {
             ჟანრები
           </p>
           <div className="flex flex-col py-2">
-            {RoutesList.mainRoutes.map((route) => (
+            {genres.map((genre) => (
               <SideBarButton
-                key={route.title}
-                title={route.title}
-                link={route.path}
+                key={genre.title}
+                title={genre.title}
+                link={`/search/a?genres=%5B"${genre.title}"%5D`}
                 setActive={setActiveLink}
                 active={activeLink}
               />
@@ -83,12 +86,12 @@ function SideBarButton({
     <Link
       to={link}
       onClick={() => setActive(title)}
-      className={`h-[40px] w-full flex items-center  font-mainMedium tracking-wider text-[14px] cursor-pointer group side_line ${
+      className={`h-[42px] w-full flex items-center  font-mainMedium tracking-wider text-[14px] cursor-pointer group side_line ${
         title == active
       } text-sidebarText hover:before:bg-main`}
     >
       {icon && (
-        <div className="ml-5 h-[24px] aspect-square rounded-[20px] bg-[#2B2B2B] group-hover:bg-main transition-colors duration-100 ">
+        <div className="ml-5 h-[26px] aspect-square rounded-[20px] bg-[#2B2B2B] group-hover:bg-main transition-colors duration-100 flex justify-center items-center ">
           {icon}
         </div>
       )}

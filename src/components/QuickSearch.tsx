@@ -95,7 +95,6 @@ function QuickSearchAction() {
   }, []);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("a");
     navigate("/search/" + inputValue);
   };
   return (

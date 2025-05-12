@@ -4,7 +4,7 @@ import {
   SortHorizontalIcon,
   SortVerticalIcon,
 } from "../../../assets/icons/MyIcons";
-import Filters from "../../../components/Filters";
+// import Filters from "../../../components/Filters";
 import { MovieCardWideSkeleton } from "../../../components/MovieCard";
 import { useQuery } from "@tanstack/react-query";
 import { TMovieCard } from "../../types/MovieTypes";
@@ -28,7 +28,7 @@ export default function TvShows() {
         image="decorations/tvShowsRated.png"
       />
 
-      <Filters />
+      {/* <Filters /> */}
       <div className="my_container flex justify-between items-center py-5">
         <div className="flex items-center gap-5">
           <p className="text-textDesc">329 შედეგი</p>

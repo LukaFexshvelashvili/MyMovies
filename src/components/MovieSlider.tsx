@@ -50,7 +50,7 @@ export default function MovieSlider({
             <MovieCardSkeleton bg_clear={clear_skeletons} />
           </>
         ) : list ? (
-          <Swiper spaceBetween={10} slidesPerView={4.1}>
+          <Swiper lazyPreloadPrevNext={1} spaceBetween={10} slidesPerView={4.1}>
             {list.map((movie: TMovieCard) => (
               <SwiperSlide key={movie.id}>
                 <MovieCard movie={movie} />
