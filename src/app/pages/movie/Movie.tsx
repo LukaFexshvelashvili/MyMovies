@@ -17,6 +17,7 @@ import { useWatchHistory } from "../../store/useWatchHistory";
 import { decodeHtmlEntities } from "../../hooks/Customs";
 import SimilarMovies from "./components/SimilarMovies";
 import useAlerts from "../../store/useAlerts";
+import MoviePlayer from "./components/MoviePlayer";
 
 export default function Movie() {
   const { addToHistory } = useWatchHistory();
@@ -57,10 +58,8 @@ export default function Movie() {
       </div>
       <section className="mt-6">
         <div className="my_container">
-          <div className="w-full h-[590px] flex">
-            <div className="h-full aspect-video bg-[rgb(36,36,36)]"></div>
-            <div className="h-full w-full bg-[rgb(40,40,40)]"></div>
-          </div>
+          <MoviePlayer />
+
           <div className="flex items-center gap-3 py-5">
             <div
               onClick={() =>

@@ -21,7 +21,7 @@ export default function MovieComments({
 }: {
   movie_id: number | string;
 }) {
-  const { id: user_id } = useUser();
+  const { user } = useUser();
   const { addAlert } = useAlerts();
   const { data: comments_data, refetch } = useQuery({
     queryKey: ["movie_comments", { movie_id }],
@@ -54,7 +54,7 @@ export default function MovieComments({
                 <input
                   type="hidden"
                   name="user_id"
-                  value={user_id ? user_id : -1}
+                  value={user?.id ? user.id : -1}
                 />
                 <input type="hidden" name="movie_id" value={movie_id} />
                 <input
@@ -76,7 +76,7 @@ export default function MovieComments({
             <div className="flex flex-col gap-6 mt-10">
               {comments_data?.comments.map((comment: TComment) => (
                 <Comment
-                  user_id={user_id ? user_id : -1}
+                  user_id={user?.id ? user.id : -1}
                   add_alert={addAlert}
                   movie_id={movie_id}
                   comment={comment}

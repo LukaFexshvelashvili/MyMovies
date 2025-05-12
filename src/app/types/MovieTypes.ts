@@ -11,8 +11,8 @@ export type TMovie = {
   description: string;
   players: string;
   trailer?: string | null;
-  poster_url?: string | null;
-  thumbnail_url?: string | null;
+  poster_url: string | null;
+  thumbnail_url: string | null;
   type: number;
   addons: string;
   genres?: string | null;

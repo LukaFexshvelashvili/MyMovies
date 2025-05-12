@@ -33,20 +33,20 @@ function App() {
       <UserDataControl />
       <Navbar />
       <Overlays />
-      <Suspense fallback={<SuspenseLoader />}>
-        <Routes>
-          <Route path="/">
-            <Route index element={<Home />} />
-            <Route path="logout" element={<Logout />} />
-            <Route path="search/:search_query" element={<Search />} />
-            <Route path="animations" element={<Animations />} />
-            <Route path="animes" element={<Animes />} />
-            <Route path="tv_hows" element={<TvShows />} />
-            <Route path="movies" element={<Movies />} />
-            <Route path="movie/:id/:title" element={<Movie />} />
-          </Route>
-        </Routes>
-      </Suspense>
+      {/* <Suspense fallback={<SuspenseLoader />}> */}
+      <Routes>
+        <Route path="/">
+          <Route index element={<Home />} />
+          <Route path="logout" element={<Logout />} />
+          <Route path="search/:search_query" element={<Search />} />
+          <Route path="animations" element={<Animations />} />
+          <Route path="animes" element={<Animes />} />
+          <Route path="tv_hows" element={<TvShows />} />
+          <Route path="movies" element={<Movies />} />
+          <Route path="movie/:id/:title" element={<Movie />} />
+        </Route>
+      </Routes>
+      {/* </Suspense> */}
       <Alerts />
     </>
   );
