@@ -78,7 +78,7 @@ export default function MainSlider() {
   }, [isLoading]);
 
   return (
-    <div className="relative h-[470px] bg-black flex justify-center">
+    <div className="relative medium:h-[470px] h-[300px] bg-black flex justify-center">
       <div
         className="h-full w-full flex overflow-hidden select-none"
         ref={SliderContainer}
@@ -101,9 +101,9 @@ export default function MainSlider() {
               ) : null
             )}
       </div>
-      <div className="my_container h-6 z-20 bottom-0 absolute">
+      <div className="my_container h-6 z-20 bottom-0 absolute right-2 mobile:right-auto">
         <div
-          className={`flex gap-3 items-center absolute h-6 bottom-7 right-0 px-[15px] ${
+          className={`flex mobile:gap-3 gap-2.5 items-center absolute h-6 mobile:bottom-7 bottom-3 right-0 px-[15px] ${
             isLoading ? "animate-pulse" : ""
           } `}
         >
@@ -111,7 +111,7 @@ export default function MainSlider() {
             <div
               key={i}
               onClick={() => setActiveSlider(i)}
-              className={`h-[12px] cursor-pointer aspect-square rounded-xl ${
+              className={`mobile:h-[12px] h-[10px] cursor-pointer aspect-square rounded-xl ${
                 activeSlider === i
                   ? "bg-white"
                   : "bg-white/50 transition-colors hover:bg-white/80"
@@ -127,17 +127,19 @@ export default function MainSlider() {
 function SliderCard({ movie, eager }: { movie: TMovieCard; eager?: boolean }) {
   return (
     <div className="relative w-full h-full shrink-0 select-none ">
-      <div className="my_container relative z-20 h-full flex items-end py-10 ">
-        <div className="flex flex-col tracking-wider">
-          <h3 className="text-head text-[20px] ">{movie.name}</h3>
-          <h4 className="text-white/60 text-[18px]">
+      <div className="my_container relative z-20 h-full flex items-end mobile:py-10 py-4 ">
+        <div className="flex flex-col tracking-wider mobile:gap-0 gap-1">
+          <h3 className="text-head mobile:text-[20px] text-[18px] ">
+            {movie.name}
+          </h3>
+          <h4 className="text-white/60 mobile:text-[18px] text-[16px]">
             {movie.name_eng} ({movie.year})
           </h4>
-          <div className="flex items-center gap-4 font-mainSemiBold text-md tracking-wider mt-1">
-            <IMDbIcon className="h-[30px] w-[40px]" />
+          <div className="flex items-center mobile:gap-4 gap-2  text-[15px] tracking-wider mt-1">
+            <IMDbIcon className="mobile:h-[30px] mobile:w-[40px]  w-[36px]" />
             {Number(movie.imdb).toFixed(1)}
           </div>
-          <button className="h-[38px] w-[150px] bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg flex items-center gap-2 justify-center mt-4">
+          <button className="h-[38px] w-[150px] mobile:flex hidden bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg items-center gap-2 justify-center mt-4">
             უყურე
           </button>
         </div>
@@ -147,7 +149,7 @@ function SliderCard({ movie, eager }: { movie: TMovieCard; eager?: boolean }) {
         src={"https://cdn.moviesgo.ge/" + movie.thumbnail_url}
         alt={movie.name + " | " + movie.name_eng}
         loading={eager ? "eager" : "lazy"}
-        className="h-full w-full top-0 left-0 absolute object-cover object-[0px_-200px]"
+        className="h-full w-full min-h-full top-0 left-0 absolute object-cover medium:object-[0px_-200px]"
       />
     </div>
   );

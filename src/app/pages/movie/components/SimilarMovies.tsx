@@ -15,20 +15,20 @@ export default function SimilarMovies({
         <div className="flex gap-3 justify-between mt-5 flex-wrap">
           {isLoading ? (
             <>
-              <MovieCardSkeleton small />
-              <MovieCardSkeleton small />
-              <MovieCardSkeleton small />
-              <MovieCardSkeleton small />
-              <MovieCardSkeleton small />
-              <MovieCardSkeleton small />
-              <MovieCardSkeleton small />
-              <MovieCardSkeleton small />
-              <MovieCardSkeleton small />
-              <MovieCardSkeleton small />
+              <MovieCardSkeleton mobile_full small />
+              <MovieCardSkeleton mobile_full small />
+              <MovieCardSkeleton mobile_full small />
+              <MovieCardSkeleton mobile_full small />
+              <MovieCardSkeleton mobile_full small />
+              <MovieCardSkeleton mobile_full small />
+              <MovieCardSkeleton mobile_full small />
+              <MovieCardSkeleton mobile_full small />
+              <MovieCardSkeleton mobile_full small />
+              <MovieCardSkeleton mobile_full small />
             </>
           ) : (
             list.map((movie: TMovieCard) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard mobile_full key={movie.id} movie={movie} />
             ))
           )}
         </div>

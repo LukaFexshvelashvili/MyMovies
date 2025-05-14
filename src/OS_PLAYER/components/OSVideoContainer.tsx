@@ -10,6 +10,7 @@ import OSvideoShow from "./OSvideoShow";
 import OSthumbnail from "./OSthumbnail";
 import useOSPlayer from "./useOSPlayer";
 import StickyPlayerWrapper from "../../app/pages/movie/components/StickyPlayerWrapper";
+import { EpisodeSelectorIcon } from "../../assets/icons/MyIcons";
 
 const OScontextmenu = lazy(() => import("./OScontextmenu"));
 
@@ -55,10 +56,10 @@ export default function VideoContainer() {
   }, [setShowControls, isPlaying]);
 
   return (
-    <div className="h-full w-full flex items-start">
+    <div className="h-full w-full flex items-start relative">
       <div
         ref={playerRef}
-        className={`h-full aspect-video bg-[rgb(0,0,0)] flex justify-center items-center relative overflow-hidden shrink-0 ${
+        className={`h-full aspect-video bg-[rgb(0,0,0)] flex justify-center items-center relative overflow-hidden shrink-1 ${
           !showControls ? "cursor-none" : ""
         } `}
       >
@@ -112,11 +113,8 @@ export default function VideoContainer() {
           </>
         </StickyPlayerWrapper>
       </div>
-
       {/* EPISODES TOGGLER */}
-      <div className="h-full w-full">
-        <OSepisodesToggler />
-      </div>
+      <OSepisodesToggler />
     </div>
   );
 }

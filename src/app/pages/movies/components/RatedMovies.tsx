@@ -1,11 +1,22 @@
+import { useQuery } from "@tanstack/react-query";
+import { fetchMostViews } from "../../../../api/ServerFunctions";
 import MovieCard, { MovieCardSkeleton } from "../../../../components/MovieCard";
 import { TMovieCard } from "../../../types/MovieTypes";
+import { useBreakpoint } from "../../../hooks/useBreakpoint";
 
 export default function RatedMovies(props: {
   image: string;
   title: string;
-  list?: undefined | TMovieCard[];
+  type: number;
 }) {
+  const isSmall = useBreakpoint(768);
+
+  const { data, isLoading } = useQuery<TMovieCard[]>({
+    queryKey: ["most_viewed", 0],
+    queryFn: () => fetchMostViews(0),
+    enabled: !isSmall,
+  });
+  if (isSmall) return;
   return (
     <div className={`h-[350px] relative bg-black  w-full`}>
       <img
@@ -18,8 +29,8 @@ export default function RatedMovies(props: {
         <div className="flex flex-col text-xl shrink-0">{props.title}</div>
         <div className="">
           <div className="flex gap-4 overflow-x-hidden overflow-y-auto">
-            {props.list ? (
-              props.list.map((movie: TMovieCard) => (
+            {!isLoading && data ? (
+              data.map((movie: TMovieCard) => (
                 <MovieCard small key={movie.id} movie={movie} />
               ))
             ) : (

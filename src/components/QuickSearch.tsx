@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import MovieSlider from "./MovieSlider";
-import { NewsIcon } from "../assets/icons/MyIcons";
+import { CloseIcon, NewsIcon } from "../assets/icons/MyIcons";
 import { useQuery } from "@tanstack/react-query";
 import useDebounce from "../app/hooks/useDebounce";
 import { fetchMoviesList, fetchQuickSearch } from "../api/ServerFunctions";
@@ -24,7 +24,7 @@ export default function QuickSearch(props: { hideSearch: Function }) {
         onClick={() => props.hideSearch()}
       ></div>
       <div className="my_container relative">
-        <QuickSearchAction />
+        <QuickSearchAction closeSearch={props.hideSearch} />
         {/* <div className="mt-10">
           <p className="text-textHead font-mainMedium  text-[17px] tracking-wider text-center case_up">
             კატეგორიები
@@ -65,7 +65,7 @@ export default function QuickSearch(props: { hideSearch: Function }) {
   );
 }
 
-function QuickSearchAction() {
+function QuickSearchAction({ closeSearch }: { closeSearch: Function }) {
   const navigate = useNavigate();
   const searchInput = useRef<null | HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState("");
@@ -100,8 +100,8 @@ function QuickSearchAction() {
   return (
     <>
       {" "}
-      <div className="w-full">
-        <form onSubmit={(e) => handleSubmit(e)}>
+      <div className="w-full flex items-center relative">
+        <form onSubmit={(e) => handleSubmit(e)} className="w-full">
           <input
             type="text"
             className="h-[46px] bg-[#1a1a1a] border-2 border-[#2b2b2b] w-full placeholder:text-[#757575] font-mainRegular"
@@ -111,6 +111,12 @@ function QuickSearchAction() {
             onChange={(e) => setInputValue(e.target.value)}
           />
         </form>
+        <div
+          onClick={() => closeSearch()}
+          className="absolute right-2  text-lg text-textDescDark2 h-6 aspect-square"
+        >
+          <CloseIcon />
+        </div>
       </div>
       {debouncedInput ? (
         <div className="mt-4">

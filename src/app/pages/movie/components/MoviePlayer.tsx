@@ -56,7 +56,7 @@ export default function MoviePlayer() {
   if (!data?.movie.players || !playerData?.initial || isLoading)
     return (
       <>
-        <div className="w-full h-[590px] flex font-blockfont text-xl tracking-[-1px]">
+        <div className="w-full mobile:h-[590px] aspect-video flex font-blockfont text-xl tracking-[-1px]">
           <div className="h-full aspect-video bg-[rgb(36,36,36)]"></div>
           <div className="h-full w-full bg-[rgb(40,40,40)]">
             <div className={`w-full h-full overflow-hidden bg-[rgb(40,40,40)]`}>
@@ -82,7 +82,7 @@ export default function MoviePlayer() {
   const isMovie = data?.movie.type == 0 || data?.movie.type == 2 ? true : false;
 
   return (
-    <div className="w-full h-[590px] flex">
+    <div className="w-full mobile:h-[590px] aspect-video flex">
       <OSVideoPlayer
         key={`${data.movie.id}-${JSON.stringify(playerData.initial)}`}
         isMovie={isMovie}

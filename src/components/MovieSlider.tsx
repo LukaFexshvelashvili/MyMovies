@@ -7,7 +7,7 @@ type TMovieSlider = {
   isLoading: boolean;
   title: string;
   icon: React.ReactNode;
-  link: string;
+  link?: string;
   clear_skeletons?: boolean;
   list: TMovieCard[] | undefined;
 };
@@ -23,22 +23,24 @@ export default function MovieSlider({
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-3 case_up">
         <div
-          className={`h-8 aspect-square rounded-[20px] bg-main flex justify-center items-center p-1.5`}
+          className={`mobile:h-8 h-8 aspect-square rounded-[20px] bg-main flex justify-center items-center p-1.5`}
         >
           {icon}
         </div>
-        <p className="text-textHead font-mainMedium  text-[17px] tracking-wider">
+        <p className="text-textHead font-mainMedium  mobile:text-[17px] text-[15px] tracking-wider">
           {title}
         </p>
-        <div className="flex items-center gap-2.5">
-          <span className="text-textDesc">/</span>
-          <Link
-            to={link}
-            className="text-textDesc font-mainMedium  hover:text-main transition-colors"
-          >
-            ყველა
-          </Link>
-        </div>
+        {link && (
+          <div className="flex items-center gap-2.5">
+            <span className="text-textDesc">/</span>
+            <Link
+              to={link}
+              className="text-textDesc font-mainMedium  hover:text-main transition-colors"
+            >
+              ყველა
+            </Link>
+          </div>
+        )}
       </div>
       <div className="flex gap-5 overflow-x-hidden overflow-y-auto">
         {isLoading ? (
@@ -50,9 +52,34 @@ export default function MovieSlider({
             <MovieCardSkeleton bg_clear={clear_skeletons} />
           </>
         ) : list ? (
-          <Swiper lazyPreloadPrevNext={1} spaceBetween={10} slidesPerView={4.1}>
+          <Swiper
+            lazyPreloadPrevNext={1}
+            slidesPerView="auto"
+            spaceBetween={10}
+            centeredSlides={false}
+            watchOverflow={true}
+            resistanceRatio={0}
+            slidesOffsetAfter={10}
+            breakpoints={{
+              "600": {
+                slidesPerView: 1.9,
+              },
+              "992": {
+                slidesPerView: 2.5,
+              },
+              "1200": {
+                slidesPerView: 3.05,
+              },
+              "1400": {
+                slidesPerView: 3.6,
+              },
+              "1680": {
+                slidesPerView: 4.1,
+              },
+            }}
+          >
             {list.map((movie: TMovieCard) => (
-              <SwiperSlide key={movie.id}>
+              <SwiperSlide key={movie.id} className="max-mobile:!w-[290px]">
                 <MovieCard movie={movie} />
               </SwiperSlide>
             ))}

@@ -107,3 +107,29 @@ export async function fetchMoviesList(history?: string[]) {
   });
   return data;
 }
+export async function fetchHistory(history?: string[]) {
+  const { data } = await api.get("/list/history", {
+    params: {
+      watch_history: history ? JSON.stringify(history) : null,
+    },
+  });
+  return data;
+}
+
+export async function fetchBookmarks(bookmarks?: (string | number)[]) {
+  const { data } = await api.get("/list/bookmarks", {
+    params: {
+      bookmarks: bookmarks ? JSON.stringify(bookmarks) : null,
+    },
+  });
+  return data;
+}
+
+export async function fetchMostViews(type?: string | number) {
+  const { data } = await api.get("/list/most_viewed", {
+    params: {
+      type,
+    },
+  });
+  return data;
+}

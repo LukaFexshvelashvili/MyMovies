@@ -19,10 +19,12 @@ import useAlerts from "../app/store/useAlerts";
 
 export default function MovieCard({
   small,
+  mobile_full,
   movie,
 }: {
   movie: TMovieCard;
   small?: boolean;
+  mobile_full?: boolean;
 }) {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const { bookmarks, addToBookmarks, removeFromBookmarks } = useBookmarks();
@@ -32,24 +34,27 @@ export default function MovieCard({
   const addons = movie.addons ? JSON.parse(movie.addons) : [];
 
   const toggleBookmark = () => {
-    if (bookmarks.includes(movie.id)) {
+    if (bookmarks.includes(Number(movie.id))) {
       removeFromBookmarks(movie.id);
       addAlert({
-        id: movie.id + "|" + Math.random() * 300,
         title: "ჩანიშვნა გაუქმებულია",
       });
     } else {
       addToBookmarks(movie.id);
       addAlert({
-        id: movie.id + "|" + Math.random() * 300,
         title: "ჩანიშვნა დამატებულია",
       });
     }
   };
+
   return (
     <div
       className={` ${
-        small ? "w-[290px]" : "w-[365px]"
+        small
+          ? "w-[290px] max-mobile:w-full "
+          : mobile_full
+          ? "w-[365px] max-mobile:w-full"
+          : "w-[365px] max-mobile:w-[290px]"
       } group/card duration-200 cursor-pointer transition-colors shrink-0`}
     >
       <div className="relative w-full aspect-video bg-[#3b3b3b]">
@@ -81,7 +86,6 @@ export default function MovieCard({
             <div
               onClick={() => setDetailsId(Number(movie.id))}
               className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
-              aria-label="ინფორმაცია"
             >
               <InfoIcon className="h-5 aspect-square" />
             </div>
@@ -126,7 +130,7 @@ export default function MovieCard({
                 onClick={toggleBookmark}
                 className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5"
               >
-                {!bookmarks.includes(movie.id)
+                {!bookmarks.includes(Number(movie.id))
                   ? "ჩანიშვნა"
                   : "ჩანიშვნის გაუქმება"}
               </div>
@@ -145,15 +149,21 @@ export default function MovieCard({
 export function MovieCardSkeleton({
   small,
   bg_clear,
+  mobile_full,
 }: {
   small?: boolean;
   bg_clear?: boolean;
+  mobile_full?: boolean;
 }) {
   return (
     <div
-      className={` ${small ? "w-[290px]" : "w-[365px]"}  shrink-0 select-none ${
-        bg_clear ? "bg-transparent" : "bg-bodyBg"
-      }`}
+      className={` ${
+        small
+          ? "w-[290px] max-mobile:w-full"
+          : mobile_full
+          ? "w-[365px] max-mobile:w-full"
+          : "w-[365px] max-mobile:w-[290px]"
+      }  shrink-0 select-none ${bg_clear ? "bg-transparent" : "bg-bodyBg"}`}
     >
       <div className="relative w-full aspect-video shrink-0 bg-[#333]  animate-pulse"></div>
 
@@ -187,16 +197,14 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
   const toggleBookmark = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     e.stopPropagation();
-    if (bookmarks.includes(movie.id)) {
+    if (bookmarks.includes(Number(movie.id))) {
       removeFromBookmarks(movie.id);
       addAlert({
-        id: movie.id + "|" + Math.random() * 300,
         title: "ჩანიშვნა გაუქმებულია",
       });
     } else {
       addToBookmarks(movie.id);
       addAlert({
-        id: movie.id + "|" + Math.random() * 300,
         title: "ჩანიშვნა დამატებულია",
       });
     }
@@ -296,7 +304,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
               <BookmarkIcon
                 height={16}
                 className={` ${
-                  !bookmarks.includes(movie.id)
+                  !bookmarks.includes(Number(movie.id))
                     ? "text-textDescLight"
                     : "text-main"
                 } `}

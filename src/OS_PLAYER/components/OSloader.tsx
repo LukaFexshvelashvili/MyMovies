@@ -14,11 +14,13 @@ export default function OSloader() {
     const video = videoRef.current;
     video.addEventListener("waiting", handleBuffering);
     video.addEventListener("playing", handlePlaying);
+    video.addEventListener("canplay", handlePlaying);
     video.addEventListener("error", handleError);
 
     return () => {
       video.removeEventListener("waiting", handleBuffering);
       video.removeEventListener("playing", handlePlaying);
+      video.removeEventListener("canplay", handlePlaying);
       video.removeEventListener("error", handleError);
     };
   }, [videoRef]);

@@ -31,7 +31,6 @@ export default function MovieComments({
     async (previousState: any, formData: FormData) => {
       const result = await add_comment(previousState, formData);
       addAlert({
-        id: movie_id + "|" + Math.random() * 300,
         title: "კომენტარი დამატებულია",
       });
       await refetch();
@@ -123,7 +122,6 @@ function Comment({
     async (previousState: any, formData: FormData) => {
       const result = await add_comment(previousState, formData);
       add_alert({
-        id: movie_id + "|" + Math.random() * 300,
         title: "კომენტარი დამატებულია",
       });
       await refetch();
@@ -183,7 +181,6 @@ function Comment({
                     .then(async () => {
                       await refetch();
                       add_alert({
-                        id: movie_id + "|" + Math.random() * 300,
                         title: "კომენტარი წაიშალა",
                       });
                       setLoading(false);

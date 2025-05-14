@@ -14,11 +14,11 @@ export const useBookmarks = create<BookmarksState>()(
       bookmarks: [],
       addToBookmarks: (item) =>
         set((state) => ({
-          bookmarks: [item, ...state.bookmarks.filter((i) => i !== item)],
+          bookmarks: [item, ...state.bookmarks.filter((i) => i != item)],
         })),
       removeFromBookmarks: (item) =>
         set((state) => ({
-          bookmarks: state.bookmarks.filter((i) => i !== item),
+          bookmarks: state.bookmarks.filter((i) => i != item),
         })),
       clearBookmarks: () => set({ bookmarks: [] }),
     }),

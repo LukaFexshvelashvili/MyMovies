@@ -8,6 +8,7 @@ import {
 import { GoBackIcon } from "./OsIcons";
 import useOSPlayer from "./useOSPlayer";
 import { TEpisode, TplayerSettings } from "../OSVideoPlayer";
+import { CloseIcon } from "../../assets/icons/MyIcons";
 
 type Tstorage = {
   id: number | string;
@@ -15,7 +16,11 @@ type Tstorage = {
   episode?: { season: number | string; episode: string | number };
 };
 
-export default function OSepisodesSelector() {
+export default function OSepisodesSelector({
+  closeToggler,
+}: {
+  closeToggler: Function;
+}) {
   const {
     id,
     videoRef,
@@ -27,7 +32,6 @@ export default function OSepisodesSelector() {
     thumbnail,
     playerSettings,
     isMovie,
-    trailer,
   } = useOSPlayer();
 
   const episodesList = useRef<null | HTMLDivElement>(null);
@@ -79,6 +83,7 @@ export default function OSepisodesSelector() {
     let data = storage.find((item) => String(item.id) === String(id));
     if (data) {
       const saved_episode = data.episode;
+
       if (
         saved_episode &&
         saved_episode.season &&
@@ -204,6 +209,7 @@ export default function OSepisodesSelector() {
       }));
     }
     setCurrent({ season: season ? season : activeSeason, episode: index });
+    closeToggler();
   }
 
   const getThumbnailUrl = (url: string) => {
@@ -251,11 +257,11 @@ export default function OSepisodesSelector() {
     );
   return (
     <div className={`w-full h-full overflow-hidden bg-[rgb(40,40,40)]`}>
-      <div className="h-13 shrink-0 w-full bg-[#111111] text-white font-semibold ">
+      <div className="h-13 shrink-0 w-full bg-[#111111] text-white font-robotoGeoCaps ">
         {activeSection == "seasons" ? (
           <div className=" px-3 w-full h-full flex items-center gap-2 ">
             აირჩიეთ სეზონი{" "}
-            <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide">
+            <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide max-mobile:hidden">
               {activeSeason
                 ? `სეზონი ${current.season} / ეპიზოდი ${current.episode + 1}`
                 : ""}
@@ -263,7 +269,7 @@ export default function OSepisodesSelector() {
           </div>
         ) : (
           <div
-            className=" px-3 w-full h-full flex items-center gap-2 hover:bg-[#202020] cursor-pointer"
+            className=" px-3 w-full h-full flex items-center gap-2 hover:bg-[#202020] cursor-pointer "
             onClick={() => {
               if (activeSection == "episodes") {
                 setActiveSection("seasons");
@@ -272,12 +278,18 @@ export default function OSepisodesSelector() {
           >
             <GoBackIcon className="h-[18px]" /> სეზონი {activeSeason}{" "}
             {activeSeason == current.season && (
-              <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide">
+              <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide max-mobile:hidden">
                 ეპიზოდი {current.episode + 1}
               </span>
             )}
           </div>
         )}
+        <div
+          onClick={() => closeToggler()}
+          className="flex mobile:hidden h-13 p-3 aspect-square absolute right-0 top-0 text-textHead2"
+        >
+          <CloseIcon />
+        </div>
       </div>
       <div
         ref={episodesList}

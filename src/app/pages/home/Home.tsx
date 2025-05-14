@@ -10,7 +10,7 @@ import {
 import MovieCard, { MovieCardSkeleton } from "../../../components/MovieCard";
 import MainSlider from "./components/MainSlider";
 import MovieSlider from "../../../components/MovieSlider";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchMoviesList } from "../../../api/ServerFunctions";
 import { TMovieCard } from "../../types/MovieTypes";
 import { useWatchHistory } from "../../store/useWatchHistory";
@@ -27,102 +27,107 @@ export type THomeList = {
 };
 
 export default function Home() {
+  const queryClient = useQueryClient();
   const { history } = useWatchHistory();
   const { data: moviesList, isLoading } = useQuery<THomeList>({
     queryKey: ["moviesList"],
     queryFn: () => fetchMoviesList(history),
     staleTime: 1000000,
   });
+  queryClient.setQueryData(["watch_history", 1], moviesList?.watch_history);
   return (
-    <main>
-      <MainSlider />
-      <div className="my_container my-10">
-        <MovieSlider
-          isLoading={isLoading}
-          list={moviesList?.watch_history}
-          icon={<ContinueWatchIcon />}
-          title="განაგრძე ყურება"
-          link=""
-        />
-      </div>
-      <div className="bg-[rgb(17,_17,_17)] py-10 bg-[url('/decorations/background.svg')] bg-no-repeat bg-cover bg-center">
-        <div className="my_container">
+    <>
+      <title>ფილმები ქართულად | Filmebi Qartulad | MyMovies</title>
+      <main>
+        <MainSlider />
+        <div className="my_container my-10">
+          <MovieSlider
+            isLoading={isLoading}
+            list={moviesList?.watch_history}
+            icon={<ContinueWatchIcon />}
+            title="განაგრძე ყურება"
+            link=""
+          />
+        </div>
+        <div className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/background.svg')] bg-no-repeat bg-cover bg-center">
+          <div className="my_container">
+            <MovieSlider
+              isLoading={isLoading}
+              list={moviesList?.news}
+              clear_skeletons
+              icon={<NewsIcon />}
+              title="ახალი დამატებული"
+              link=""
+            />
+          </div>
+        </div>
+        <div className="my_container my-10">
+          <PopularsSection
+            isLoading={isLoading}
+            icon={<PopularsIcon />}
+            title="პოპულარული"
+            link=""
+            list={moviesList?.populars ? moviesList.populars : []}
+          />
+        </div>
+        <div
+          className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/animesBg.png')] bg-no-repeat bg-cover bg-center"
+          style={{ "--color-main": "#E24456" } as React.CSSProperties}
+        >
+          <div className="my_container">
+            <MovieSlider
+              isLoading={isLoading}
+              list={moviesList?.animes}
+              clear_skeletons
+              icon={<AnimesIcon />}
+              title="ანიმეები"
+              link=""
+            />
+          </div>
+        </div>
+        <div className="my_container my-10">
           <MovieSlider
             isLoading={isLoading}
             list={moviesList?.news}
-            clear_skeletons
-            icon={<NewsIcon />}
-            title="ახალი დამატებული"
+            icon={<PlayIcon className="h-4 " />}
+            title="თრეილერები"
             link=""
           />
         </div>
-      </div>
-      <div className="my_container my-10">
-        <PopularsSection
-          isLoading={isLoading}
-          icon={<PopularsIcon />}
-          title="პოპულარული"
-          link=""
-          list={moviesList?.populars ? moviesList.populars : []}
-        />
-      </div>
-      <div
-        className="bg-[rgb(17,_17,_17)] py-10 bg-[url('/decorations/animesBg.png')] bg-no-repeat bg-cover bg-center"
-        style={{ "--color-main": "#E24456" } as React.CSSProperties}
-      >
-        <div className="my_container">
-          <MovieSlider
-            isLoading={isLoading}
-            list={moviesList?.animes}
-            clear_skeletons
-            icon={<AnimesIcon />}
-            title="ანიმეები"
-            link=""
-          />
+        <div
+          className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/tvShowsBg.png')] bg-no-repeat bg-cover bg-center"
+          style={{ "--color-main": "#1093cf" } as React.CSSProperties}
+        >
+          <div className="my_container">
+            <MovieSlider
+              isLoading={isLoading}
+              list={moviesList?.series}
+              clear_skeletons
+              icon={<AnimationsIcon />}
+              title="სერიალები"
+              link=""
+            />
+          </div>
         </div>
-      </div>
-      <div className="my_container my-10">
-        <MovieSlider
-          isLoading={isLoading}
-          list={moviesList?.news}
-          icon={<PlayIcon className="h-4 " />}
-          title="თრეილერები"
-          link=""
-        />
-      </div>
-      <div
-        className="bg-[rgb(17,_17,_17)] py-10 bg-[url('/decorations/tvShowsBg.png')] bg-no-repeat bg-cover bg-center"
-        style={{ "--color-main": "#1093cf" } as React.CSSProperties}
-      >
-        <div className="my_container">
-          <MovieSlider
-            isLoading={isLoading}
-            list={moviesList?.series}
-            clear_skeletons
-            icon={<AnimationsIcon />}
-            title="სერიალები"
-            link=""
-          />
+        <div
+          className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/animationsBg.png')] bg-no-repeat bg-cover bg-center"
+          style={{ "--color-main": "#01b698" } as React.CSSProperties}
+        >
+          <div className="my_container">
+            <MovieSlider
+              isLoading={isLoading}
+              list={moviesList?.animations}
+              clear_skeletons
+              icon={<AnimationsIcon />}
+              title="ანიმაციები"
+              link=""
+            />
+          </div>
         </div>
-      </div>
-      <div
-        className="bg-[rgb(17,_17,_17)] py-10 bg-[url('/decorations/animationsBg.png')] bg-no-repeat bg-cover bg-center"
-        style={{ "--color-main": "#01b698" } as React.CSSProperties}
-      >
-        <div className="my_container">
-          <MovieSlider
-            isLoading={isLoading}
-            list={moviesList?.animations}
-            clear_skeletons
-            icon={<AnimationsIcon />}
-            title="ანიმაციები"
-            link=""
-          />
-        </div>
-      </div>
 
-      {/* <div className="my_loader"></div> */}
-    </main>
+        {/* <div className="my_loader"></div> */}
+      </main>
+    </>
   );
 }
 

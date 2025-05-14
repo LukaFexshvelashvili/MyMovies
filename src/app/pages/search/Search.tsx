@@ -102,23 +102,23 @@ export default function Search() {
           <div className="flex gap-4 justify-between w-full flex-wrap">
             {isLoading ? (
               <>
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
-                <MovieCardSkeleton />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
+                <MovieCardSkeleton mobile_full />
               </>
             ) : sortCard === "card" ? (
-              <div className="flex gap-6 justify-between flex-wrap py-5">
+              <div className="flex gap-3 gap-y-5 justify-between flex-wrap py-5">
                 {moviesList?.query.map((movie: TMovieCard) => (
-                  <MovieCard key={movie.id} movie={movie} />
+                  <MovieCard mobile_full small key={movie.id} movie={movie} />
                 ))}{" "}
               </div>
             ) : (
