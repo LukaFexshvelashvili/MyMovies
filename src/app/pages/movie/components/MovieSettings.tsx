@@ -4,10 +4,21 @@ import { useBookmarks } from "../../../store/useBookmarks";
 import {
   BookmarkIcon,
   HeartIcon,
+  IMDbIcon,
   WarningIcon,
 } from "../../../../assets/icons/MyIcons";
+import { SkeletonSection } from "../../../components/Overlays/DetailOverlay";
+import { TMovie } from "../../../types/MovieTypes";
 
-export default function MovieSettings({ id }: { id: number | string }) {
+export default function MovieSettings({
+  id,
+  movie,
+  isLoading,
+}: {
+  id: number | string;
+  movie: TMovie | undefined;
+  isLoading: boolean;
+}) {
   const { bookmarks, addToBookmarks, removeFromBookmarks } = useBookmarks();
   const { addAlert } = useAlerts();
   const toggleBookmark = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -26,36 +37,64 @@ export default function MovieSettings({ id }: { id: number | string }) {
     }
   };
   return (
-    <div className="flex items-center gap-3 py-5 select-none">
-      <div
-        onClick={() =>
-          addAlert({
-            title: "ფილმი მოწონებულია",
-          })
-        }
-        className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
-        aria-label="Like Movie Button"
-      >
-        <HeartIcon height={16} className="text-icon" />
-      </div>
-      <div
-        onClick={toggleBookmark}
-        className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
-        aria-label="Bookmark Movie Button"
-      >
-        <BookmarkIcon
-          height={16}
-          className={`${
-            !bookmarks.includes(Number(id)) ? "text-icon" : "text-main"
-          }`}
-        />
-      </div>
+    <div className="flex justify-between items-center">
+      <div className="flex items-center mobile:gap-3 gap-2 mobile:py-4 py-3 select-none">
+        <div
+          onClick={() =>
+            addAlert({
+              title: "ფილმი მოწონებულია",
+            })
+          }
+          className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
+          aria-label="Like Movie Button"
+        >
+          <SkeletonSection
+            isLoading={isLoading}
+            placeholder="OS"
+            show={<HeartIcon height={16} className="text-icon" />}
+          />
+        </div>
+        <div
+          onClick={toggleBookmark}
+          className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
+          aria-label="Bookmark Movie Button"
+        >
+          <SkeletonSection
+            isLoading={isLoading}
+            placeholder="OS"
+            show={
+              <BookmarkIcon
+                height={16}
+                className={`${
+                  !bookmarks.includes(Number(id)) ? "text-icon" : "text-main"
+                }`}
+              />
+            }
+          />
+        </div>
 
-      <div
-        className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
-        aria-label="Report Movie Problem Button"
-      >
-        <WarningIcon height={16} className="text-icon" />
+        <div
+          className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
+          aria-label="Report Movie Problem Button"
+        >
+          <SkeletonSection
+            isLoading={isLoading}
+            placeholder="OS"
+            show={<WarningIcon height={16} className="text-icon" />}
+          />
+        </div>
+      </div>
+      <div className="flex items-center gap-3 mobile:hidden tracking-wider text-icon text-[15px] font-robotoGeoCaps">
+        <SkeletonSection
+          isLoading={isLoading}
+          placeholder="OS GE"
+          show={
+            <>
+              <p className="">{movie?.imdb}</p>
+              <IMDbIcon height={22} width={36} />
+            </>
+          }
+        />
       </div>
     </div>
   );

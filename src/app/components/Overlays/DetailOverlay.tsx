@@ -249,7 +249,7 @@ export function SkeletonSection(props: {
     <>
       {props.isLoading ? (
         <span
-          className={`text-[24px] leading-6 tracking-normal font-blockfont animate-pulse text-textDescDark2`}
+          className={`text-[24px] leading-6 -tracking-[5px] font-blockfont animate-pulse text-textDescDark2`}
         >
           {props.placeholder}
         </span>

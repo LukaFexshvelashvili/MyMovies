@@ -17,8 +17,10 @@ type TComment = {
   replies: TComment[];
 };
 export default function MovieComments({
+  isActive,
   movie_id,
 }: {
+  isActive: boolean;
   movie_id: number | string;
 }) {
   const { user } = useUser();
@@ -40,10 +42,10 @@ export default function MovieComments({
   );
 
   return (
-    <section className="my-5">
+    <section className={`${isActive ? "block" : "hidden mobile:block"} my-5`}>
       <div className="my_container">
         <div className="flex items-start gap-5">
-          <div className="w-3/4">
+          <div className="mobile:w-3/4 w-full">
             <p className="text-head text-md">
               {comments_data?.comments.length} კომენტარი
             </p>

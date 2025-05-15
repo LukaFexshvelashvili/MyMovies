@@ -25,6 +25,7 @@
 
   --color-warning: #e0004b;
 
+  --font-os_medium: "robotoGeoCaps";
   --font-robotoGeoCaps: "robotoGeoCaps";
   --font-robotoGeo: "robotoGeo";
   --font-mainRegular: "mainRegular";
@@ -35,6 +36,7 @@
 
   --spacing-navHeight: 54px;
   --breakpoint-mobile: 768px;
+  --breakpoint-os_player_mobile: 768px;
   --breakpoint-medium: 1200px;
   --breakpoint-filterChange: 1400px;
 }
@@ -71,19 +73,19 @@ body {
   color: var(--color-textHead);
   font-family: var(--font-robotoGeoCaps), sans-serif;
 }
-* {
-  /* border: 1px solid red; */
-}
+/* * { */
+/* border: 1px solid red; */
+/* } */
 *::selection {
   background-color: var(--color-main);
   color: var(--color-white);
 }
 
-*::-webkit-scrollbar {
+.custom_scrollbar::-webkit-scrollbar {
   width: 5px;
   background-color: var(--color-bodyBg);
 }
-*::-webkit-scrollbar-thumb {
+.custom_scrollbar::-webkit-scrollbar-thumb {
   background-color: var(--color-main);
 }
 input,
@@ -127,6 +129,7 @@ input {
   transform: translateY(100%);
   z-index: 9;
   padding: 5px 5px;
+  right: 0;
   letter-spacing: 0.5px;
   color: var(--color-textHead);
   background-color: var(--color-bodyBg);

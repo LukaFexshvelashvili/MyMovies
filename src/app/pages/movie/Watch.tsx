@@ -11,12 +11,13 @@ import { useWatchHistory } from "../../store/useWatchHistory";
 import { decodeHtmlEntities } from "../../hooks/Customs";
 import SimilarMovies from "./components/SimilarMovies";
 import MoviePlayer from "./components/MoviePlayer";
-import RateMovie from "./components/RateMovie";
 import MovieSettings from "./components/MovieSettings";
-import MovieDetails from "./components/MovieDetails";
+import MovieInformation from "./components/MovieInformation";
+import { useEffect, useState } from "react";
 
-export default function Movie() {
+export default function Watch() {
   const { addToHistory } = useWatchHistory();
+  const [activeOption, setActiveOption] = useState(-1);
   const { id } = useParams();
   const { data, isLoading } = useQuery<{
     movie: TMovie;
@@ -29,6 +30,7 @@ export default function Movie() {
   });
   useEffectSkipFirst(() => {
     if (!id) return;
+    setActiveOption(-1);
     const WatchTimeout = setTimeout(() => {
       addToHistory(id);
     }, 10000);
@@ -38,13 +40,23 @@ export default function Movie() {
     };
   }, [id]);
 
-  const addons = data?.movie.addons ? JSON.parse(data.movie.addons) : [];
   // const genres = data?.movie.genres ? JSON.parse(data.movie.genres) : [];
+  useEffect(() => {
+    if (window.scrollY > 450) {
+      window.scrollTo(0, 200);
+    }
+  }, [activeOption]);
+
+  const optionList = [
+    { id: 0, title: "ინფორმაცია" },
+    { id: 1, title: "მსგავსი" },
+    { id: 2, title: "კომენტარები" },
+  ];
 
   return (
     <>
       <MetaHeaders movie={data?.movie} />
-      <main className="pb-20 overflow-x-hidden">
+      <main className="pb-20">
         <div className="mobile:h-[160px] h-auto  w-full bg-[#0E0101] flex justify-center">
           <img
             src="/decorations/movieBanner.png"
@@ -53,11 +65,11 @@ export default function Movie() {
             className="max-w-full"
           />
         </div>
-        <section className="mobile:mt-6 mt-0 ">
+        <section className="mobile:mt-6 mt-0  overflow-x-hidden ">
           <div className="my_container max-mobile:!p-0">
             <MoviePlayer />
             <div className="px-3">
-              <div className="mobile_info mt-4">
+              <div className="mobile:hidden mobile_info mt-4">
                 <div className="flex flex-col gap-1 tracking-wider  mobile:hidden">
                   <MovieSkeletonSection
                     isLoading={isLoading}
@@ -87,132 +99,41 @@ export default function Movie() {
                   />
                 </div>
               </div>
-              <MovieSettings id={id ? id : -1} />
+              <MovieSettings
+                id={id ? id : -1}
+                movie={data?.movie}
+                isLoading={isLoading}
+              />
             </div>
           </div>
         </section>
-        <section>
-          <div className="my_container">
-            <div className="mobile:flex block items-start gap-8 max-mobile:gap-4">
-              <div className="mobile:w-[240px] w-full mobile:flex mobile:flex-col shrink-0 gap-4 ">
-                <div className="aspect-[2/3] w-full bg-[rgb(37,37,37)] max-w-[140px] mobile:max-w-[unset] mobile:float-none mobile:mr-0 float-left mr-3 mobile:m-0">
-                  {data?.movie.poster_url && (
-                    <img
-                      className=""
-                      src={"https://cdn.moviesgo.ge/" + data.movie.poster_url}
-                      alt={data.movie.name + " | " + data.movie.name_eng}
-                    />
-                  )}
-                </div>
-                <MovieSkeletonSection
-                  isLoading={isLoading}
-                  placeholder="Garfield ispreparing for awild adventure. Aftersurprise visit from his long-lostfather'scatVicky,Garfield and Odie areforcedto giveuptheir comfortable lives andfollowVickyonan incredible, risky heist."
-                  show={
-                    <p
-                      className="mt-2  text-[16px]  max-mobile:text-sm  leading-6.5 
-                     font-mainRegular tracking-wider text-textDescLight2  mobile:hidden"
-                    >
-                      {decodeHtmlEntities(
-                        data?.movie.description
-                          ? data?.movie.description
-                          : "MOVIE_DESCRIPTION"
-                      )}
-                    </p>
-                  }
-                />
-                <RateMovie data={data} isLoading={isLoading} />
-              </div>
-              <div className="w-full flex flex-col gap-2">
-                <div className="flex flex-col gap-3 tracking-wider max-mobile:hidden">
-                  <MovieSkeletonSection
-                    isLoading={isLoading}
-                    placeholder="Garfield"
-                    show={
-                      <h1
-                        className={`text-[21px] font-robotoGeoCaps tracking-wider text-textHead`}
-                      >
-                        {decodeHtmlEntities(
-                          data?.movie.name ? data.movie.name : "MOVIE_NAME"
-                        )}
-                      </h1>
-                    }
-                  />
-                  <MovieSkeletonSection
-                    isLoading={isLoading}
-                    placeholder="Garfield 202"
-                    show={
-                      <h2 className="text-textDesc uppercase text-[18px]">
-                        {decodeHtmlEntities(
-                          data?.movie.name_eng
-                            ? data.movie.name_eng + ` (${data.movie.year})`
-                            : "MOVIE_NAME"
-                        )}
-                      </h2>
-                    }
-                  />
-                </div>
-                <div className="flex gap-2 text-white/40 mt-2 text-[14px] max-mobile:hidden">
-                  <MovieSkeletonSection
-                    isLoading={isLoading}
-                    placeholder="Garfield"
-                    show={
-                      addons.includes("ქართულად") && (
-                        <div className="language">ქართულად</div>
-                      )
-                    }
-                  />
-                  <MovieSkeletonSection
-                    isLoading={isLoading}
-                    placeholder="Garfield"
-                    show={
-                      addons.includes("ინგლისურად") && (
-                        <div className="language">ინგლისურად</div>
-                      )
-                    }
-                  />
-                  <MovieSkeletonSection
-                    isLoading={isLoading}
-                    placeholder="Garfield"
-                    show={
-                      addons.includes("რუსულად") && (
-                        <div className="language">რუსულად</div>
-                      )
-                    }
-                  />
-                </div>
-                <div className="hidden mobile:block">
-                  <MovieSkeletonSection
-                    isLoading={isLoading}
-                    placeholder="Garfield ispreparing for awild adventure. Aftersurprise visit from his long-lostfather'scatVicky,Garfield and Odie areforcedto giveuptheir comfortable lives andfollowVickyonan incredible, risky heist."
-                    show={
-                      <p
-                        className="mt-2  text-[16px]  max-mobile:text-sm  leading-6.5 
-                     font-mainRegular tracking-wider text-textDescLight2"
-                      >
-                        {decodeHtmlEntities(
-                          data?.movie.description
-                            ? data?.movie.description
-                            : "MOVIE_DESCRIPTION"
-                        )}
-                      </p>
-                    }
-                  />
-                </div>
-                <div className="hidden mobile:flex">
-                  <MovieDetails data={data} isLoading={isLoading} />
-                </div>
-              </div>
-            </div>
-            <div className="flex mobile:hidden">
-              <MovieDetails data={data} isLoading={isLoading} />
-            </div>
-          </div>
-        </section>
+        <div className="mobile:hidden flex w-full overflow-x-auto bg-navBg h-[40px] sticky top-[98px] z-10">
+          {optionList.map((option) => (
+            <button
+              onClick={() => setActiveOption(option.id)}
+              className={`px-7 text-textHead2 text-[15px] flex-1 h-full shrink-0  transition-all ${
+                activeOption == option.id
+                  ? "border-t-2 border-main text-main bg-bodyBg"
+                  : option.id == 0 && activeOption == -1
+                  ? "border-t-2 border-main text-main bg-bodyBg"
+                  : "border-t-2 bg-navBg border-white/5"
+              } `}
+            >
+              {option.title}
+            </button>
+          ))}
+        </div>
+        <MovieInformation
+          isActive={activeOption == 0 || activeOption == -1}
+          movie={data?.movie}
+          isLoading={isLoading}
+        />
         <SimilarMovies
+          isActive={activeOption == 1}
           isLoading={isLoading}
           list={data?.similar_movies ? data.similar_movies : []}
         />
-        <MovieComments movie_id={id ? id : ""} />
+        <MovieComments isActive={activeOption == 2} movie_id={id ? id : ""} />
       </main>
     </>
   );

@@ -2,17 +2,16 @@ import { Route, Routes, useLocation } from "react-router";
 import Navbar from "../components/Navbar";
 import Home from "./pages/home/Home";
 import { Suspense, useEffect, useState } from "react";
-import Movie from "./pages/movie/Movie";
 import Movies from "./pages/movies/Movies";
 import TvShows from "./pages/movies/TvShows";
 import Animations from "./pages/movies/Animations";
 import Animes from "./pages/movies/Animes";
 import Overlays from "./components/Overlays/Overlays";
-import Alerts from "../components/Alerts";
 import Search from "./pages/search/Search";
 
 import UserDataControl from "../components/UserDataControl";
 import Logout from "./pages/Logout";
+import Watch from "./pages/movie/Watch";
 
 function App() {
   const [isDomLoaded, setIsDomLoaded] = useState(false);
@@ -33,7 +32,6 @@ function App() {
       <UserDataControl />
       <Navbar />
       <Overlays />
-      {/* <Suspense fallback={<SuspenseLoader />}> */}
       <Routes>
         <Route path="/">
           <Route index element={<Home />} />
@@ -43,10 +41,12 @@ function App() {
           <Route path="animes" element={<Animes />} />
           <Route path="tv_hows" element={<TvShows />} />
           <Route path="movies" element={<Movies />} />
-          <Route path="movie/:id/:title" element={<Movie />} />
+          <Route path="movie/:id/:title" element={<Watch />} />
+          <Route path="tv-show/:id/:title" element={<Watch />} />
+          <Route path="anime/:id/:title" element={<Watch />} />
+          <Route path="animation/:id/:title" element={<Watch />} />
         </Route>
       </Routes>
-      {/* </Suspense> */}
     </>
   );
 }

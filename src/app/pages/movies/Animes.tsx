@@ -8,7 +8,7 @@ import {
 import { MovieCardWideSkeleton } from "../../../components/MovieCard";
 import { useQuery } from "@tanstack/react-query";
 import { TMovieCard } from "../../types/MovieTypes";
-import RatedMovies from "./components/RatedMovies";
+// import RatedMovies from "./components/RatedMovies";
 
 const fetchAnimes = async () => {
   const { data } = await axios.get("https://moviesgo.ge/server/getmovies.php");
@@ -23,10 +23,10 @@ export default function Animes() {
   return (
     <main>
       <div className="bg-[rgb(17,_17,_17)] h-[200px] bg-[url('decorations/background.svg')] bg-no-repeat bg-cover bg-center w-full"></div>
-      <RatedMovies
+      {/* <RatedMovies
         title="რჩეული ანიმეები"
         image="decorations/animesRated.jpg"
-      />
+      /> */}
       {/* <Filters /> */}
       <div className="my_container flex justify-between items-center py-5">
         <div className="flex items-center gap-5">

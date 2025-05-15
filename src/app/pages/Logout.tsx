@@ -9,9 +9,6 @@ export default function Logout() {
 
   useEffect(() => {
     const logoutRequest = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const returnTo = urlParams.get("returnTo") || "/";
-
       try {
         await api.get(`/auth/logout`, {
           withCredentials: true,

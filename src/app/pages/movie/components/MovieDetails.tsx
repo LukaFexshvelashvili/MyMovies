@@ -1,17 +1,11 @@
-import React from "react";
-import { MovieSkeletonSection } from "../Movie";
-import { TMovie, TMovieCard } from "../../../types/MovieTypes";
+import { MovieSkeletonSection } from "../Watch";
+import { TMovie } from "../../../types/MovieTypes";
 
 export default function MovieDetails({
-  data,
+  movie,
   isLoading,
 }: {
-  data:
-    | {
-        movie: TMovie;
-        similar_movies: TMovieCard[];
-      }
-    | undefined;
+  movie: TMovie | undefined;
   isLoading: boolean;
 }) {
   return (
@@ -30,7 +24,7 @@ export default function MovieDetails({
             <MovieSkeletonSection
               isLoading={isLoading}
               placeholder="Luka"
-              show={<p>{data?.movie.year}</p>}
+              show={<p>{movie?.year}</p>}
             />
           </div>
         </div>
@@ -65,7 +59,7 @@ export default function MovieDetails({
             <MovieSkeletonSection
               isLoading={isLoading}
               placeholder="OnService"
-              show={<p>{data?.movie.country}</p>}
+              show={<p>{movie?.country}</p>}
             />
           </div>
         </div>
@@ -103,8 +97,8 @@ export default function MovieDetails({
                 isLoading={isLoading}
                 placeholder="OnService Luka Fexshvelashvili"
                 show={
-                  data?.movie.genres
-                    ? JSON.parse(data.movie.genres).map(
+                  movie?.genres
+                    ? JSON.parse(movie.genres).map(
                         (genre: string, index: number) => (
                           <a
                             href=""
@@ -135,7 +129,7 @@ export default function MovieDetails({
             <MovieSkeletonSection
               isLoading={isLoading}
               placeholder="OS Digital"
-              show={<p>{data?.movie.creator}</p>}
+              show={<p>{movie?.creator}</p>}
             />
           </div>
         </div>

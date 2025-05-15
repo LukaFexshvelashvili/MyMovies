@@ -9,6 +9,7 @@ import { TMovieCard } from "../app/types/MovieTypes";
 import useTrailerOverlay from "../app/store/useTrailerOverlay";
 import {
   decodeHtmlEntities,
+  get_type_link,
   image_resize,
   movie_link_generate,
 } from "../app/hooks/Customs";
@@ -46,7 +47,9 @@ export default function MovieCard({
       });
     }
   };
-
+  const movie_link = `/${get_type_link(movie.type)}/${
+    movie.id
+  }/${movie_link_generate(movie.name_eng)}`;
   return (
     <div
       className={` ${
@@ -72,7 +75,7 @@ export default function MovieCard({
         </div>
         <div className="h-full w-full absolute top-0 left-0  pointer-events-none group-hover/card:pointer-events-auto opacity-0 group-hover/card:opacity-100 z-10">
           <Link
-            to={`/movie/${movie.id}/${movie_link_generate(movie.name_eng)}`}
+            to={movie_link}
             className="h-full w-full top-0 left-0 bg-[rgba(0,0,0,0.5)] absolute"
           ></Link>
           <div className="absolute gap-1 top-1.5 right-1.5 flex items-center">
@@ -86,17 +89,20 @@ export default function MovieCard({
             <div
               onClick={() => setDetailsId(Number(movie.id))}
               className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
+              aria-label="ინფორმაცია"
             >
               <InfoIcon className="h-5 aspect-square" />
             </div>
           </div>
         </div>
-        <img
-          src={image_resize(movie.thumbnail_url).small}
-          alt={movie.name + " | " + movie.name_eng}
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
+        <Link to={movie_link}>
+          <img
+            src={image_resize(movie.thumbnail_url).small}
+            alt={movie.name + " | " + movie.name_eng}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        </Link>
         <div className="bg-gradient-to-t from-[rgba(0,0,0,0.85)] to-transparent absolute bottom-0 left-0 h-2/4 w-full"></div>
         <div className=" px-2.5 absolute z-[2] bottom-2">
           <div className="flex items-center  gap-2 font-mainMedium text-white text-sm tracking-wider">
@@ -107,12 +113,16 @@ export default function MovieCard({
       </div>
       <div className="flex items-start justify-between px-2.5 pr-1 pt-2.5  pb-2.5 group-hover/card:bg-[#ffffff]/10">
         <div className="flex flex-col gap-0.5 case_up uppercase tracking-wide">
-          <p className="text-textHead font-robotoGeoCaps text-[16px] truncate whitespace-normal line-clamp-1">
-            {decodeHtmlEntities(movie.name)}
-          </p>
-          <p className="text-textDesc text-[14px] truncate whitespace-normal line-clamp-1">
-            {decodeHtmlEntities(movie.name_eng)}
-          </p>
+          <Link to={movie_link}>
+            <p className="text-textHead font-robotoGeoCaps text-[16px] truncate whitespace-normal line-clamp-1">
+              {decodeHtmlEntities(movie.name)}
+            </p>
+          </Link>
+          <Link to={movie_link}>
+            <p className="text-textDesc text-[14px] truncate whitespace-normal line-clamp-1">
+              {decodeHtmlEntities(movie.name_eng)}
+            </p>
+          </Link>
         </div>
         <div
           onClick={() => setShowMenu((state) => !state)}
@@ -120,6 +130,20 @@ export default function MovieCard({
         >
           {showMenu && (
             <div className="absolute w-[200px]  bg-bodyBg bottom-12 right-2 z-30 text-sm">
+              <div
+                onClick={() =>
+                  setTrailerLink(movie.trailer ? movie.trailer : "")
+                }
+                className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5"
+              >
+                თრეილერი
+              </div>
+              <div
+                onClick={() => setDetailsId(Number(movie.id))}
+                className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5"
+              >
+                დეტალები
+              </div>
               <div
                 onClick={() => setDetailsId(Number(movie.id))}
                 className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5"

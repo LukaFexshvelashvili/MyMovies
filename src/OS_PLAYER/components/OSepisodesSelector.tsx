@@ -228,7 +228,7 @@ export default function OSepisodesSelector({
         <div className="h-13 shrink-0 w-full bg-[#111111] text-white font-robotoGeoCaps ">
           <div className=" px-3 w-full h-full flex items-center gap-2 ">
             აირჩიე ფლეიერი
-            <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide">
+            <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide  max-mobile:hidden">
               ფილმი
             </span>
           </div>
@@ -252,6 +252,12 @@ export default function OSepisodesSelector({
               }}
             />
           ))}
+        </div>
+        <div
+          onClick={() => closeToggler()}
+          className="flex mobile:hidden h-13 p-3 aspect-square absolute right-0 top-0 text-textHead2"
+        >
+          <CloseIcon />
         </div>
       </div>
     );

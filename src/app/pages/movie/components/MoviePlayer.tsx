@@ -61,7 +61,7 @@ export default function MoviePlayer() {
           <div className="h-full w-full bg-[rgb(40,40,40)]">
             <div className={`w-full h-full overflow-hidden bg-[rgb(40,40,40)]`}>
               <div className="h-13 shrink-0 w-full bg-[#111111] text-[#474747]  ">
-                <div className="animate-pulse  px-3 w-full h-full flex items-center gap-2 ">
+                <div className="animate-pulse px-3 w-full h-full flex items-center gap-2 ">
                   OnService
                   <span className="animate-pulse text-[#363636] text-sm ml-auto">
                     GE

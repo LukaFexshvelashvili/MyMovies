@@ -4,14 +4,14 @@ import {
   RatingStarClearIcon,
 } from "../../../../assets/icons/MyIcons";
 import { SkeletonSection } from "../../../components/Overlays/DetailOverlay";
-import { TMovie, TMovieCard } from "../../../types/MovieTypes";
+import { TMovie } from "../../../types/MovieTypes";
 
 export default function RateMovie(props: {
-  data: { movie: TMovie; similar_movies: TMovieCard[] } | undefined;
+  movie: TMovie | undefined;
   isLoading: boolean;
 }) {
   const [userRating, setUserRating] = useState<number>(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, _] = useState(false);
 
   //   const submitRating = async () => {
   //     if (!userRating || !props.data) return;
@@ -37,7 +37,7 @@ export default function RateMovie(props: {
         <SkeletonSection
           isLoading={props.isLoading}
           placeholder="OS"
-          show={<p>{props.data?.movie.imdb}</p>}
+          show={<p>{props.movie?.imdb}</p>}
         />
         <span className="text-textDesc font-mainRegular tracking-wide">
           (-)

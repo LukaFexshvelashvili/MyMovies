@@ -3,6 +3,25 @@ export function movie_link_generate(nameEng: string) {
     .replace(/ /g, "-")
     .replace(/[ \-.,?!#@/%^*=\[\]_\+<`>'"(){]:;&]/g, "-");
 }
+export function get_type_link(type: string | number) {
+  switch (type) {
+    case 0:
+    case "0":
+      return "movie";
+    case 1:
+    case "1":
+      return "tv-show";
+    case 2:
+    case "2":
+      return "animation";
+    case 3:
+    case "3":
+      return "anime";
+    default:
+      return "movie";
+  }
+}
+
 export function image_resize(url: string | undefined | null): {
   high: string;
   medium: string;

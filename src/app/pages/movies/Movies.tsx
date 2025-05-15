@@ -1,5 +1,4 @@
 import {
-  DropDownIcon,
   SortHorizontalIcon,
   SortVerticalIcon,
 } from "../../../assets/icons/MyIcons";
@@ -13,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { TMovieCard } from "../../types/MovieTypes";
 import RatedMovies from "./components/RatedMovies";
 import { useState } from "react";
-import { fetchMostViews, fetchMovies } from "../../../api/ServerFunctions";
+import { fetchMovies } from "../../../api/ServerFunctions";
 import { useParams, useSearchParams } from "react-router";
 import { TSearchResponse } from "../search/Search";
 
