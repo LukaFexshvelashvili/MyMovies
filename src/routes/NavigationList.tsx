@@ -10,7 +10,7 @@ const RoutesList = {
   mainRoutes: [
     { title: "მთავარი", path: "/", icon: MovieIcon, mobile: true },
     { title: "ფილმები", path: "/movies", icon: MovieIcon },
-    { title: "სერიალები", path: "/tv_shows", icon: TvShowIcon },
+    { title: "სერიალები", path: "/tv-shows", icon: TvShowIcon },
     { title: "ანიმაციები", path: "/animations", icon: AnimationsIcon },
     { title: "ანიმეები", path: "/animes", icon: AnimesIcon },
     { title: "თრეილერები", path: "/trailers", icon: TrailerIcon },

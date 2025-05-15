@@ -6,6 +6,7 @@ import {
   NewsIcon,
   PlayIcon,
   PopularsIcon,
+  TvShowIcon,
 } from "../../../assets/icons/MyIcons";
 import MovieCard, { MovieCardSkeleton } from "../../../components/MovieCard";
 import MainSlider from "./components/MainSlider";
@@ -14,6 +15,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchMoviesList } from "../../../api/ServerFunctions";
 import { TMovieCard } from "../../types/MovieTypes";
 import { useWatchHistory } from "../../store/useWatchHistory";
+import { useState } from "react";
+import { useBreakpoint } from "../../hooks/useBreakpoint";
 
 export type THomeList = {
   watch_history: TMovieCard[];
@@ -103,7 +106,7 @@ export default function Home() {
               isLoading={isLoading}
               list={moviesList?.series}
               clear_skeletons
-              icon={<AnimationsIcon />}
+              icon={<TvShowIcon />}
               title="სერიალები"
               link=""
             />
@@ -145,49 +148,60 @@ function PopularsSection({
   list,
   isLoading,
 }: TPopularsSection) {
+  const [showAll, setShowAll] = useState(false);
+  const isMobile = useBreakpoint(768);
+
+  const visibleList = isMobile && !showAll ? list.slice(0, 3) : list;
+
   return (
     <>
       <div className="flex items-center gap-4 mb-6 case_up">
         <div className="flex items-center gap-3 case_up">
-          <div
-            className={`h-8 aspect-square rounded-[20px] bg-main flex justify-center items-center p-1.5`}
-          >
+          <div className="mobile:h-8 h-8 aspect-square rounded-[20px] bg-main flex justify-center items-center p-[7px] text-white">
             {icon}
           </div>
-          <p className="text-textHead font-mainMedium  text-[17px] tracking-wider">
+          <p className="text-textHead font-mainMedium mobile:text-[17px] text-[15px] tracking-wider">
             {title}
           </p>
-          <div className="flex items-center gap-2.5">
-            <span className="text-textDesc">/</span>
-            <Link
-              to={link}
-              className="text-textDesc font-mainMedium  hover:text-main transition-colors"
-            >
-              ყველა
-            </Link>
-          </div>
+          {link && (
+            <div className="flex items-center gap-2.5">
+              <span className="text-textDesc">/</span>
+              <Link
+                to={link}
+                className="text-textDesc font-mainMedium hover:text-main transition-colors"
+              >
+                ყველა
+              </Link>
+            </div>
+          )}
         </div>
       </div>
+
       <div className="flex gap-5 overflow-x-hidden overflow-y-auto flex-wrap justify-between">
-        {isLoading ? (
-          <>
-            <MovieCardSkeleton small />
-            <MovieCardSkeleton small />
-            <MovieCardSkeleton small />
-            <MovieCardSkeleton small />
-            <MovieCardSkeleton small />
-            <MovieCardSkeleton small />
-            <MovieCardSkeleton small />
-            <MovieCardSkeleton small />
-            <MovieCardSkeleton small />
-            <MovieCardSkeleton small />
-          </>
-        ) : (
-          list.map((movie: TMovieCard) => (
-            <MovieCard key={movie.id} small movie={movie} />
-          ))
-        )}
+        {isLoading
+          ? Array.from({ length: 10 }).map((_, i) => (
+              <MovieCardSkeleton small key={i} />
+            ))
+          : visibleList.map((movie: TMovieCard, i: number) => (
+              <div className="relative" key={movie.id}>
+                <div className="absolute top-0 left-0 text-textHead text-lg font-mainRegular bg-navBg h-9 aspect-square justify-center items-center flex z-10 pointer-events-none select-none">
+                  {i + 1}
+                </div>
+                <MovieCard small movie={movie} />
+              </div>
+            ))}
       </div>
+
+      {!isLoading && isMobile && list.length > 5 && (
+        <div className="mt-4 flex justify-center">
+          <button
+            onClick={() => setShowAll((prev) => !prev)}
+            className="ml-3 h-[36px] w-[170px] text-[15px] text-textHead bg-main cursor-pointer hover:bg-mainHover flex justify-center items-center"
+          >
+            {showAll ? "ნაკლების ჩვენება" : "მეტის ნახვა"}
+          </button>
+        </div>
+      )}
     </>
   );
 }

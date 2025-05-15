@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from "react-router";
 import Navbar from "../components/Navbar";
 import Home from "./pages/home/Home";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Movies from "./pages/movies/Movies";
 import TvShows from "./pages/movies/TvShows";
 import Animations from "./pages/movies/Animations";
@@ -12,6 +12,7 @@ import Search from "./pages/search/Search";
 import UserDataControl from "../components/UserDataControl";
 import Logout from "./pages/Logout";
 import Watch from "./pages/movie/Watch";
+import Footer from "../components/Footer";
 
 function App() {
   const [isDomLoaded, setIsDomLoaded] = useState(false);
@@ -39,7 +40,7 @@ function App() {
           <Route path="search/:search_query" element={<Search />} />
           <Route path="animations" element={<Animations />} />
           <Route path="animes" element={<Animes />} />
-          <Route path="tv_hows" element={<TvShows />} />
+          <Route path="tv-shows" element={<TvShows />} />
           <Route path="movies" element={<Movies />} />
           <Route path="movie/:id/:title" element={<Watch />} />
           <Route path="tv-show/:id/:title" element={<Watch />} />
@@ -47,6 +48,7 @@ function App() {
           <Route path="animation/:id/:title" element={<Watch />} />
         </Route>
       </Routes>
+      <Footer />
     </>
   );
 }
