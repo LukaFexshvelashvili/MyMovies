@@ -226,8 +226,8 @@ export default function OSepisodesSelector({
     return (
       <div className={`w-full h-full overflow-hidden bg-[rgb(40,40,40)]`}>
         <div className="h-13 shrink-0 w-full bg-[#111111] text-white font-robotoGeoCaps ">
-          <div className=" px-3 w-full h-full flex items-center gap-2 ">
-            აირჩიე ფლეიერი
+          <div className=" px-3 w-full h-full flex items-center gap-2 text-[17px]">
+            აირჩიეთ ფლეიერი
             <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide  max-mobile:hidden">
               ფილმი
             </span>
@@ -265,7 +265,7 @@ export default function OSepisodesSelector({
     <div className={`w-full h-full overflow-hidden bg-[rgb(40,40,40)]`}>
       <div className="h-13 shrink-0 w-full bg-[#111111] text-white font-robotoGeoCaps ">
         {activeSection == "seasons" ? (
-          <div className=" px-3 w-full h-full flex items-center gap-2 ">
+          <div className=" px-3 w-full h-full flex items-center gap-2 text-[17px]">
             აირჩიეთ სეზონი{" "}
             <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide max-mobile:hidden">
               {activeSeason
@@ -275,7 +275,7 @@ export default function OSepisodesSelector({
           </div>
         ) : (
           <div
-            className=" px-3 w-full h-full flex items-center gap-2 hover:bg-[#202020] cursor-pointer "
+            className=" px-3 w-full h-full flex items-center gap-2 hover:bg-[#202020] cursor-pointer text-[17px] "
             onClick={() => {
               if (activeSection == "episodes") {
                 setActiveSection("seasons");

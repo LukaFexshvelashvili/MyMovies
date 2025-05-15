@@ -16,7 +16,13 @@ import { fetchMovies } from "../../../api/ServerFunctions";
 import { useParams, useSearchParams } from "react-router";
 import { TSearchResponse } from "../search/Search";
 
-export default function Movies() {
+export default function Movies({
+  type,
+  title,
+}: {
+  type: number;
+  title: string;
+}) {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState<object>({
@@ -24,8 +30,8 @@ export default function Movies() {
     ...Object.fromEntries(searchParams),
   });
   const { data, isPending } = useQuery<TSearchResponse>({
-    queryKey: ["movies", { filters }],
-    queryFn: () => fetchMovies({ types: JSON.stringify([0]), ...filters }),
+    queryKey: ["movies", { filters }, type],
+    queryFn: () => fetchMovies({ types: JSON.stringify([type]), ...filters }),
   });
 
   const [sortCard, setSortCard] = useState<"card" | "wide">("card");
@@ -33,9 +39,9 @@ export default function Movies() {
     <main>
       <div className="bg-[rgb(17,_17,_17)] h-[200px] bg-[url('decorations/background.svg')] bg-no-repeat bg-cover bg-center w-full"></div>
       <RatedMovies
-        title="რჩეული ფილმები"
+        title={"რჩეული " + title}
         image="decorations/movies.png"
-        type={0}
+        type={type}
       />
       <Filters
         type_off

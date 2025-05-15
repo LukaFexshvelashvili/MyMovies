@@ -59,7 +59,7 @@ const StickyPlayerWrapper = ({ children }: Props) => {
       <div
         className={`transition-none flex justify-center items-center ${
           shouldShowSticky
-            ? "fixed mobile:bottom-4 mobile:right-4 mobile:h-52 mobile:translate-0  aspect-video w-[80%] bottom-3 left-2/4 -translate-x-2/4 shadow-lg rounded-lg overflow-hidden bg-black z-70"
+            ? "fixed mobile:bottom-4 mobile:right-4 mobile:h-56 mobile:translate-0 mobile:w-auto mobile:left-[unset]  aspect-video w-[80%] bottom-3 left-2/4 -translate-x-2/4 shadow-lg rounded-lg overflow-hidden bg-black z-70"
             : "relative h-full w-full"
         }`}
       >

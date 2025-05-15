@@ -318,6 +318,33 @@ export const EpisodeSelectorIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </g>
   </svg>
 );
+export const SliderRightArrowIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    width="19"
+    height="12"
+    viewBox="0 0 19 12"
+    {...props}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M11.5 4H0V8H11.5V12L18 6L11.5 0V4Z"
+      transform="translate(0.5)"
+      fill="currentColor"
+    ></path>
+  </svg>
+);
+export const SliderLeftArrowIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="12"
+    {...props}
+    fill="none"
+  >
+    <path fill="currentColor" d="M6.5 4H18v4H6.5v4L0 6l6.5-6v4z"></path>
+  </svg>
+);
 export const CensoredContentIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 296 60" height="31" {...props}>
     <path

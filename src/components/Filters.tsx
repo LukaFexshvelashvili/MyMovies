@@ -109,7 +109,7 @@ export default function Filters(props: {
           showFilters
             ? "visible opacity-100"
             : "invisible opacity-0 filterChange:visible filterChange:opacity-100"
-        } flex flex-col filterChange:relative z-50 fixed top-0 left-0 h-[100dvh] w-full filterChange:h-auto filterChange:bg-transparent bg-black/90`}
+        } flex flex-col filterChange:relative mobile:z-10 z-50 fixed top-0 left-0 h-[100dvh] w-full filterChange:h-auto filterChange:bg-transparent bg-black/90`}
       >
         <div className="filterChange:bg-[#292929] w-full filterChange:h-[60px] h-full ">
           <div className="my_container flex h-full items-center flex-col filterChange:flex-row gap-5 justify-center">

@@ -38,10 +38,16 @@ function App() {
           <Route index element={<Home />} />
           <Route path="logout" element={<Logout />} />
           <Route path="search/:search_query" element={<Search />} />
-          <Route path="animations" element={<Animations />} />
-          <Route path="animes" element={<Animes />} />
-          <Route path="tv-shows" element={<TvShows />} />
-          <Route path="movies" element={<Movies />} />
+          <Route path="movies" element={<Movies type={0} title="ფილმები" />} />
+          <Route
+            path="tv-shows"
+            element={<Movies type={1} title="სერიალები" />}
+          />
+          <Route
+            path="animations"
+            element={<Movies type={2} title="ანიმაციები" />}
+          />
+          <Route path="animes" element={<Movies type={3} title="ანიმეები" />} />
           <Route path="movie/:id/:title" element={<Watch />} />
           <Route path="tv-show/:id/:title" element={<Watch />} />
           <Route path="anime/:id/:title" element={<Watch />} />
