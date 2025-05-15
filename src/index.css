@@ -38,7 +38,7 @@
   --spacing-navHeight: 54px;
   --breakpoint-992: 992px;
   --breakpoint-mobile: 768px;
-  --breakpoint-os_player_mobile: 768px;
+  --breakpoint-os_player_mobile: 850px;
   --breakpoint-medium: 1200px;
   --breakpoint-filterChange: 1400px;
 }

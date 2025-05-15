@@ -97,7 +97,7 @@ export default function VideoContainer() {
 
             {/* BOTTOM CONTROLS */}
             <div
-              className={`absolute w-full bottom-0  h-[53px]  px-4.5 max-os_player_mobile:px-2 flex justify-center transition-[opacity,visibility] z-[5] ${
+              className={`absolute w-full bottom-0  h-[53px]  px-4.5 max-os_player_mobile:px-3 flex justify-center transition-[opacity,visibility] z-[5] ${
                 showControls ? "opacity-100 visible" : "invisible opacity-0"
               }`}
             >

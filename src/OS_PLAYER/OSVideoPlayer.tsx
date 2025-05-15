@@ -94,6 +94,24 @@ export default function OSVideoPlayer({
       handleVideoEvents(videoRef.current);
     }
   }, [videoRef.current]);
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isFullscreen = !!document.fullscreenElement;
+      setFullscreen(isFullscreen);
+
+      if (!isFullscreen) {
+        try {
+          (screen.orientation as any).unlock();
+        } catch (e) {}
+      }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
 
   const play = () => {
     videoRef.current?.play();

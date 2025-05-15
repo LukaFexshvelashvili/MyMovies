@@ -3,9 +3,6 @@ import Navbar from "../components/Navbar";
 import Home from "./pages/home/Home";
 import { useEffect, useState } from "react";
 import Movies from "./pages/movies/Movies";
-import TvShows from "./pages/movies/TvShows";
-import Animations from "./pages/movies/Animations";
-import Animes from "./pages/movies/Animes";
 import Overlays from "./components/Overlays/Overlays";
 import Search from "./pages/search/Search";
 

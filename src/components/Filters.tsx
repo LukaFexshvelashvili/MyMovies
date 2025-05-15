@@ -309,7 +309,7 @@ function FilterBlock({
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="flex-1 w-full overflow-auto flex flex-col select-none">
+        <div className="flex-1 w-full overflow-auto flex flex-col select-none custom_scrollbar">
           {filteredList.map((item, i) => (
             <div
               className="flex items-center gap-3 cursor-pointer bg-white/0 hover:bg-white/5 px-3 py-2"
