@@ -136,13 +136,13 @@ function EpisodeSkeleton() {
         <div className="absolute z-[1] h-full w-full top-0 left-0"></div>
         <div className="absolute h-[70px] w-[120px] object-cover  top-0 left-0" />
         <div
-          className={`animate-pulse absolute bottom-0 left-0 h-7 px-2.5  flex justify-center items-center text-[#474747]   text-[15px] font-os_semibold`}
+          className={`animate-pulse absolute bottom-0 left-0 h-7 px-2.5  flex justify-center items-center text-[#474747]   text-[15px] font-blockfont`}
         >
           11
         </div>
       </div>
       <div className="flex flex-col py-0.5 h-full gap-2">
-        <p className="animate-pulse  uppercase font-os_regular text-[#474747] text-xl">
+        <p className="animate-pulse  uppercase font-blockfont text-[#474747] text-xl">
           EPISODE_NAME
         </p>
         <div className="flex gap-2">

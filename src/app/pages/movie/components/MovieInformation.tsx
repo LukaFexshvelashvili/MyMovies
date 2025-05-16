@@ -38,9 +38,7 @@ export default function MovieInformation({
                      font-mainRegular tracking-wider text-textDescLight2  mobile:hidden"
                 >
                   {decodeHtmlEntities(
-                    movie?.description
-                      ? movie?.description
-                      : "MOVIE_DESCRIPTION"
+                    movie?.description ? movie?.description : ""
                   )}
                 </p>
               }
@@ -56,9 +54,7 @@ export default function MovieInformation({
                   <h1
                     className={`text-[21px] font-robotoGeoCaps tracking-wider text-textHead`}
                   >
-                    {decodeHtmlEntities(
-                      movie?.name ? movie.name : "MOVIE_NAME"
-                    )}
+                    {decodeHtmlEntities(movie?.name ? movie.name : "")}
                   </h1>
                 }
               />
@@ -68,9 +64,7 @@ export default function MovieInformation({
                 show={
                   <h2 className="text-textDesc uppercase text-[18px]">
                     {decodeHtmlEntities(
-                      movie?.name_eng
-                        ? movie.name_eng + ` (${movie.year})`
-                        : "MOVIE_NAME"
+                      movie?.name_eng ? movie.name_eng + ` (${movie.year})` : ""
                     )}
                   </h2>
                 }
@@ -115,9 +109,7 @@ export default function MovieInformation({
                      font-mainRegular tracking-wider text-textDescLight2"
                   >
                     {decodeHtmlEntities(
-                      movie?.description
-                        ? movie?.description
-                        : "MOVIE_DESCRIPTION"
+                      movie?.description ? movie?.description : ""
                     )}
                   </p>
                 }

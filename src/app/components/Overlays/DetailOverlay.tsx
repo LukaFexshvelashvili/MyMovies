@@ -2,8 +2,13 @@ import useDetailsOverlay from "../../store/useDetailsOverlay";
 import { fetchMovie } from "../../../api/ServerFunctions";
 import { useQuery } from "@tanstack/react-query";
 import { TMovie, TMovieCard } from "../../types/MovieTypes";
-import { IMDbIcon, RatingStarClearIcon } from "../../../assets/icons/MyIcons";
-import { decodeHtmlEntities } from "../../hooks/Customs";
+import {
+  CloseIcon,
+  IMDbIcon,
+  RatingStarClearIcon,
+} from "../../../assets/icons/MyIcons";
+import { decodeHtmlEntities, image_resize } from "../../hooks/Customs";
+import { MovieSkeletonSection } from "../../pages/movie/Watch";
 
 export default function DetailsOverlay() {
   const { detailsId, setDetailsId } = useDetailsOverlay();
@@ -15,12 +20,18 @@ export default function DetailsOverlay() {
         onClick={() => setDetailsId(null)}
         className="absolute top-0 left-0 h-full w-full z-0 bg-black/50"
       ></div>
-      <GetDetails movieId={detailsId} />
+      <GetDetails movieId={detailsId} closeDetails={() => setDetailsId(null)} />
     </div>
   );
 }
 
-function GetDetails({ movieId }: { movieId: number }) {
+function GetDetails({
+  movieId,
+  closeDetails,
+}: {
+  movieId: number;
+  closeDetails: Function;
+}) {
   const { data, isLoading } = useQuery<{
     movie: TMovie;
     similar_movies: TMovieCard[];
@@ -33,14 +44,22 @@ function GetDetails({ movieId }: { movieId: number }) {
   const addons = data?.movie.addons ? JSON.parse(data.movie.addons) : [];
 
   return (
-    <div className="relative bg-bodyBg aspect-video w-full max-w-[900px] p-3 ">
-      <div className="flex items-stretch gap-5 overflow-hidden">
-        <div className="w-[240px] flex flex-col shrink-0 gap-3">
+    <div className="relative bg-bodyBg aspect-video w-[94%] max-w-[900px] p-3 ">
+      <div className="flex items-stretch gap-5 overflow-hidden ">
+        <div
+          onClick={() => closeDetails()}
+          className="absolute right-2  text-lg text-textHead2 h-8 aspect-square z-20 cursor-pointer rounded-[20px] bg-white/10 hover:bg-white/15 p-1 transition-colors"
+        >
+          <CloseIcon />
+        </div>
+        <div className="w-[240px]  flex-col shrink-0 gap-3 hidden mobile:flex relative z-10">
           <div className="aspect-[2/3] w-full bg-[rgb(37,37,37)]">
-            <img
-              src={"https://cdn.moviesgo.ge/" + data?.movie.poster_url}
-              alt=""
-            />
+            {data && (
+              <img
+                src={"https://cdn.moviesgo.ge/" + data?.movie.poster_url}
+                alt={data ? data.movie.name + " | " + data.movie.name_eng : ""}
+              />
+            )}
           </div>
           <div className="py-3.5 px-3 text-textDesc bg-[rgb(37,37,37)] flex flex-col gap-3 text-sm">
             <p>რეიტინგი</p>
@@ -73,18 +92,25 @@ function GetDetails({ movieId }: { movieId: number }) {
             </div>
           </div>
         </div>
-        <div className="flex-1 flex flex-col gap-1 overflow-hidden">
-          <div className="flex flex-col gap-1 tracking-wider">
+        <div className="mobile:flex-1 flex flex-col gap-1 overflow-hidden">
+          <div className="z-0 absolute top-0 left-0 w-full before:content-[''] before:absolute before:top-0 before:left-0 before:bg-gradient-to-t before:from-bodyBg before:to-bodyBg/70 before:h-full before:w-full">
+            {data && (
+              <img
+                src={image_resize(data?.movie.thumbnail_url).medium}
+                className="h-full w-full object-cover "
+                alt={data.movie.name + " | " + data.movie.name_eng}
+              />
+            )}
+          </div>
+          <div className="flex flex-col gap-1 tracking-wider relative">
             <SkeletonSection
               isLoading={isLoading}
               placeholder="Garfie"
               show={
                 <h1
-                  className={`text-[21px] font-robotoGeoCaps tracking-wider text-textHead line-clamp-2`}
+                  className={`mobile:text-[21px] text-[19px]  font-robotoGeoCaps tracking-wider text-textHead line-clamp-2`}
                 >
-                  {decodeHtmlEntities(
-                    data?.movie.name ? data.movie.name : "MOVIE_NAME"
-                  )}
+                  {decodeHtmlEntities(data?.movie.name ? data.movie.name : "")}
                 </h1>
               }
             />
@@ -92,15 +118,15 @@ function GetDetails({ movieId }: { movieId: number }) {
               isLoading={isLoading}
               placeholder="Garfield"
               show={
-                <h2 className="text-textDesc uppercase text-[18px] line-clamp-2">
+                <h2 className="text-white/50 uppercase mobile:text-[18px] text-[17px]  line-clamp-2">
                   {decodeHtmlEntities(
-                    data?.movie.name_eng ? data.movie.name_eng : "MOVIE_NAME"
+                    data?.movie.name_eng ? data.movie.name_eng : ""
                   )}
                 </h2>
               }
             />
           </div>
-          <div className="flex gap-2.5 text-white/40 mt-1 text-[14px]">
+          <div className="flex gap-2.5 text-white/40 mt-1 text-[14px] relative">
             <SkeletonSection
               isLoading={isLoading}
               placeholder="Garfi"
@@ -137,104 +163,16 @@ function GetDetails({ movieId }: { movieId: number }) {
             show={
               <p
                 className="`mt-2  text-[15px]  leading-6.5 
-                           font-mainRegular tracking-wider text-textDescLight2  w-full line-clamp-6"
+                           font-mainRegular tracking-wider text-textDescLight2  w-full line-clamp-6 relative"
               >
                 {decodeHtmlEntities(
-                  data?.movie.description
-                    ? data?.movie.description
-                    : "MOVIE_DESCRIPTION"
+                  data?.movie.description ? data?.movie.description : ""
                 )}
               </p>
             }
           />
 
-          <div className="flex items-start gap-5 mt-5">
-            <div className="flex flex-col gap-0.5 [&>p]:h-[32px] [&>p]:flex [&>p]:items-center [&>p]:text-[15px] [&>p]:text-white/40 text-start">
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="OnServ"
-                show={<p>წელი:</p>}
-              />
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="OnServ"
-                show={<p>ხანგრძლივობა:</p>}
-              />
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="OnServ"
-                show={<p>ქვეყანა:</p>}
-              />
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="OnServ"
-                show={<p>სტუდია:</p>}
-              />
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="OnServ"
-                show={<p>ჟანრი:</p>}
-              />{" "}
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="OnServ"
-                show={<p>რეჟისორი:</p>}
-              />
-            </div>
-            <div className="flex flex-col gap-0.5 [&>p]:h-auto [&>p]:min-h-[32px] [&>p]:flex [&>p]:items-center [&>p]:text-[14px] [&>p]:text-white/70 uppercase">
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="Luka"
-                show={<p>{data?.movie.year}</p>}
-              />
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="Was"
-                show={<p>- წუთი</p>}
-              />
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="Here"
-                show={<p>- წუთი</p>}
-              />
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="OnService"
-                show={<p>{data?.movie.country}</p>}
-              />
-
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="OnService"
-                show={
-                  <>
-                    <p className="flex flex-wrap gap-3">
-                      {data?.movie.genres
-                        ? JSON.parse(data.movie.genres).map(
-                            (genre: string, index: number) => (
-                              <a
-                                href=""
-                                key={index}
-                                className="py-1 flex items-center px-3 bg-white/5 cursor-pointer text-white/50 hover:bg-white/10 hover:text-main transition-colors"
-                              >
-                                {genre}
-                              </a>
-                            )
-                          )
-                        : null}
-                    </p>
-                  </>
-                }
-              />
-              <SkeletonSection
-                isLoading={isLoading}
-                placeholder="Digital"
-                show={
-                  <p>{decodeHtmlEntities(data ? data.movie.creator : "")}</p>
-                }
-              />
-            </div>
-          </div>
+          <MovieDetailsOverlay movie={data?.movie} isLoading={isLoading} />
         </div>
       </div>
     </div>
@@ -257,5 +195,142 @@ export function SkeletonSection(props: {
         props.show
       )}
     </>
+  );
+}
+
+export function MovieDetailsOverlay({
+  movie,
+  isLoading,
+}: {
+  movie: TMovie | undefined;
+  isLoading: boolean;
+}) {
+  return (
+    <div className="flex items-start gap-5 mt-5 relative">
+      <div className="flex flex-col  gap-1  text-end">
+        <div className="flex gap-4">
+          <div className="mobile:flex-1 key text-white/40">
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="OnSe"
+              show={<p>წელი:</p>}
+            />
+          </div>
+          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+            {" "}
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="Luka"
+              show={<p>{movie?.year}</p>}
+            />
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <div className="mobile:flex-1 key text-white/40">
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="OnService"
+              show={<p>ხანგრძლივობა:</p>}
+            />
+          </div>
+          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+            {" "}
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="Was"
+              show={<p>- წუთი</p>}
+            />
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <div className="mobile:flex-1 key text-white/40">
+            {" "}
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="OnServi"
+              show={<p>ქვეყანა:</p>}
+            />
+          </div>
+          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+            {" "}
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="OnService"
+              show={<p>{movie?.country}</p>}
+            />
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <div className="mobile:flex-1 key text-white/40">
+            {" "}
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="OnServic"
+              show={<p>სტუდია:</p>}
+            />
+          </div>
+          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+            {" "}
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="Here"
+              show={<p>- </p>}
+            />
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <div className="mobile:flex-1 key text-white/40">
+            {" "}
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="OnServ"
+              show={<p>ჟანრი:</p>}
+            />
+          </div>
+          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+            {" "}
+            <p className="flex gap-3 flex-wrap !h-auto">
+              <MovieSkeletonSection
+                isLoading={isLoading}
+                placeholder="OnService Luka Fexshvelashvili"
+                show={
+                  movie?.genres
+                    ? JSON.parse(movie.genres).map(
+                        (genre: string, index: number) => (
+                          <a
+                            href=""
+                            key={index}
+                            className="py-1 flex items-center px-3 bg-white/5 cursor-pointer text-white/50 hover:bg-white/10 hover:text-main transition-colors"
+                          >
+                            {genre}
+                          </a>
+                        )
+                      )
+                    : null
+                }
+              />
+            </p>
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <div className="mobile:flex-1 key text-white/40 ">
+            {" "}
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="OnService"
+              show={<p>რეჟისორი:</p>}
+            />
+          </div>
+          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+            {" "}
+            <MovieSkeletonSection
+              isLoading={isLoading}
+              placeholder="OS Digital"
+              show={<p>{movie?.creator}</p>}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

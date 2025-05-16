@@ -194,17 +194,17 @@ export default function OStimeline() {
       ref={timeline}
     >
       {/* Background track */}
-      <div className="absolute w-full h-[5px] bg-white/10 "></div>
+      <div className="absolute w-full h-[4px] bg-white/10 "></div>
 
       {/* Hover preview track */}
       <div
         ref={timeline_helper}
-        className="h-[5px] bg-[#dfdfdf38] pointer-events-none"
+        className="h-[4px] bg-[#dfdfdf38] pointer-events-none"
       ></div>
 
       {/* Progress track */}
       <div
-        className="absolute flex items-center h-[5px] bg-main pointer-events-none before:content-[''] before:absolute before:right-0 before:translate-x-2/4 before:shadow-lg before:pointer-events-none before:scale-0 before:transition-transform group-hover:before:scale-100 before:h-3 before:aspect-square before:rounded-[50%] before:bg-main"
+        className="absolute flex items-center h-[4px] bg-main pointer-events-none before:content-[''] before:absolute before:right-0 before:translate-x-2/4 before:shadow-lg before:pointer-events-none before:scale-0 before:transition-transform group-hover:before:scale-100 before:h-3 before:aspect-square before:rounded-[50%] before:bg-main"
         ref={percentageRef}
       ></div>
 

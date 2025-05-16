@@ -79,7 +79,7 @@ export default function Watch() {
                         className={`text-[17px] font-robotoGeoCaps tracking-wider text-textHead`}
                       >
                         {decodeHtmlEntities(
-                          data?.movie.name ? data.movie.name : "MOVIE_NAME"
+                          data?.movie.name ? data.movie.name : ""
                         )}
                       </h1>
                     }
@@ -92,7 +92,7 @@ export default function Watch() {
                         {decodeHtmlEntities(
                           data?.movie.name_eng
                             ? data.movie.name_eng + ` (${data.movie.year})`
-                            : "MOVIE_NAME"
+                            : ""
                         )}
                       </h2>
                     }
@@ -107,7 +107,7 @@ export default function Watch() {
             </div>
           </div>
         </section>
-        <div className="mobile:hidden flex w-full overflow-x-auto bg-navBg h-[40px] sticky top-[98px] z-10">
+        <div className="mobile:hidden flex w-full overflow-x-auto bg-navBg h-[40px] sticky top-[98px] z-10 no_scrollbar">
           {optionList.map((option) => (
             <button
               onClick={() => setActiveOption(option.id)}

@@ -255,7 +255,7 @@ export default function OSepisodesSelector({
         </div>
         <div
           onClick={() => closeToggler()}
-          className="flex mobile:hidden h-13 p-3 aspect-square absolute right-0 top-0 text-textHead2"
+          className="flex mobile:hidden h-13 p-3 aspect-square absolute right-0 top-0 text-textHead2 cursor-pointer"
         >
           <CloseIcon />
         </div>
@@ -292,14 +292,14 @@ export default function OSepisodesSelector({
         )}
         <div
           onClick={() => closeToggler()}
-          className="flex mobile:hidden h-13 p-3 aspect-square absolute right-0 top-0 text-textHead2"
+          className="flex mobile:hidden h-13 p-3 aspect-square absolute right-0 top-0 text-textHead2 cursor-pointer"
         >
           <CloseIcon />
         </div>
       </div>
       <div
         ref={episodesList}
-        className={`w-full h-[calc(100%-52px)] overflow-y-auto ${
+        className={`w-full h-[calc(100%-52px)] overflow-y-auto custom_scrollbar ${
           activeSection == "seasons" ? "hidden" : ""
         }`}
       >

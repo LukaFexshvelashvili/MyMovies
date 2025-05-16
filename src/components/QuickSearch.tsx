@@ -113,7 +113,7 @@ function QuickSearchAction({ closeSearch }: { closeSearch: Function }) {
         </form>
         <div
           onClick={() => closeSearch()}
-          className="absolute right-2  text-lg text-textDescDark2 h-6 aspect-square"
+          className="absolute right-2  text-lg text-textDescDark2 h-6 aspect-square cursor-pointer"
         >
           <CloseIcon />
         </div>
