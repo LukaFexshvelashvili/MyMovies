@@ -49,7 +49,7 @@ export default function MovieCard({
   };
   const movie_link = `/${get_type_link(movie.type)}/${
     movie.id
-  }/${movie_link_generate(movie.name_eng)}`;
+  }/${movie_link_generate(decodeHtmlEntities(movie.name_eng))}`;
   return (
     <div
       className={` ${
@@ -233,7 +233,9 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
       });
     }
   };
-
+  const movie_link = `/${get_type_link(movie.type)}/${
+    movie.id
+  }/${movie_link_generate(decodeHtmlEntities(movie.name_eng))}`;
   return (
     <div
       className={` w-full group/card duration-200 cursor-pointer transition-colors shrink-0 flex gap-5 px-4 py-5  bg-white/0 hover:bg-black/15`}
@@ -242,7 +244,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
         <div className="top-0 right-0 color-white absolute text-[13px] flex group-hover/card:opacity-0  pointer-events-none"></div>
         <div className="h-full w-full absolute top-0 left-0  pointer-events-none group-hover/card:pointer-events-auto opacity-0 group-hover/card:opacity-100 z-10">
           <Link
-            to={`/movie/${movie.id}/${movie_link_generate(movie.name_eng)}`}
+            to={movie_link}
             className="h-full w-full top-0 left-0 bg-[rgba(0,0,0,0.5)] absolute"
           ></Link>
           <div className="absolute gap-1 top-1.5 right-1.5 flex items-center">

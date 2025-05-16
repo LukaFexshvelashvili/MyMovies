@@ -9,6 +9,7 @@ import { GoBackIcon } from "./OsIcons";
 import useOSPlayer from "./useOSPlayer";
 import { TEpisode, TplayerSettings } from "../OSVideoPlayer";
 import { CloseIcon } from "../../assets/icons/MyIcons";
+import { decodeHtmlEntities } from "../../app/hooks/Customs";
 
 type Tstorage = {
   id: number | string;
@@ -417,7 +418,9 @@ function EpisodeSkin({
         </div>
       </div>
       <div className="flex flex-col py-0.5 h-full gap-2">
-        <p className="text-[14px]  uppercase font-os_regular">{source.title}</p>
+        <p className="text-[14px]  uppercase font-os_regular">
+          {decodeHtmlEntities(source.title ? source.title : "")}
+        </p>
         <div className="flex gap-2">
           {isGeo && (
             <div

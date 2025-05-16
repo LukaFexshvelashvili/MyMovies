@@ -38,7 +38,7 @@ export default function MovieSettings({
   };
   return (
     <div className="flex justify-between items-center">
-      <div className="flex items-center mobile:gap-3 gap-2 mobile:py-4 py-3 select-none">
+      <div className="flex items-center mobile:gap-3 gap-2 mobile:py-3 py-3 select-none">
         <div
           onClick={() =>
             addAlert({
@@ -51,7 +51,7 @@ export default function MovieSettings({
           <SkeletonSection
             isLoading={isLoading}
             placeholder="OS"
-            show={<HeartIcon height={16} className="text-icon" />}
+            show={<HeartIcon height={16} className="text-white/90" />}
           />
         </div>
         <div
@@ -66,7 +66,9 @@ export default function MovieSettings({
               <BookmarkIcon
                 height={16}
                 className={`${
-                  !bookmarks.includes(Number(id)) ? "text-icon" : "text-main"
+                  !bookmarks.includes(Number(id))
+                    ? "text-white/90"
+                    : "text-main"
                 }`}
               />
             }
@@ -80,11 +82,11 @@ export default function MovieSettings({
           <SkeletonSection
             isLoading={isLoading}
             placeholder="OS"
-            show={<WarningIcon height={16} className="text-icon" />}
+            show={<WarningIcon height={16} className="text-white/90" />}
           />
         </div>
       </div>
-      <div className="flex items-center gap-3 mobile:hidden tracking-wider text-icon text-[15px] font-robotoGeoCaps">
+      <div className="flex items-center gap-3 mobile:hidden tracking-wider text-white/90 text-[15px] font-robotoGeoCaps">
         <SkeletonSection
           isLoading={isLoading}
           placeholder="OS GE"

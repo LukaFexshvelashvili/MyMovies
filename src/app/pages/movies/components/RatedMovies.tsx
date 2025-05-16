@@ -80,7 +80,7 @@ export default function RatedMovies(props: {
                     slidesPerView: 3.6,
                   },
                   "1680": {
-                    slidesPerView: 4.3,
+                    slidesPerView: 4.5,
                   },
                 }}
               >

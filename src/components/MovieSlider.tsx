@@ -42,7 +42,7 @@ export default function MovieSlider({
           </div>
         )}
       </div>
-      <div className="flex gap-5 overflow-x-hidden overflow-y-auto">
+      <div className="flex gap-5 overflow-x-hidden overflow-y-auto ">
         {isLoading ? (
           <>
             <MovieCardSkeleton bg_clear={clear_skeletons} />
@@ -60,6 +60,7 @@ export default function MovieSlider({
             watchOverflow={true}
             resistanceRatio={0}
             slidesOffsetAfter={10}
+            className="w-full"
             breakpoints={{
               "600": {
                 slidesPerView: 1.9,
@@ -79,7 +80,7 @@ export default function MovieSlider({
             }}
           >
             {list.map((movie: TMovieCard) => (
-              <SwiperSlide key={movie.id} className="max-mobile:!w-[290px]">
+              <SwiperSlide key={movie.id} className="max-mobile:!w-[290px] ">
                 <MovieCard movie={movie} />
               </SwiperSlide>
             ))}
