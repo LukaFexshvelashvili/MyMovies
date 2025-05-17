@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideMenu from "./SideMenu";
 import { Link, useLocation } from "react-router";
 import QuickSearch from "./QuickSearch";
-import { useEffectSkipFirst } from "../app/hooks/useEffectSkipFirst";
 import { BookmarkIcon, ContinueWatchIcon } from "../assets/icons/MyIcons";
 import useOverlayStore from "../app/store/useOverlay";
 import useUser from "../app/store/useUser";
@@ -16,7 +15,7 @@ export default function Navbar() {
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const { setAuthOverlay } = useOverlayStore();
   const location = useLocation();
-  useEffectSkipFirst(() => {
+  useEffect(() => {
     setShowSearch(false);
     setShowMenu(false);
     setHistoryOverlay(false);

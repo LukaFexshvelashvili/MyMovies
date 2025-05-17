@@ -49,7 +49,6 @@ export default function Home() {
             list={moviesList?.watch_history}
             icon={<ContinueWatchIcon />}
             title="განაგრძე ყურება"
-            link=""
           />
         </div>
         <div className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/background.svg')] bg-no-repeat bg-cover bg-center">
@@ -60,7 +59,6 @@ export default function Home() {
               clear_skeletons
               icon={<NewsIcon />}
               title="ახალი დამატებული"
-              link=""
             />
           </div>
         </div>
@@ -69,7 +67,6 @@ export default function Home() {
             isLoading={isLoading}
             icon={<PopularsIcon />}
             title="პოპულარული"
-            link=""
             list={moviesList?.populars ? moviesList.populars : []}
           />
         </div>
@@ -84,7 +81,7 @@ export default function Home() {
               clear_skeletons
               icon={<AnimesIcon />}
               title="ანიმეები"
-              link=""
+              link="/animes"
             />
           </div>
         </div>
@@ -108,7 +105,7 @@ export default function Home() {
               clear_skeletons
               icon={<TvShowIcon />}
               title="სერიალები"
-              link=""
+              link="/tv-shows"
             />
           </div>
         </div>
@@ -123,7 +120,7 @@ export default function Home() {
               clear_skeletons
               icon={<AnimationsIcon />}
               title="ანიმაციები"
-              link=""
+              link="/animations"
             />
           </div>
         </div>
@@ -137,7 +134,7 @@ export default function Home() {
 type TPopularsSection = {
   title: string;
   icon: React.ReactNode;
-  link: string;
+  link?: string;
   list: TMovieCard[];
   isLoading: boolean;
 };

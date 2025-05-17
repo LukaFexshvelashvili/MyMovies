@@ -42,6 +42,7 @@
   --breakpoint-medium: 1200px;
   --breakpoint-filterChange: 1400px;
 }
+
 @font-face {
   font-family: blockfont;
   src: url("/fonts/blockfont.woff2");

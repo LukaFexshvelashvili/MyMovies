@@ -238,9 +238,9 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
   }/${movie_link_generate(decodeHtmlEntities(movie.name_eng))}`;
   return (
     <div
-      className={` w-full group/card duration-200 cursor-pointer transition-colors shrink-0 flex gap-5 px-4 py-5  bg-white/0 hover:bg-black/15`}
+      className={` w-full group/card duration-200 cursor-pointer transition-colors shrink-0 flex gap-5 max-mobile:gap-3 max-mobile:px-2 px-4 py-5  bg-white/0 hover:bg-black/15`}
     >
-      <div className="relative w-[300px] min-h-[170px] shrink-0 aspect-video bg-[#3b3b3b]">
+      <div className="relative mobile:w-[300px] w-[120px] min-h-[170px] shrink-0 mobile:aspect-video aspect-[3/4] bg-[#3b3b3b]">
         <div className="top-0 right-0 color-white absolute text-[13px] flex group-hover/card:opacity-0  pointer-events-none"></div>
         <div className="h-full w-full absolute top-0 left-0  pointer-events-none group-hover/card:pointer-events-auto opacity-0 group-hover/card:opacity-100 z-10">
           <Link
@@ -264,17 +264,29 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
             </div>
           </div>
         </div>
-        <img
-          src={image_resize(movie.thumbnail_url).small}
-          alt={movie.name + " | " + movie.name_eng}
-          srcSet={`${image_resize(movie.thumbnail_url).small} 480w,
+
+        <Link to={movie_link}>
+          <img
+            src={image_resize(movie.thumbnail_url).small}
+            alt={movie.name + " | " + movie.name_eng}
+            srcSet={`${image_resize(movie.thumbnail_url).small} 480w,
           ${image_resize(movie.thumbnail_url).small} 780w,
           ${image_resize(movie.thumbnail_url).small} 1200w`}
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
-        <div className="bg-gradient-to-t from-[rgba(0,0,0,0.85)] to-transparent absolute bottom-0 left-0 h-2/4 w-full"></div>
-        <div className=" px-2.5 absolute z-[2] bottom-2">
+            loading="lazy"
+            className="h-full w-full object-cover hidden mobile:block"
+          />
+          <img
+            src={image_resize(movie.poster_url).small}
+            alt={movie.name + " | " + movie.name_eng}
+            srcSet={`${image_resize(movie.poster_url).small} 480w,
+          ${image_resize(movie.poster_url).small} 780w,
+          ${image_resize(movie.poster_url).small} 1200w`}
+            loading="lazy"
+            className="h-full w-full object-cover block mobile:hidden"
+          />
+        </Link>
+        <div className="bg-gradient-to-t from-[rgba(0,0,0,0.85)] to-transparent absolute bottom-0 left-0 h-2/4 w-full hidden mobile:block"></div>
+        <div className=" px-2.5 absolute z-[2] bottom-2 hidden mobile:block">
           <div className="flex items-center gap-2 font-mainMedium text-white text-sm tracking-wider">
             <IMDbIcon className="w-[40px] h-[18px]" />
             {movie.imdb ? parseFloat(movie.imdb).toFixed(1) : "0.0"}
@@ -282,12 +294,14 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
         </div>
       </div>
       <div className="flex flex-col gap-2 w-full">
-        <div className="flex flex-col gap-0.5 case_up uppercase tracking-wide">
+        <div className="flex flex-col gap-0.5 case_up uppercase tracking-wide ">
           <div className="flex justify-between">
-            <p className="text-textHead font-robotoGeoCaps text-[16px]">
-              {decodeHtmlEntities(movie.name)}
-            </p>
-            <div className="flex gap-2 text-white/40 mt-1 text-[14px]">
+            <Link to={movie_link}>
+              <p className="text-textHead font-robotoGeoCaps text-[16px]">
+                {decodeHtmlEntities(movie.name)}
+              </p>
+            </Link>
+            <div className="mobile:flex hidden gap-2 text-white/40 mt-1 text-[14px]">
               {addons.includes("ქართულად") && (
                 <div className="language">ქართულად</div>
               )}
@@ -296,16 +310,17 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
               )}
             </div>
           </div>
-
-          <p className="text-textDesc text-[14px]">
-            {decodeHtmlEntities(movie.name_eng)}
-          </p>
+          <Link to={movie_link}>
+            <p className="text-textDesc text-[14px]">
+              {decodeHtmlEntities(movie.name_eng)}
+            </p>{" "}
+          </Link>
         </div>
-        <p className="text-textDescLight text-[15px] mt-0.5 max-h-[100px] truncate whitespace-normal line-clamp-3">
+        <p className="text-textDescLight text-[15px] mt-0.5 max-h-[100px] truncate whitespace-normal line-clamp-3 max-mobile:text-[14px]">
           {movie.description}
         </p>{" "}
-        <div className="flex items-center justify-between  mt-auto">
-          <div className="flex gap-2 flex-wrap">
+        <div className="flex items-center justify-between max-mobile:justify-end mt-auto">
+          <div className="flex gap-2 flex-wrap max-mobile:hidden">
             {genres.map((genre: string) => (
               <div
                 key={genre}
@@ -315,7 +330,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
               </div>
             ))}
           </div>
-          <div className="flex items-center gap-2 ">
+          <div className="flex items-center gap-2  ">
             {/* <div
               onClick={(e) => HeartMovie(e)}
               className="h-[34px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
@@ -335,6 +350,10 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
                     : "text-main"
                 } `}
               />
+            </div>
+            <div className="flex items-center gap-2 font-mainMedium text-white text-sm tracking-wider   mobile:hidden">
+              {movie.imdb ? parseFloat(movie.imdb).toFixed(1) : "0.0"}
+              <IMDbIcon className="w-[40px] h-[18px]" />
             </div>
           </div>
         </div>

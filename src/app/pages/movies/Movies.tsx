@@ -37,7 +37,7 @@ export default function Movies({
   const [sortCard, setSortCard] = useState<"card" | "wide">("card");
   return (
     <main>
-      <div className="bg-[rgb(17,_17,_17)] h-[200px] bg-[url('decorations/background.svg')] bg-no-repeat bg-cover bg-center w-full"></div>
+      <div className="bg-[rgb(17,_17,_17)] mobile:h-[200px] h-[100px] bg-[url('decorations/background.svg')] bg-no-repeat bg-cover bg-center w-full "></div>
       <RatedMovies
         title={"რჩეული " + title}
         image="decorations/movies.png"

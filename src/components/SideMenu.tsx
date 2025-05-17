@@ -25,7 +25,7 @@ export default function SideMenu(props: {
         }`}
       >
         <div className="flex flex-col py-5">
-          <p className="px-5  text-textDesc tracking-wide text-[14px]">
+          <p className="px-5  text-textDesc tracking-wide text-[14px] ">
             სარჩევი
           </p>
           <div className="flex flex-col py-2 ">
@@ -46,7 +46,7 @@ export default function SideMenu(props: {
           </div>
         </div>
         <div className="w-full min-h-[2px] bg-[rgba(255,255,255,0.05)]"></div>
-        <div className=" flex-col py-5 hidden mobile:flex">
+        <div className=" flex-col py-5 mobile:flex max-h-[calc(100vh-54px)] overflow-y-auto custom_scrollbar">
           <p className="px-5  text-textDesc tracking-wide text-[14px]">
             ჟანრები
           </p>

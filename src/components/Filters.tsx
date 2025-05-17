@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CheckedIcon,
   CloseIcon,
@@ -7,7 +7,6 @@ import {
 } from "../assets/icons/MyIcons";
 import { types, addons, genres, imdbs, languages, years } from "../api/themes";
 import { useSearchParams } from "react-router";
-import { useEffectSkipFirst } from "../app/hooks/useEffectSkipFirst";
 
 type TFiltersList = {
   types: { title: string; filter: any[] };
@@ -76,7 +75,7 @@ export default function Filters(props: {
     updatedFilters[filter_name].filter = [];
     setFiltersList(updatedFilters);
   };
-  useEffectSkipFirst(() => {
+  useEffect(() => {
     const params: any = {};
     if (filtersList.types.filter.length)
       params.types = JSON.stringify(filtersList.types.filter);

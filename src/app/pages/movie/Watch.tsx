@@ -6,7 +6,6 @@ import { useParams } from "react-router";
 import { fetchMovie } from "../../../api/ServerFunctions";
 
 import { TMovie, TMovieCard } from "../../types/MovieTypes";
-import { useEffectSkipFirst } from "../../hooks/useEffectSkipFirst";
 import { useWatchHistory } from "../../store/useWatchHistory";
 import { decodeHtmlEntities } from "../../hooks/Customs";
 import SimilarMovies from "./components/SimilarMovies";
@@ -28,12 +27,13 @@ export default function Watch() {
     staleTime: 300000,
     refetchOnWindowFocus: false,
   });
-  useEffectSkipFirst(() => {
+  useEffect(() => {
     if (!id) return;
     setActiveOption(-1);
+
     const WatchTimeout = setTimeout(() => {
       addToHistory(id);
-    }, 10000);
+    }, 3000);
 
     return () => {
       clearTimeout(WatchTimeout);
