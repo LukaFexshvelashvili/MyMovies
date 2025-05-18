@@ -13,8 +13,9 @@ export default function Footer() {
             </Link>
           </div>
           <div className="flex-1 flex flex-wrap">
-            {RoutesList.mainRoutes.map((route) => (
+            {RoutesList.mainRoutes.map((route, i) => (
               <Link
+                key={i}
                 to={route.path}
                 className="flex items-center gap-4 min-w-1/3 max-992:min-w-2/4 text-textDesc hover:text-textHead h-[42px]"
               >
@@ -28,6 +29,7 @@ export default function Footer() {
           <span className="h-[1px] w-50 bg-white/10 max-992:w-[20%]"></span>
           <Link
             to={"https://onservice.ge"}
+            target="_blank"
             className="flex items-center gap-4 opacity-60 hover:opacity-80 "
             aria-label="OnService.ge - ციფრული სერვისები"
           >

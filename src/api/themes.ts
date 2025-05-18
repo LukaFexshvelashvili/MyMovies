@@ -74,6 +74,11 @@ export const types = [
     bgcolor: "rgba(219, 0, 235, 0.1)",
   },
 ];
+export type TGenre = {
+  title: string;
+  color: string;
+  bgcolor: string;
+};
 export const genres = [
   {
     title: "ანიმაციური",

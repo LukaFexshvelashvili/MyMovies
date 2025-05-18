@@ -91,6 +91,7 @@ body {
 .custom_scrollbar::-webkit-scrollbar-thumb {
   background-color: var(--color-main);
 }
+
 input,
 button {
   outline: none;

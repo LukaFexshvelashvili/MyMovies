@@ -90,7 +90,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     to={`/logout?returnTo=${encodeURIComponent(
-                      window.location.href
+                      window.location.pathname
                     )}`}
                     className="ml-3 flex-1 h-[34px] min-w-[150px] text-sm text-textHead bg-main cursor-pointer hover:bg-mainHover flex justify-center items-center"
                   >
@@ -103,8 +103,9 @@ export default function Navbar() {
         </nav>
         <div className="mobile:hidden h-11 w-full bg-navBg border-t border-white/5">
           <div className="flex items-stretch w-full h-full overflow-x-scroll no_scrollbar">
-            {RoutesList.mainRoutes.map((route) => (
+            {RoutesList.mainRoutes.map((route, i) => (
               <Link
+                key={i}
                 to={route.path}
                 className="px-3.5 h-full text-textDesc text-[15px]]"
               >

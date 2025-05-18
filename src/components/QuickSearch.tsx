@@ -9,6 +9,7 @@ import { TMovieCard } from "../app/types/MovieTypes";
 import { THomeList } from "../app/pages/home/Home";
 import { useWatchHistory } from "../app/store/useWatchHistory";
 import { useNavigate } from "react-router";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function QuickSearch(props: { hideSearch: Function }) {
   const { history } = useWatchHistory();
@@ -131,11 +132,22 @@ function QuickSearchAction({ closeSearch }: { closeSearch: Function }) {
             </p>
           )}
           {movies?.length > 0 ? (
-            <div className="flex gap-3">
-              {movies.map((movie: TMovieCard) => {
-                return <MovieCard movie={movie} />;
-              })}
-            </div>
+            <Swiper
+              lazyPreloadPrevNext={1}
+              slidesPerView="auto"
+              spaceBetween={10}
+              centeredSlides={false}
+              watchOverflow={true}
+              resistanceRatio={0}
+              slidesOffsetAfter={10}
+              className="w-full"
+            >
+              {movies.map((movie: TMovieCard) => (
+                <SwiperSlide key={movie.id} className="!w-auto ">
+                  <MovieCard movie={movie} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
           ) : (
             !isLoading && (
               <p className="text-center text-lg text-textDescLight">

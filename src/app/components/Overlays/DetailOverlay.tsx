@@ -4,11 +4,21 @@ import { useQuery } from "@tanstack/react-query";
 import { TMovie, TMovieCard } from "../../types/MovieTypes";
 import {
   CloseIcon,
+  CopyIcon,
+  FacebookIcon,
   IMDbIcon,
+  // TelegramIcon,
   RatingStarClearIcon,
 } from "../../../assets/icons/MyIcons";
-import { decodeHtmlEntities, image_resize } from "../../hooks/Customs";
+import {
+  decodeHtmlEntities,
+  get_type_link,
+  image_resize,
+  movie_link_generate,
+} from "../../hooks/Customs";
 import { MovieSkeletonSection } from "../../pages/movie/Watch";
+import { Link } from "react-router";
+import useAlerts from "../../store/useAlerts";
 
 export default function DetailsOverlay() {
   const { detailsId, setDetailsId } = useDetailsOverlay();
@@ -32,6 +42,7 @@ function GetDetails({
   movieId: number;
   closeDetails: Function;
 }) {
+  const { addAlert } = useAlerts();
   const { data, isLoading } = useQuery<{
     movie: TMovie;
     similar_movies: TMovieCard[];
@@ -43,12 +54,34 @@ function GetDetails({
   });
   const addons = data?.movie.addons ? JSON.parse(data.movie.addons) : [];
 
+  const movie_link = data
+    ? `https://mymovies.cc/watch/${get_type_link(data.movie.type)}/${
+        data.movie.id
+      }/${movie_link_generate(decodeHtmlEntities(data.movie.name_eng))}`
+    : "";
+  const copyLink = () => {
+    if (movie_link) {
+      navigator.clipboard
+        .writeText(movie_link)
+        .then(() => {
+          addAlert({
+            title: "ბმული კოპირებულია",
+          });
+        })
+        .catch((err) => {
+          console.error("Clipboard copy failed:", err);
+          addAlert({
+            title: "ბმულის კოპირება ვერ მოხერხდა",
+          });
+        });
+    }
+  };
   return (
     <div className="relative bg-bodyBg aspect-video w-[94%] max-w-[900px] p-3 ">
       <div className="flex items-stretch gap-5 overflow-hidden ">
         <div
           onClick={() => closeDetails()}
-          className="absolute right-2  text-lg text-textHead2 h-8 aspect-square z-20 cursor-pointer rounded-[20px] bg-white/10 hover:bg-white/15 p-1 transition-colors"
+          className="absolute right-2  text-lg text-textHead2 h-8 aspect-square z-20 cursor-pointer rounded-[20px] bg-white/5 hover:bg-white/10 p-1 transition-colors"
         >
           <CloseIcon />
         </div>
@@ -93,11 +126,11 @@ function GetDetails({
           </div>
         </div>
         <div className="mobile:flex-1 flex flex-col gap-1 overflow-hidden">
-          <div className="z-0 absolute top-0 left-0 w-full before:content-[''] before:absolute before:top-0 before:left-0 before:bg-gradient-to-t before:from-bodyBg before:to-bodyBg/70 before:h-full before:w-full">
+          <div className="z-0 absolute top-0 left-0 w-full h-full before:content-[''] before:absolute before:top-0 before:left-0 before:bg-gradient-to-t before:from-bodyBg before:to-bodyBg/70 before:h-full before:w-full">
             {data && (
               <img
                 src={image_resize(data?.movie.thumbnail_url).medium}
-                className="h-full w-full object-cover "
+                className="h-full w-full object-cover max-h-full object-top"
                 alt={data.movie.name + " | " + data.movie.name_eng}
               />
             )}
@@ -173,6 +206,36 @@ function GetDetails({
           />
 
           <MovieDetailsOverlay movie={data?.movie} isLoading={isLoading} />
+          <div className="flex items-center gap-3 relative z-10 mt-auto ml-auto pt-5">
+            <Link
+              target="_blank"
+              to={"https://www.facebook.com/sharer/sharer.php?u=" + movie_link}
+              className="flex items-center bg-white/5 h-[34px] w-[150px] cursor-pointer hover:bg-white/10 transition-colors"
+            >
+              <div className="h-[34px] aspect-square bg-[#0077ff] flex justify-center items-center p-2">
+                <FacebookIcon className="h-full text-[#ffffff]" />
+              </div>
+              <p className="text-textDescLight text-sm ml-4">გაზიარება</p>
+            </Link>
+            {/* <Link
+              to={"https://t.me/share/url?url=" + movie_link}
+              className="flex items-center bg-white/5 h-[34px] w-[150px] cursor-pointer hover:bg-white/10 transition-colors"
+            >
+              <div className="h-[34px] aspect-square bg-[#24a1de] flex justify-center items-center p-2">
+                <TelegramIcon className="h-full text-[#ffffff]" />
+              </div>
+              <p className="text-textDescLight text-sm ml-4">გაზიარება</p>
+            </Link> */}
+            <div
+              onClick={copyLink}
+              className="flex items-center bg-white/5 h-[34px] w-[150px] cursor-pointer hover:bg-white/10 transition-colors select-none"
+            >
+              <div className="h-[34px] aspect-square bg-main flex justify-center items-center p-2">
+                <CopyIcon className="h-full text-white" />
+              </div>
+              <p className="text-textDescLight text-sm ml-4">კოპირება</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -238,7 +301,7 @@ export function MovieDetailsOverlay({
             <MovieSkeletonSection
               isLoading={isLoading}
               placeholder="Was"
-              show={<p>- წუთი</p>}
+              show={<p>-</p>}
             />
           </div>
         </div>

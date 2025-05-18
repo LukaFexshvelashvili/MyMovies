@@ -13,7 +13,7 @@ import {
   image_resize,
   movie_link_generate,
 } from "../app/hooks/Customs";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useDetailsOverlay from "../app/store/useDetailsOverlay";
 import { useBookmarks } from "../app/store/useBookmarks";
 import useAlerts from "../app/store/useAlerts";
@@ -33,15 +33,31 @@ export default function MovieCard({
   const { setDetailsId } = useDetailsOverlay();
   const { setTrailerLink } = useTrailerOverlay();
   const addons = movie.addons ? JSON.parse(movie.addons) : [];
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showMenu]);
 
   const toggleBookmark = () => {
     if (bookmarks.includes(Number(movie.id))) {
-      removeFromBookmarks(movie.id);
+      removeFromBookmarks(Number(movie.id));
       addAlert({
         title: "ჩანიშვნა გაუქმებულია",
       });
     } else {
-      addToBookmarks(movie.id);
+      addToBookmarks(Number(movie.id));
       addAlert({
         title: "ჩანიშვნა დამატებულია",
       });
@@ -125,6 +141,7 @@ export default function MovieCard({
           </Link>
         </div>
         <div
+          ref={menuRef}
           onClick={() => setShowMenu((state) => !state)}
           className="relative h-[32px] aspect-square flex justify-center items-center rounded-full transition-colors hover:bg-[rgba(255,255,255,0.1)] cursor-pointer"
         >
@@ -144,12 +161,7 @@ export default function MovieCard({
               >
                 თრეილერი
               </div>
-              <div
-                onClick={() => setDetailsId(Number(movie.id))}
-                className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5"
-              >
-                გაზიარება
-              </div>
+
               <div
                 onClick={toggleBookmark}
                 className="h-[36px] w-full flex items-center justify-center text-textDescLight2 hover:bg-white/5"
@@ -222,12 +234,12 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
     e.preventDefault();
     e.stopPropagation();
     if (bookmarks.includes(Number(movie.id))) {
-      removeFromBookmarks(movie.id);
+      removeFromBookmarks(Number(movie.id));
       addAlert({
         title: "ჩანიშვნა გაუქმებულია",
       });
     } else {
-      addToBookmarks(movie.id);
+      addToBookmarks(Number(movie.id));
       addAlert({
         title: "ჩანიშვნა დამატებულია",
       });

@@ -40,7 +40,6 @@ export default function Watch() {
     };
   }, [id]);
 
-  // const genres = data?.movie.genres ? JSON.parse(data.movie.genres) : [];
   useEffect(() => {
     if (window.scrollY > 450) {
       window.scrollTo(0, 200);
@@ -110,6 +109,7 @@ export default function Watch() {
         <div className="mobile:hidden flex w-full overflow-x-auto bg-navBg h-[40px] sticky top-[98px] z-10 no_scrollbar">
           {optionList.map((option) => (
             <button
+              key={option.id}
               onClick={() => setActiveOption(option.id)}
               className={`px-7 text-textHead2 text-[15px] flex-1 h-full shrink-0  transition-all ${
                 activeOption == option.id

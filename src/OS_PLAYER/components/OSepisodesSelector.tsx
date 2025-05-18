@@ -52,20 +52,16 @@ export default function OSepisodesSelector({
   );
 
   const videoEnded = useCallback(() => {
-    if (episodes[activeSeason][activeEpisode + 1]) {
+    if (
+      episodes[activeSeason][activeEpisode + 1] &&
+      episodes[activeSeason][activeEpisode + 1].title !== "TRAILER"
+    ) {
       episodeChange(
         activeEpisode + 1,
         episodes[activeSeason][activeEpisode + 1]
       );
-    } else {
-      if (episodes[activeSeason + 1][0]) {
-        episodeChange(
-          0,
-          episodes[activeSeason + 1][0],
-          false,
-          activeSeason + 1
-        );
-      }
+    } else if (episodes[activeSeason + 1][0]) {
+      episodeChange(0, episodes[activeSeason + 1][0], false, activeSeason + 1);
     }
   }, [activeEpisode]);
 

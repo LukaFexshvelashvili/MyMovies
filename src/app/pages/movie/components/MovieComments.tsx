@@ -8,6 +8,7 @@ import {
 import useUser from "../../../store/useUser";
 import useAlerts from "../../../store/useAlerts";
 import { SuspenseLoader } from "../../../App";
+import useOverlayStore from "../../../store/useOverlay";
 type TComment = {
   id: number;
   user_id: number;
@@ -23,6 +24,7 @@ export default function MovieComments({
   isActive: boolean;
   movie_id: number | string;
 }) {
+  const { setAuthOverlay } = useOverlayStore();
   const { user } = useUser();
   const { addAlert } = useAlerts();
   const { data: comments_data, refetch } = useQuery({
@@ -49,41 +51,59 @@ export default function MovieComments({
             <p className="text-head text-md">
               {comments_data?.comments.length} კომენტარი
             </p>
-            <form action={action} className="font-mainMedium">
-              <div className="flex mt-5 gap-4">
-                <div className="h-10 aspect-square rounded-[20px] bg-white/5"></div>
-                <input
-                  type="hidden"
-                  name="user_id"
-                  value={user?.id ? user.id : -1}
-                />
-                <input type="hidden" name="movie_id" value={movie_id} />
-                <input
-                  type="text"
-                  name="comment_input"
-                  className="w-full h-[40px] px-3 border-b-1 border-white/30 text-white/40 focus:text-white/90  transition-colors focus:border-main "
-                />
+            {user?.id ? (
+              <form action={action} className="font-mainMedium">
+                <div className="flex mt-5 gap-4">
+                  <div className="h-10 aspect-square rounded-[20px] bg-white/5"></div>
+                  <input
+                    type="hidden"
+                    name="user_id"
+                    value={user?.id ? user.id : -1}
+                  />
+                  <input type="hidden" name="movie_id" value={movie_id} />
+                  <input
+                    type="text"
+                    name="comment_input"
+                    className="w-full h-[40px] px-3 border-b-1 border-white/30 text-white/40 focus:text-white/90  transition-colors focus:border-main "
+                  />
+                </div>
+                <button
+                  disabled={isPending}
+                  className={`px-4 py-1.5 text-textDescLight2 bg-white/5 ml-auto block mt-5 tracking-wide case_up cursor-pointer hover:bg-white/10 ${
+                    isPending ? "cursor-default" : ""
+                  } transition-colors text-[14px]`}
+                >
+                  {isPending ? " ქვეყნდება... " : "გამოქვეყნება"}
+                </button>
+              </form>
+            ) : (
+              <div className="text-textDesc text-center mt-5">
+                კომენტარის დასაწერად გაიარეთ{" "}
+                <span
+                  className="text-main cursor-pointer underline"
+                  onClick={() => setAuthOverlay(true)}
+                >
+                  ავტორიზაცია
+                </span>
               </div>
-              <button
-                disabled={isPending}
-                className={`px-4 py-1.5 text-textDescLight2 bg-white/5 ml-auto block mt-5 tracking-wide case_up cursor-pointer hover:bg-white/10 ${
-                  isPending ? "cursor-default" : ""
-                } transition-colors text-[14px]`}
-              >
-                {isPending ? " ქვეყნდება... " : "გამოქვეყნება"}
-              </button>
-            </form>
+            )}
 
-            <div className="flex flex-col gap-6 mt-10">
-              {comments_data?.comments.map((comment: TComment) => (
-                <Comment
-                  user_id={user?.id ? user.id : -1}
-                  add_alert={addAlert}
-                  movie_id={movie_id}
-                  comment={comment}
-                  refetch={refetch}
-                />
-              ))}
+            <div className="flex flex-col gap-6 mt-10 border-t border-white/5 pt-5">
+              {comments_data?.comments.length > 0 ? (
+                comments_data?.comments.map((comment: TComment) => (
+                  <Comment
+                    user_id={user?.id ? user.id : -1}
+                    add_alert={addAlert}
+                    movie_id={movie_id}
+                    comment={comment}
+                    refetch={refetch}
+                  />
+                ))
+              ) : (
+                <p className="text-textDesc text-center ">
+                  კომენტარები არ არის
+                </p>
+              )}
             </div>
           </div>
         </div>

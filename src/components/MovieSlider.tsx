@@ -19,6 +19,8 @@ export default function MovieSlider({
   clear_skeletons,
   list,
 }: TMovieSlider) {
+  if (!list) return;
+
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-3 case_up">

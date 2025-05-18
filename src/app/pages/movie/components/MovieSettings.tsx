@@ -5,10 +5,12 @@ import {
   BookmarkIcon,
   HeartIcon,
   IMDbIcon,
+  ShareIcon,
   WarningIcon,
 } from "../../../../assets/icons/MyIcons";
 import { SkeletonSection } from "../../../components/Overlays/DetailOverlay";
 import { TMovie } from "../../../types/MovieTypes";
+import useDetailsOverlay from "../../../store/useDetailsOverlay";
 
 export default function MovieSettings({
   id,
@@ -19,6 +21,7 @@ export default function MovieSettings({
   movie: TMovie | undefined;
   isLoading: boolean;
 }) {
+  const { setDetailsId } = useDetailsOverlay();
   const { bookmarks, addToBookmarks, removeFromBookmarks } = useBookmarks();
   const { addAlert } = useAlerts();
   const toggleBookmark = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -83,6 +86,21 @@ export default function MovieSettings({
             isLoading={isLoading}
             placeholder="OS"
             show={<WarningIcon height={16} className="text-white/90" />}
+          />
+        </div>
+        <div
+          onClick={() => setDetailsId(Number(id))}
+          className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
+          aria-label="Movie Share Button"
+        >
+          <SkeletonSection
+            isLoading={isLoading}
+            placeholder="OS"
+            show={
+              <>
+                <ShareIcon height={18} className="text-white/90" />
+              </>
+            }
           />
         </div>
       </div>

@@ -44,7 +44,7 @@ export default function Filters(props: {
         : [],
     },
     languages: {
-      title: "ენა",
+      title: "გახმოვანება",
       filter: props.initialFilters?.languages
         ? JSON.parse(props.initialFilters.languages)
         : [],
@@ -203,7 +203,7 @@ export default function Filters(props: {
                     filter: [],
                   },
                   languages: {
-                    title: "ენა",
+                    title: "გახმოვანება",
                     filter: [],
                   },
                   years: {
