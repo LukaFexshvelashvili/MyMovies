@@ -6,7 +6,7 @@ import "../swiper.css";
 type TMovieSlider = {
   isLoading: boolean;
   title: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   link?: string;
   clear_skeletons?: boolean;
   list: TMovieCard[] | undefined;
@@ -24,11 +24,13 @@ export default function MovieSlider({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-3 case_up">
-        <div
-          className={`mobile:h-8 h-8 aspect-square rounded-[20px] bg-main flex justify-center items-center p-1.5`}
-        >
-          {icon}
-        </div>
+        {icon ? (
+          <div
+            className={`mobile:h-8 h-8 aspect-square rounded-[20px] bg-main flex justify-center items-center p-1.5`}
+          >
+            {icon}
+          </div>
+        ) : null}
         <p className="text-textHead font-mainMedium  mobile:text-[17px] text-[15px] tracking-wider">
           {title}
         </p>

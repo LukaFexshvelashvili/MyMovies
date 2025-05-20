@@ -78,7 +78,8 @@ export default function MainSlider() {
   }, [isLoading]);
 
   return (
-    <div className="relative medium:h-[470px] h-[300px] bg-black flex justify-center">
+    <div className="relative medium:h-[380px] h-[300px] bg-black flex justify-center">
+      <div className="bg-gradient-to-b from-transparent to-[#111111] absolute h-full w-full top-0 left-0 z-10"></div>
       <div
         className="h-full w-full flex overflow-hidden select-none"
         ref={SliderContainer}

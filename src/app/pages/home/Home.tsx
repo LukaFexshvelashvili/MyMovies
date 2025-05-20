@@ -3,6 +3,7 @@ import {
   AnimationsIcon,
   AnimesIcon,
   ContinueWatchIcon,
+  GenresIcon,
   NewsIcon,
   PlayIcon,
   PopularsIcon,
@@ -17,6 +18,7 @@ import { TMovieCard } from "../../types/MovieTypes";
 import { useWatchHistory } from "../../store/useWatchHistory";
 import { useState } from "react";
 import { useBreakpoint } from "../../hooks/useBreakpoint";
+import SelectorSection from "./components/SelectorSection";
 
 export type THomeList = {
   watch_history: TMovieCard[];
@@ -43,6 +45,7 @@ export default function Home() {
       <title>ფილმები ქართულად | Filmebi Qartulad | MyMovies</title>
       <main>
         <MainSlider />
+        <SelectorSection />
         <div className="my_container my-10">
           <MovieSlider
             isLoading={isLoading}
