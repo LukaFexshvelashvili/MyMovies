@@ -100,7 +100,7 @@ export default function OScontextmenu({
           }}
         >
           <a
-            href="https://lukafexshvelashvili.github.io/OnService-V2/"
+            href="https://onservice.ge"
             target="_blank"
             className="cursor-pointer flex items-center justify-center w-full px-3 py-2 font-os_medium text-[12px] tracking-wide text-[rgba(255,255,255,0.9)] text-center transition-colors "
           >

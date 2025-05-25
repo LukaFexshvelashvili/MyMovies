@@ -8,6 +8,7 @@ export default function OStimeline() {
   const timeline = useRef<HTMLDivElement | null>(null);
   const timeline_helper = useRef<HTMLDivElement | null>(null);
   const timeline_indicator = useRef<HTMLDivElement | null>(null);
+  const loadedRef = useRef<HTMLDivElement>(null);
 
   const percentageRef = useRef<HTMLDivElement>(null);
   const isHoveringRef = useRef<boolean>(false);
@@ -139,6 +140,20 @@ export default function OStimeline() {
         percentage_by_time(duration, videoRef.current.currentTime) + "%";
     }
   }, [videoRef.current?.currentTime, videoRef.current?.duration]);
+  const updateBuffered = useCallback(() => {
+    if (!videoRef.current || !loadedRef.current) return;
+
+    const buffered = videoRef.current.buffered;
+    const duration = videoRef.current.duration;
+
+    if (buffered.length) {
+      // Get the last buffered range
+      const end = buffered.end(buffered.length - 1);
+      const percentage = percentage_by_time(duration, end);
+
+      loadedRef.current.style.width = `${percentage}%`;
+    }
+  }, [videoRef.current?.buffered, videoRef.current?.duration]);
 
   useEffect(() => {
     const timelineElement = timeline.current;
@@ -157,6 +172,9 @@ export default function OStimeline() {
     document.addEventListener("touchend", handleTouchEnd);
     if (!videoRef.current) return;
     videoRef.current.addEventListener("timeupdate", updateLine);
+    videoRef.current.addEventListener("progress", updateBuffered);
+    videoRef.current.addEventListener("seeked", updateBuffered);
+    videoRef.current.addEventListener("loadedmetadata", updateBuffered);
     videoRef.current.addEventListener("load", updateLine);
 
     return () => {
@@ -170,6 +188,9 @@ export default function OStimeline() {
       document.removeEventListener("touchmove", handleTouchMove);
       document.removeEventListener("touchend", handleTouchEnd);
       if (!videoRef.current) return;
+      videoRef.current.removeEventListener("progress", updateBuffered);
+      videoRef.current.removeEventListener("seeked", updateBuffered);
+      videoRef.current.removeEventListener("loadedmetadata", updateBuffered);
       videoRef.current.removeEventListener("timeupdate", updateLine);
       videoRef.current.removeEventListener("load", updateLine);
     };
@@ -201,10 +222,15 @@ export default function OStimeline() {
         ref={timeline_helper}
         className="h-[4px] bg-[#dfdfdf38] pointer-events-none"
       ></div>
+      {/* Loaded progress track */}
+      <div
+        ref={loadedRef}
+        className="absolute h-[4px] bg-white/30 pointer-events-none"
+      ></div>
 
       {/* Progress track */}
       <div
-        className="absolute flex items-center h-[4px] bg-main pointer-events-none before:content-[''] before:absolute before:right-0 before:translate-x-2/4 before:shadow-lg before:pointer-events-none before:scale-0 before:transition-transform group-hover:before:scale-100 before:h-3 before:aspect-square before:rounded-[50%] before:bg-main"
+        className="absolute z-[1] flex items-center h-[4px] bg-main pointer-events-none before:content-[''] before:absolute before:right-0 before:translate-x-2/4 before:shadow-lg before:pointer-events-none before:scale-0 before:transition-transform group-hover:before:scale-100 before:h-3 before:aspect-square before:rounded-[50%] before:bg-main"
         ref={percentageRef}
       ></div>
 

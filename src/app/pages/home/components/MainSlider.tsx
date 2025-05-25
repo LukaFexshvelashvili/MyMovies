@@ -1,10 +1,22 @@
-import { useEffect, useRef, useState } from "react";
 import { IMDbIcon } from "../../../../assets/icons/MyIcons";
 import { useQuery } from "@tanstack/react-query";
 import { THomeList } from "../Home";
 import { fetchMoviesList } from "../../../../api/ServerFunctions";
 import { useWatchHistory } from "../../../store/useWatchHistory";
 import { TMovieCard } from "../../../types/MovieTypes";
+
+// Swiper imports
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade } from "swiper/modules";
+import { useRef, useState } from "react";
+import {
+  decodeHtmlEntities,
+  get_type_link,
+  get_type_link_geo,
+  image_resize,
+  movie_link_generate,
+} from "../../../hooks/Customs";
+import { Link } from "react-router";
 
 export default function MainSlider() {
   const { history } = useWatchHistory();
@@ -18,107 +30,57 @@ export default function MainSlider() {
     ? moviesList.main_slider
     : [];
 
-  const SliderContainer = useRef<HTMLDivElement | null>(null);
-  const startX = useRef<number | null>(null);
-  const endX = useRef<number | null>(null);
-  const isDragging = useRef(false);
-  const [activeSlider, setActiveSlider] = useState(0);
-
-  const handleStart = (x: number) => {
-    startX.current = x;
-    isDragging.current = true;
-  };
-
-  const handleMove = (x: number) => {
-    if (isDragging.current) {
-      endX.current = x;
-    }
-  };
-
-  const handleEnd = () => {
-    if (!isDragging.current || startX.current === null || endX.current === null)
-      return;
-
-    const deltaX = startX.current - endX.current;
-
-    if (Math.abs(deltaX) > 50) {
-      if (deltaX > 0) {
-        setActiveSlider((state) =>
-          state === SliderList.length - 1 ? 0 : state + 1
-        );
-      } else {
-        setActiveSlider((state) =>
-          state === 0 ? SliderList.length - 1 : state - 1
-        );
-      }
-    }
-
-    isDragging.current = false;
-    startX.current = null;
-    endX.current = null;
-  };
-
-  useEffect(() => {
-    SliderContainer.current?.scrollTo({
-      left: SliderContainer.current.offsetWidth * activeSlider,
-      behavior: "smooth",
-    });
-  }, [activeSlider]);
-
-  useEffect(() => {
-    if (isLoading) return;
-
-    const interval = setInterval(() => {
-      setActiveSlider((prev) =>
-        prev === SliderList.length - 1 ? 0 : prev + 1
-      );
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [isLoading]);
+  const swiperRef = useRef<any>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div className="relative medium:h-[380px] h-[300px] bg-black flex justify-center">
-      <div className="bg-gradient-to-b from-transparent to-[#111111] absolute h-full w-full top-0 left-0 z-10"></div>
-      <div
-        className="h-full w-full flex overflow-hidden select-none"
-        ref={SliderContainer}
-        onTouchStart={(e) => handleStart(e.touches[0].clientX)}
-        onTouchMove={(e) => handleMove(e.touches[0].clientX)}
-        onTouchEnd={handleEnd}
-        onMouseDown={(e) => handleStart(e.clientX)}
-        onMouseMove={(e) => handleMove(e.clientX)}
-        onMouseUp={handleEnd}
-        onMouseLeave={handleEnd}
-        onDragStart={(e) => e.preventDefault()}
+      <Swiper
+        modules={[Autoplay, EffectFade]}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        loop={true}
+        effect="fade"
+        className="h-full w-full"
+        fadeEffect={{ crossFade: true }}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        pagination={false} // Disable built-in pagination
+        lazyPreloadPrevNext={0}
       >
         {isLoading
           ? Array.from({ length: 3 }).map((_, id) => (
-              <SliderCardSkeleton key={id} />
+              <SwiperSlide key={id}>
+                <SliderCardSkeleton />
+              </SwiperSlide>
             ))
           : SliderList.map((movie: TMovieCard, i: number) =>
               movie ? (
-                <SliderCard eager={i == 0} key={movie.id} movie={movie} />
+                <SwiperSlide key={movie.id}>
+                  <SliderCard eager={i === 0} movie={movie} />
+                </SwiperSlide>
               ) : null
             )}
-      </div>
-      <div className="my_container h-6 z-20 bottom-0 absolute right-2 mobile:right-auto">
+      </Swiper>
+      {/* Custom Pagination */}
+      <div className="my_container h-6 z-20 bottom-0 absolute max-mobile:right-0 ">
         <div
-          className={`flex mobile:gap-3 gap-2.5 items-center absolute h-6 mobile:bottom-7 bottom-3 right-0 px-[15px] ${
-            isLoading ? "animate-pulse" : ""
-          } `}
+          className={`flex gap-3 items-center absolute h-6 mobile:bottom-7 bottom-4 right-0 px-[15px] `}
         >
-          {SliderList.map((_, i) => (
-            <div
-              key={i}
-              onClick={() => setActiveSlider(i)}
-              className={`mobile:h-[12px] h-[10px] cursor-pointer aspect-square rounded-xl ${
-                activeSlider === i
-                  ? "bg-white"
-                  : "bg-white/50 transition-colors hover:bg-white/80"
-              }`}
-            ></div>
-          ))}
+          {SliderList.map(
+            (movie, idx) =>
+              movie && (
+                <button
+                  key={movie.id}
+                  onClick={() => swiperRef.current?.slideToLoop(idx)}
+                  className={`h-[11px] cursor-pointer aspect-square rounded-xl ${
+                    activeIndex === idx
+                      ? "bg-white"
+                      : "bg-white/50 transition-colors hover:bg-white/80"
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              )
+          )}
         </div>
       </div>
     </div>
@@ -126,14 +88,45 @@ export default function MainSlider() {
 }
 
 function SliderCard({ movie, eager }: { movie: TMovieCard; eager?: boolean }) {
+  const genres = movie.genres ? JSON.parse(movie.genres) : [];
+  const movie_link = `/${get_type_link(movie.type)}/${
+    movie.id
+  }/${movie_link_generate(decodeHtmlEntities(movie.name_eng))}`;
+
   return (
-    <div className="relative w-full h-full shrink-0 select-none ">
+    <div className="relative w-full h-full shrink-0 select-none z-90">
+      <div className="bg-gradient-to-b from-transparent to-[#111111]  absolute h-full w-full top-0 left-0 z-10"></div>
       <div className="my_container relative z-20 h-full flex items-end mobile:py-10 py-4 ">
-        <div className="flex flex-col tracking-wider mobile:gap-0 gap-1">
-          <h3 className="text-head mobile:text-[20px] text-[18px] ">
+        <div className="absolute top-6 mobile:top-10 left-4 text-textDescLight z-10 font-robotoGeoCaps cursor-pointer line-clamp-1">
+          <span className="text-textDescLight2 hover:text-textDescLight2">
+            {get_type_link_geo(movie.type)}
+          </span>{" "}
+          /{" "}
+          {genres[0] && (
+            <span className="hover:text-textDescLight2">
+              {movie?.genres ? JSON.parse(movie.genres)[0] : ""}
+            </span>
+          )}{" "}
+          {genres[1] && (
+            <span className="hover:text-textDescLight2">
+              {movie?.genres ? JSON.parse(movie.genres)[1] : ""}
+            </span>
+          )}{" "}
+          {genres[2] && (
+            <span className="hover:text-textDescLight2">
+              {movie?.genres ? JSON.parse(movie.genres)[2] : ""}
+            </span>
+          )}
+          ...
+        </div>
+        <Link
+          to={movie_link}
+          className="flex flex-col tracking-wider mobile:gap-0 gap-1 items-start"
+        >
+          <h3 className="text-head mobile:text-[20px] text-[18px] line-clamp-1">
             {movie.name}
           </h3>
-          <h4 className="text-white/60 mobile:text-[18px] text-[16px]">
+          <h4 className="text-white/60 mobile:text-[18px] text-[16px] line-clamp-1">
             {movie.name_eng} ({movie.year})
           </h4>
           <div className="flex items-center mobile:gap-4 gap-2  text-[15px] tracking-wider mt-1">
@@ -143,12 +136,16 @@ function SliderCard({ movie, eager }: { movie: TMovieCard; eager?: boolean }) {
           <button className="h-[38px] w-[150px] mobile:flex hidden bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg items-center gap-2 justify-center mt-4">
             უყურე
           </button>
-        </div>
+        </Link>
       </div>
       <div className="absolute w-full top-0 left-0 h-full z-[2] bg-gradient-to-r from-bodyBg/80 to-bodyBg/10"></div>
+      <div className="absolute w-full top-0 left-0 h-full z-[2] bg-gradient-to-t from-bodyBg/80 to-bodyBg/10"></div>
       <img
         src={"https://cdn.moviesgo.ge/" + movie.thumbnail_url}
         alt={movie.name + " | " + movie.name_eng}
+        srcSet={`${image_resize(movie.thumbnail_url).small} 480w,
+                  ${image_resize(movie.thumbnail_url).medium} 780w,
+                  ${image_resize(movie.thumbnail_url).high} 1200w`}
         loading={eager ? "eager" : "lazy"}
         className="h-full w-full min-h-full top-0 left-0 absolute object-cover medium:object-[0px_-200px]"
       />
@@ -159,7 +156,13 @@ function SliderCard({ movie, eager }: { movie: TMovieCard; eager?: boolean }) {
 function SliderCardSkeleton() {
   return (
     <div className="relative w-full h-full shrink-0 select-none ">
+      <div className="bg-gradient-to-b from-transparent to-[#111111]  absolute h-full w-full top-0 left-0 z-10"></div>
+
       <div className="my_container relative z-20 h-full flex items-end py-10 tracking-[-1px]">
+        <div className="absolute top-6 mobile:top-10 left-4  z-10 cursor-pointer line-clamp-1 text-textDesc animate-pulse font-blockfont">
+          <span className="">movie</span>
+          <span className="">genre</span> <span className="">genre</span>
+        </div>
         <div className="flex flex-col ">
           <h3 className="text-[20px] text-textDesc animate-pulse font-blockfont">
             movie.name

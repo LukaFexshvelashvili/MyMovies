@@ -3,7 +3,6 @@ import {
   AnimationsIcon,
   AnimesIcon,
   ContinueWatchIcon,
-  GenresIcon,
   NewsIcon,
   PlayIcon,
   PopularsIcon,

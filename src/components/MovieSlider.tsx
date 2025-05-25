@@ -19,7 +19,7 @@ export default function MovieSlider({
   clear_skeletons,
   list,
 }: TMovieSlider) {
-  if (!list) return;
+  if (!list && !isLoading) return;
 
   return (
     <div className="flex flex-col gap-5">

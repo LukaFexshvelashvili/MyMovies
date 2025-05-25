@@ -21,6 +21,24 @@ export function get_type_link(type: string | number) {
       return "movie";
   }
 }
+export function get_type_link_geo(type: string | number) {
+  switch (type) {
+    case 0:
+    case "0":
+      return "ფილმი";
+    case 1:
+    case "1":
+      return "სერიალი";
+    case 2:
+    case "2":
+      return "ანიმაცია";
+    case 3:
+    case "3":
+      return "ანიმე";
+    default:
+      return "ფილმი";
+  }
+}
 
 export function image_resize(url: string | undefined | null): {
   high: string;
