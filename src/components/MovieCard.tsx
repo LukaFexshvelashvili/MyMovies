@@ -309,9 +309,9 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
         <div className="flex flex-col gap-0.5 case_up uppercase tracking-wide ">
           <div className="flex justify-between">
             <Link to={movie_link}>
-              <p className="text-textHead font-robotoGeoCaps text-[16px]">
+              <h2 className="text-textHead font-robotoGeoCaps text-[16px]">
                 {decodeHtmlEntities(movie.name)}
-              </p>
+              </h2>
             </Link>
             <div className="mobile:flex hidden gap-2 text-white/40 mt-1 text-[14px]">
               {addons.includes("ქართულად") && (
@@ -323,9 +323,9 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
             </div>
           </div>
           <Link to={movie_link}>
-            <p className="text-textDesc text-[14px]">
+            <h3 className="text-textDesc text-[14px]">
               {decodeHtmlEntities(movie.name_eng)}
-            </p>{" "}
+            </h3>{" "}
           </Link>
         </div>
         <p className="text-textDescLight text-[15px] mt-0.5 max-h-[100px] truncate whitespace-normal line-clamp-3 max-mobile:text-[14px]">
@@ -333,13 +333,14 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
         </p>{" "}
         <div className="flex items-center justify-between max-mobile:justify-end mt-auto">
           <div className="flex gap-2 flex-wrap max-mobile:hidden">
-            {genres.map((genre: string) => (
-              <div
-                key={genre}
-                className="py-1.5 px-3 bg-white/5 cursor-pointer text-sm text-white/50 hover:bg-white/10 hover:text-main transition-colors"
+            {genres.map((genre: string, index: number) => (
+              <Link
+                to={`/search/a?genres=%5B"${genre}"%5D`}
+                key={index}
+                className="py-1 flex items-center px-3 bg-white/5 cursor-pointer text-white/50 hover:bg-white/10 hover:text-main transition-colors"
               >
                 {genre}
-              </div>
+              </Link>
             ))}
           </div>
           <div className="flex items-center gap-2  ">

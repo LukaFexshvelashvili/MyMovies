@@ -134,6 +134,7 @@ export default function OSthumbnail() {
             muted={adMuted}
             className="w-full h-full object-contain"
             onEnded={handleAdEnded}
+            onError={handleAdEnded}
             onPlay={() => {
               setAdPlaying(true);
               setIsPlaying(true);
@@ -160,8 +161,6 @@ export default function OSthumbnail() {
             toggleMute={handleMuteToggle}
             fullscreen={fullscreen}
             toggleFullscreen={toggleFullscreen}
-            skipCountdown={skipCountdown}
-            skipLocked={skipLocked}
             adCurrentTime={adCurrentTime}
             adDuration={adDuration}
           />
@@ -225,8 +224,6 @@ function AdControls({
   toggleMute,
   fullscreen,
   toggleFullscreen,
-  skipCountdown,
-  skipLocked,
   adCurrentTime,
   adDuration,
 }: {
@@ -236,8 +233,6 @@ function AdControls({
   toggleMute: () => void;
   fullscreen: boolean;
   toggleFullscreen: () => void;
-  skipCountdown: number;
-  skipLocked: boolean;
   adCurrentTime: number;
   adDuration: number;
 }) {

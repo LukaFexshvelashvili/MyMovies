@@ -13,7 +13,7 @@ import { THomeList } from "../Home";
 import GenresSelector from "./GenresSelector";
 
 export default function SelectorSection() {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(-1);
   const { data: moviesList } = useQuery<THomeList>({
     queryKey: ["moviesList"],
     queryFn: () => fetchMoviesList(),
@@ -21,14 +21,30 @@ export default function SelectorSection() {
   });
   const lists = [
     { id: 0, title: "ჟანრები", icon: <GenresIcon /> },
-    { id: 1, title: "ფილმები", icon: <MovieIcon className="h-4.5" /> },
-    { id: 2, title: "სერიალები", icon: <TvShowIcon className="h-5" /> },
-    { id: 3, title: "ანიმაციები", icon: <AnimationsIcon className="h-5" /> },
-    { id: 4, title: "ანიმეები", icon: <AnimesIcon className="h-5" /> },
+    {
+      id: 1,
+      title: "ფილმები",
+      icon: <MovieIcon className="mobile:h-4.5 h-3.5" />,
+    },
+    {
+      id: 2,
+      title: "სერიალები",
+      icon: <TvShowIcon className="mobile:h-5 h-4" />,
+    },
+    {
+      id: 3,
+      title: "ანიმაციები",
+      icon: <AnimationsIcon className="mobile:h-5 h-4" />,
+    },
+    {
+      id: 4,
+      title: "ანიმეები",
+      icon: <AnimesIcon className="mobile:h-5 h-4" />,
+    },
   ];
   return (
     <>
-      <div className="bg-gradient-to-b from-[#111111] to-[#141414] w-full h-[105px] mobile:h-[120px] flex items-center overflow-x-auto py-5 custom_scrollbar no_mobile_scrollbar ">
+      <div className="bg-gradient-to-b from-[#111111] to-[#141414] w-full h-[86px] mobile:h-[110px] flex items-center overflow-x-auto mobile:py-5 py-3 custom_scrollbar no_mobile_scrollbar ">
         <div className="my_container flex items-center gap-5 h-full">
           {lists.map((list) => (
             <SelectorItem

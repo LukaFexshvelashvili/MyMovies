@@ -37,7 +37,7 @@ function GenreBlock({ genre }: { genre: TGenre }) {
           alt={genre.title + " | " + "MYMOVIES"}
           loading="lazy"
         />
-        <div className="h-full w-full bg-gradient-to-t from-bodyBg to-black/40 relative flex items-center justify-center group-hover:bg-black/50 transition-colors">
+        <div className="h-full w-full bg-black/60 relative flex items-center justify-center group-hover:bg-black/70 transition-colors">
           <h2 className="font-robotoGeoCaps text-lg tracking-wider">
             {genre.title}
           </h2>

@@ -52,7 +52,7 @@ export default function OScontrols() {
   );
 
   return (
-    <div className="flex flex-1 h-full items-center px-1 w-full z-10 relative gap-3 justify-between">
+    <div className="flex flex-1 h-full items-center px-1 w-full z-10 relative gap-3 justify-between select-none">
       {/*  */}
       {/* STARTER */}
       <div className=" flex items-center gap-[15px] max-os_player_mobile:gap-[10px]">

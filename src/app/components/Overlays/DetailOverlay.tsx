@@ -360,13 +360,13 @@ export function MovieDetailsOverlay({
                   movie?.genres
                     ? JSON.parse(movie.genres).map(
                         (genre: string, index: number) => (
-                          <a
-                            href=""
+                          <Link
+                            to={`/search/a?genres=%5B"${genre}"%5D`}
                             key={index}
                             className="py-1 flex items-center px-3 bg-white/5 cursor-pointer text-white/50 hover:bg-white/10 hover:text-main transition-colors"
                           >
                             {genre}
-                          </a>
+                          </Link>
                         )
                       )
                     : null
