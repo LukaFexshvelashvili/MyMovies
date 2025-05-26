@@ -23,6 +23,8 @@ export function OSkeyHandler(
     };
     const handleKeyPress = (event: KeyboardEvent) => {
       if (isFocused && keyHandlers[event.code]) {
+        event.stopPropagation();
+        event.preventDefault();
         keyHandlers[event.code](event);
       }
     };
@@ -31,8 +33,6 @@ export function OSkeyHandler(
     window.addEventListener("keydown", handleKeyPress);
 
     return () => {
-      if (!playerRef.current) return;
-
       document.removeEventListener("click", handleClick);
       window.removeEventListener("keydown", handleKeyPress);
     };

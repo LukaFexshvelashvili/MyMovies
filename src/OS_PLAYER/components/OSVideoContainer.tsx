@@ -1,17 +1,16 @@
 import OStimeline from "./OStimeline";
 import OScontrols from "./OScontrols";
 import OSepisodesToggler from "./OSepisodesToggler";
-import { lazy, useEffect } from "react";
+import { useEffect } from "react";
 import OSmobileGestures from "./OSmobileGestures";
 import OSstorageSave from "./OSstorageSave";
 import OSloader from "./OSloader";
 import OSerror from "./OSerror";
 import OSvideoShow from "./OSvideoShow";
 import OSthumbnail from "./OSthumbnail";
+import OScontextmenu from "./OScontextmenu";
 import useOSPlayer from "./useOSPlayer";
 import StickyPlayerWrapper from "../../app/pages/movie/components/StickyPlayerWrapper";
-
-const OScontextmenu = lazy(() => import("./OScontextmenu"));
 
 export default function VideoContainer() {
   const {

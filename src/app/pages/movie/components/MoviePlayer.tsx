@@ -60,9 +60,9 @@ export default function MoviePlayer() {
   const show_ad = useMemo(() => {
     return Math.random() > 0.6;
   }, [id]);
-  if (!data?.movie.players || !playerData?.initial || isLoading)
-    return (
-      <>
+  return (
+    <>
+      {!data?.movie.players || !playerData?.initial || isLoading ? (
         <div className="w-full mobile:h-[590px] aspect-video flex font-blockfont text-xl tracking-[-1px]">
           <div className="h-full aspect-video bg-[rgb(36,36,36)]"></div>
           <div className="h-full w-full bg-[rgb(40,40,40)]">
@@ -84,23 +84,23 @@ export default function MoviePlayer() {
             </div>
           </div>
         </div>
-      </>
-    );
-
-  return (
-    <div className="w-full mobile:h-[590px] aspect-video flex">
-      <OSVideoPlayer
-        preroll={show_ad ? ad : null}
-        key={`${data.movie.id}-${JSON.stringify(playerData.initial)}`}
-        isMovie={isMovie}
-        id={data.movie.id}
-        source={playerData.initial}
-        thumbnail={basename + data.movie.thumbnail_url}
-        alt={
-          data.movie.name + " ქართულად | " + data.movie.name_eng + " Qartulad"
-        }
-        trailer={data.movie.trailer ? data.movie.trailer : ""}
-        srcset={`
+      ) : (
+        <div className="w-full mobile:h-[590px] aspect-video flex">
+          <OSVideoPlayer
+            preroll={show_ad ? ad : null}
+            key={`${data.movie.id}-${JSON.stringify(playerData.initial)}`}
+            isMovie={isMovie}
+            id={data.movie.id}
+            source={playerData.initial}
+            thumbnail={basename + data.movie.thumbnail_url}
+            alt={
+              data.movie.name +
+              " ქართულად | " +
+              data.movie.name_eng +
+              " Qartulad"
+            }
+            trailer={data.movie.trailer ? data.movie.trailer : ""}
+            srcset={`
   ${
     basename +
     addStringToThumbnail(
@@ -116,21 +116,23 @@ export default function MoviePlayer() {
           )
         } 780w,
         ${basename + data.movie.thumbnail_url} 1200w `}
-        episodes={
-          isMovie
-            ? {
-                1: [
-                  { title: data.movie.name_eng, ...playerData.initial },
-                  {
-                    title: "TRAILER",
-                    languages: { ENG: { HD: data.movie.trailer } },
-                  },
-                ],
-              }
-            : playerData.episodes
-        }
-      />
-    </div>
+            episodes={
+              isMovie
+                ? {
+                    1: [
+                      { title: data.movie.name_eng, ...playerData.initial },
+                      {
+                        title: "TRAILER",
+                        languages: { ENG: { HD: data.movie.trailer } },
+                      },
+                    ],
+                  }
+                : playerData.episodes
+            }
+          />
+        </div>
+      )}
+    </>
   );
 }
 
