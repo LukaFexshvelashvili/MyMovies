@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import useOSPlayer from "./useOSPlayer";
 
+// @ts-ignore
 import Hls from "hls.js";
 
 export default function OSvideoShow() {
-  const { videoRef, videoSource, play, firstLoad } = useOSPlayer();
-
+  const { videoRef, videoSource, play, firstLoad, adPlayed, pause } =
+    useOSPlayer();
   useEffect(() => {
     if (!videoSource) return;
     const isM3U8 =
@@ -42,6 +43,11 @@ export default function OSvideoShow() {
       }
     }
   }, [videoSource, videoRef, firstLoad]);
+  useEffect(() => {
+    if (!adPlayed) {
+      pause();
+    }
+  }, [adPlayed]);
 
   if (videoSource?.includes("youtu.be")) {
     const getEmbedUrl = (url: string): string => {
@@ -62,6 +68,7 @@ export default function OSvideoShow() {
       />
     );
   }
+
   return (
     <>
       <video ref={videoRef} className="w-full h-full" />

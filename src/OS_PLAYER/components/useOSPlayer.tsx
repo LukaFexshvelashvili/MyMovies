@@ -6,6 +6,9 @@ export interface OSVideoContextType {
   videoRef: React.RefObject<null | HTMLVideoElement>;
   playerRef: React.RefObject<null | HTMLDivElement>;
   isPlaying: boolean;
+  preroll: { link: string; video: string } | null;
+  adPlayed: boolean;
+  setAdPlayed: Function;
   fullscreen: boolean;
   sound: number;
   duration: number;

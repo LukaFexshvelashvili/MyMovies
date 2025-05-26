@@ -35,6 +35,7 @@ type TOSplayer = {
   autoplay?: boolean;
   isMovie: boolean;
   trailer: string;
+  preroll: { link: string; video: string } | null;
 };
 
 export default function OSVideoPlayer({
@@ -42,15 +43,18 @@ export default function OSVideoPlayer({
   episodes,
   source,
   thumbnail,
+  preroll,
   alt,
   srcset,
   autoplay,
   isMovie,
   trailer,
 }: TOSplayer) {
+  // Replace with your ad video URL
   const videoRef = useRef<null | HTMLVideoElement>(null);
   const playerRef = useRef<null | HTMLDivElement>(null);
 
+  const [adPlayed, setAdPlayed] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [sound, setSound] = useState(1);
@@ -170,6 +174,7 @@ export default function OSVideoPlayer({
     <OSVideoContext.Provider
       value={{
         id,
+        preroll,
         videoRef,
         playerRef,
         episodes,
@@ -186,6 +191,8 @@ export default function OSVideoPlayer({
         pause,
         thumbnail,
         autoplay,
+        adPlayed,
+        setAdPlayed,
         alt,
         srcset,
         isLoading,

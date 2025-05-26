@@ -31,6 +31,7 @@ export default function OSepisodesSelector({
     setPlayerSettings,
     setFirstLoad,
     thumbnail,
+    fullscreen,
     playerSettings,
     isMovie,
   } = useOSPlayer();
@@ -264,7 +265,11 @@ export default function OSepisodesSelector({
         {activeSection == "seasons" ? (
           <div className=" px-3 w-full h-full flex items-center gap-2 text-[17px]">
             აირჩიეთ სეზონი{" "}
-            <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide max-mobile:hidden">
+            <span
+              className={`text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide max-mobile:hidden ${
+                fullscreen ? "hidden" : ""
+              } `}
+            >
               {activeSeason
                 ? `სეზონი ${current.season} / ეპიზოდი ${current.episode + 1}`
                 : ""}
@@ -281,7 +286,11 @@ export default function OSepisodesSelector({
           >
             <GoBackIcon className="h-[18px]" /> სეზონი {activeSeason}{" "}
             {activeSeason == current.season && (
-              <span className="text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide max-mobile:hidden">
+              <span
+                className={`text-[rgba(255,255,255,0.5)] text-sm ml-auto tracking-wide max-mobile:hidden ${
+                  fullscreen ? "hidden" : ""
+                }  `}
+              >
                 ეპიზოდი {current.episode + 1}
               </span>
             )}
@@ -289,7 +298,9 @@ export default function OSepisodesSelector({
         )}
         <div
           onClick={() => closeToggler()}
-          className="flex mobile:hidden h-13 p-3 aspect-square absolute right-0 top-0 text-textHead2 cursor-pointer"
+          className={`flex  h-13 p-3 aspect-square absolute right-0 top-0 text-textHead2 cursor-pointer ${
+            fullscreen ? "" : "mobile:hidden"
+          } `}
         >
           <CloseIcon />
         </div>

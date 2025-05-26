@@ -19,6 +19,7 @@ export default function VideoContainer() {
     togglePlay,
     showControls,
     setShowControls,
+    fullscreen,
     isPlaying,
     toggleFullscreen,
   } = useOSPlayer();
@@ -55,12 +56,11 @@ export default function VideoContainer() {
   }, [setShowControls, isPlaying]);
 
   return (
-    <div className="h-full w-full flex items-start relative">
+    <div className="h-full w-full flex items-start relative" ref={playerRef}>
       <div
-        ref={playerRef}
         className={`h-full aspect-video bg-[rgb(0,0,0)] flex justify-center items-center relative overflow-hidden shrink-1 ${
           !showControls ? "cursor-none" : ""
-        } `}
+        } ${fullscreen ? "w-full" : ""} `}
       >
         <StickyPlayerWrapper>
           <>

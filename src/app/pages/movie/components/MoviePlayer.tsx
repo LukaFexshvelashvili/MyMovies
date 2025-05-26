@@ -80,10 +80,14 @@ export default function MoviePlayer() {
       </>
     );
   const isMovie = data?.movie.type == 0 || data?.movie.type == 2 ? true : false;
-
+  const ad = {
+    link: "https://record.moviesgo.ge/?to=https://onservice.ge",
+    video: "/ads/onservice_ad.mp4",
+  };
   return (
     <div className="w-full mobile:h-[590px] aspect-video flex">
       <OSVideoPlayer
+        preroll={Math.random() > 0.6 ? ad : null}
         key={`${data.movie.id}-${JSON.stringify(playerData.initial)}`}
         isMovie={isMovie}
         id={data.movie.id}
