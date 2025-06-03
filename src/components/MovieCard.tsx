@@ -66,6 +66,8 @@ export default function MovieCard({
   const movie_link = `/${get_type_link(movie.type)}/${
     movie.id
   }/${movie_link_generate(decodeHtmlEntities(movie.name_eng))}`;
+  const optimized_image = image_resize(movie.thumbnail_url);
+
   return (
     <div
       className={` ${
@@ -93,34 +95,68 @@ export default function MovieCard({
           <Link
             to={movie_link}
             className="h-full w-full top-0 left-0 bg-[rgba(0,0,0,0.5)] absolute"
+            aria-label={
+              movie.name +
+              " ქართულად | " +
+              movie.name_eng +
+              " Qartulad | MYMOVIES"
+            }
           ></Link>
           <div className="absolute gap-1 top-1.5 right-1.5 flex items-center">
-            <div
+            <button
               onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
               className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
               aria-label="თრეილერი"
             >
               <TrailerIcon className="h-5 aspect-square" />
-            </div>
-            <div
+            </button>
+            <button
               onClick={() => setDetailsId(Number(movie.id))}
               className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
               aria-label="ინფორმაცია"
             >
               <InfoIcon className="h-5 aspect-square" />
-            </div>
+            </button>
           </div>
         </div>
-        <Link to={movie_link}>
-          <img
-            src={image_resize(movie.thumbnail_url).small}
-            alt={movie.name + " | " + movie.name_eng}
-            loading="lazy"
-            className="h-full w-full object-cover"
-          />
+        <Link
+          to={movie_link}
+          aria-label={
+            movie.name +
+            " ქართულად | " +
+            movie.name_eng +
+            " Qartulad | MYMOVIES"
+          }
+        >
+          <div className="relative w-full aspect-video">
+            <picture>
+              {/* Mobile: small image */}
+              <source
+                media="(max-width: 480px)"
+                srcSet={optimized_image.small}
+                type="image/webp"
+              />
+              {/* Tablet: medium image */}
+              <source
+                media="(max-width: 900px)"
+                srcSet={optimized_image.medium}
+                type="image/webp"
+              />
+              {/* Desktop: high-res image */}
+              <img
+                src={optimized_image.small}
+                alt={movie.name + " | " + movie.name_eng}
+                loading="lazy"
+                width="365"
+                height="205"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </picture>
+          </div>
           <div className="bg-gradient-to-t from-[rgba(0,0,0,0.85)] to-transparent absolute bottom-0 left-0 h-2/4 w-full"></div>
           <div className=" px-2.5 absolute z-[2] bottom-2">
-            <div className="flex items-center  gap-2 font-mainMedium text-white text-sm tracking-wider">
+            <div className="flex items-center gap-2 font-mainMedium text-white text-sm tracking-wider">
               <IMDbIcon className="w-[40px] h-[18px]" />
               {movie.imdb ? parseFloat(movie.imdb).toFixed(1) : "0.0"}
             </div>
@@ -227,6 +263,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
   //   e.preventDefault();
   //   e.stopPropagation();
   // };
+  const optimized_image = image_resize(movie.thumbnail_url);
 
   const addons = movie.addons ? JSON.parse(movie.addons) : [];
   const genres = movie.genres ? JSON.parse(movie.genres) : [];
@@ -258,52 +295,90 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
           <Link
             to={movie_link}
             className="h-full w-full top-0 left-0 bg-[rgba(0,0,0,0.5)] absolute"
+            aria-label={
+              movie.name +
+              " ქართულად | " +
+              movie.name_eng +
+              " Qartulad | MYMOVIES"
+            }
           ></Link>
           <div className="absolute gap-1 top-1.5 right-1.5 flex items-center">
-            <div
+            <button
               onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
               className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
               aria-label="თრეილერი"
             >
               <TrailerIcon className="h-5 aspect-square" />
-            </div>
-            <div
+            </button>
+            <button
               onClick={() => setDetailsId(Number(movie.id))}
               className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
               aria-label="ინფორმაცია"
             >
               <InfoIcon className="h-5 aspect-square" />
-            </div>
+            </button>
           </div>
         </div>
 
-        <Link to={movie_link}>
-          <img
-            src={image_resize(movie.thumbnail_url).small}
-            alt={movie.name + " | " + movie.name_eng}
-            srcSet={`${image_resize(movie.thumbnail_url).small} 480w,
-          ${image_resize(movie.thumbnail_url).small} 780w,
-          ${image_resize(movie.thumbnail_url).small} 1200w`}
-            loading="lazy"
-            className="h-full w-full object-cover hidden mobile:block"
-          />
-          <img
-            src={image_resize(movie.poster_url).small}
-            alt={movie.name + " | " + movie.name_eng}
-            srcSet={`${image_resize(movie.poster_url).small} 480w,
-          ${image_resize(movie.poster_url).small} 780w,
-          ${image_resize(movie.poster_url).small} 1200w`}
-            loading="lazy"
-            className="h-full w-full object-cover block mobile:hidden"
-          />
-        </Link>
-        <div className="bg-gradient-to-t from-[rgba(0,0,0,0.85)] to-transparent absolute bottom-0 left-0 h-2/4 w-full hidden mobile:block"></div>
-        <div className=" px-2.5 absolute z-[2] bottom-2 hidden mobile:block">
-          <div className="flex items-center gap-2 font-mainMedium text-white text-sm tracking-wider">
-            <IMDbIcon className="w-[40px] h-[18px]" />
-            {movie.imdb ? parseFloat(movie.imdb).toFixed(1) : "0.0"}
+        <Link
+          to={movie_link}
+          aria-label={
+            movie.name +
+            " ქართულად | " +
+            movie.name_eng +
+            " Qartulad | MYMOVIES"
+          }
+        >
+          <div className="relative w-full mobile:aspect-video aspect-[3/4]">
+            <picture className="hidden mobile:block">
+              {/* Mobile: small image */}
+              <source
+                media="(max-width: 480px)"
+                srcSet={optimized_image.small}
+                type="image/webp"
+              />
+              {/* Tablet: medium image */}
+              <source
+                media="(max-width: 780px)"
+                srcSet={optimized_image.medium}
+                type="image/webp"
+              />
+              {/* Desktop: high-res image */}
+              <img
+                src={optimized_image.high}
+                alt={movie.name + " | " + movie.name_eng}
+                loading="lazy"
+                width="300"
+                height="169"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </picture>
+            <picture className="block mobile:hidden">
+              <source
+                media="(max-width: 480px)"
+                srcSet={image_resize(movie.poster_url).small}
+                type="image/webp"
+              />
+              <img
+                src={image_resize(movie.poster_url).small}
+                alt={movie.name + " | " + movie.name_eng}
+                loading="lazy"
+                width="120"
+                height="180"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </picture>
           </div>
-        </div>
+          <div className="bg-gradient-to-t from-[rgba(0,0,0,0.85)] to-transparent absolute bottom-0 left-0 h-2/4 w-full hidden mobile:block"></div>
+          <div className=" px-2.5 absolute z-[2] bottom-2 hidden mobile:block">
+            <div className="flex items-center gap-2 font-mainMedium text-white text-sm tracking-wider">
+              <IMDbIcon className="w-[40px] h-[18px]" />
+              {movie.imdb ? parseFloat(movie.imdb).toFixed(1) : "0.0"}
+            </div>
+          </div>
+        </Link>
       </div>
       <div className="flex flex-col gap-2 w-full">
         <div className="flex flex-col gap-0.5 case_up uppercase tracking-wide ">

@@ -19,11 +19,9 @@ export type TSearchResponse = { total_rows: number; query: TMovieCard[] };
 // SEO MetaTags Component
 function MetaTags({
   searchQuery,
-  filters,
   data,
 }: {
   searchQuery?: string;
-  filters: any;
   data?: TSearchResponse;
 }) {
   // Get currently active filters for title enhancement
@@ -153,11 +151,7 @@ export default function Search() {
 
   return (
     <main>
-      <MetaTags
-        searchQuery={params.search_query}
-        filters={filters}
-        data={moviesList}
-      />
+      <MetaTags searchQuery={params.search_query} data={moviesList} />
       <section>
         <Filters
           initialFilters={filters}

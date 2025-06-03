@@ -30,7 +30,7 @@ export default function Footer() {
         <div className="py-15 flex items-center gap-5 justify-center">
           <span className="h-[1px] w-50 bg-white/10 max-992:w-[20%]"></span>
           <Link
-            to={"https://record.moviesgo.ge/?to=https://onservice.ge"}
+            to={"https://record.moviesgo.cc/?to=https://onservice.ge"}
             target="_blank"
             className="flex items-center gap-4 opacity-60 hover:opacity-80 "
             aria-label="OnService.ge - ციფრული სერვისები"

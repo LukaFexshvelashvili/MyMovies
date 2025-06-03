@@ -104,10 +104,10 @@ function SliderCard({
   const movie_link = `/${get_type_link(movie.type)}/${
     movie.id
   }/${movie_link_generate(decodeHtmlEntities(movie.name_eng))}`;
-
+  const optimized_image = image_resize(movie.thumbnail_url);
   return (
     <div className="relative w-full h-full shrink-0 select-none z-90">
-      <div className="bg-gradient-to-b from-transparent to-[#111111]  absolute h-full w-full top-0 left-0 z-10"></div>
+      <div className="bg-gradient-to-b from-transparent to-[#111111] absolute h-full w-full top-0 left-0 z-10"></div>
       <div className="my_container relative z-20 h-full flex items-end mobile:py-10 py-4 ">
         <Link
           to={movie_link}
@@ -119,8 +119,8 @@ function SliderCard({
           <h3 className="text-white/60 mobile:text-[18px] text-[16px] line-clamp-1">
             {movie.name_eng} ({movie.year})
           </h3>
-          <div className="flex items-center mobile:gap-4 gap-2  text-[15px] tracking-wider mt-1">
-            <IMDbIcon className="mobile:h-[30px] mobile:w-[40px]  w-[36px]" />
+          <div className="flex items-center mobile:gap-4 gap-2 text-[15px] tracking-wider mt-1">
+            <IMDbIcon className="mobile:h-[30px] mobile:w-[40px] w-[36px]" />
             {Number(movie.imdb).toFixed(1)}
           </div>
           <div className="flex gap-5 items-center mt-4">
@@ -132,25 +132,42 @@ function SliderCard({
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-
                 getDetails();
               }}
-              className="flex justify-center items-center absolute mobile:static mobile:left-3 right-3 top-3 text-lg text-textHead mobile:h-9.5 h-8 aspect-square z-20 cursor-pointer rounded-[20px] mobile:bg-white/5 bg-black/25 mobile:hover:bg-white/10  p-1 transition-colors"
+              className="flex justify-center items-center absolute mobile:static mobile:left-3 right-3 top-3 text-lg text-textHead mobile:h-9.5 h-8 aspect-square z-20 cursor-pointer rounded-[20px] mobile:bg-white/5 bg-black/25 mobile:hover:bg-white/10 p-1 transition-colors"
             >
               <InfoIcon className="mobile:h-4.5 h-4" />
             </button>
           </div>
         </Link>
       </div>
-      <img
-        src={"https://cdn.moviesgo.ge/" + movie.thumbnail_url}
-        alt={movie.name + " | " + movie.name_eng}
-        srcSet={`${image_resize(movie.thumbnail_url).small} 480w,
-                  ${image_resize(movie.thumbnail_url).medium} 780w,
-                  ${image_resize(movie.thumbnail_url).high} 1200w`}
-        loading={eager ? "eager" : "lazy"}
-        className="h-full w-full min-h-full top-0 left-0 absolute object-cover medium:object-[0px_-200px]"
-      />
+      <div className="absolute inset-0">
+        <picture>
+          {/* Mobile: small image */}
+          <source
+            media="(max-width: 480px)"
+            srcSet={optimized_image.small}
+            type="image/webp"
+          />
+          {/* Tablet: medium image */}
+          <source
+            media="(max-width: 780px)"
+            srcSet={optimized_image.medium}
+            type="image/webp"
+          />
+          {/* Desktop: high-res image */}
+          <img
+            src={optimized_image.high}
+            alt={`${movie.name} | ${movie.name_eng}`}
+            loading={eager ? "eager" : "lazy"}
+            width="1920"
+            height="410"
+            decoding="async"
+            fetchPriority={eager ? "high" : "auto"}
+            className="absolute top-0 left-0 h-full w-full object-cover medium:object-[0px_-200px]"
+          />
+        </picture>
+      </div>
     </div>
   );
 }

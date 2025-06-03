@@ -24,7 +24,9 @@ export default function MovieSettings({
   const { setDetailsId } = useDetailsOverlay();
   const { bookmarks, addToBookmarks, removeFromBookmarks } = useBookmarks();
   const { addAlert } = useAlerts();
-  const toggleBookmark = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const toggleBookmark = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     e.stopPropagation();
     if (bookmarks.includes(Number(id))) {
@@ -42,7 +44,7 @@ export default function MovieSettings({
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center mobile:gap-3 gap-2 mobile:py-3 py-3 select-none">
-        <div
+        <button
           onClick={() =>
             addAlert({
               title: "ფილმი მოწონებულია",
@@ -56,8 +58,8 @@ export default function MovieSettings({
             placeholder="OS"
             show={<HeartIcon height={16} className="text-white/90" />}
           />
-        </div>
-        <div
+        </button>
+        <button
           onClick={toggleBookmark}
           className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
           aria-label="Bookmark Movie Button"
@@ -76,9 +78,9 @@ export default function MovieSettings({
               />
             }
           />
-        </div>
+        </button>
 
-        <div
+        <button
           className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
           aria-label="Report Movie Problem Button"
         >
@@ -87,8 +89,8 @@ export default function MovieSettings({
             placeholder="OS"
             show={<WarningIcon height={16} className="text-white/90" />}
           />
-        </div>
-        <div
+        </button>
+        <button
           onClick={() => setDetailsId(Number(id))}
           className="h-[36px] aspect-square rounded-[20px] flex justify-center items-center cursor-pointer bg-white/0 transition-colors hover:bg-white/10"
           aria-label="Movie Share Button"
@@ -102,7 +104,7 @@ export default function MovieSettings({
               </>
             }
           />
-        </div>
+        </button>
       </div>
       <div className="flex items-center gap-3 mobile:hidden tracking-wider text-white/90 text-[15px] font-robotoGeoCaps">
         <SkeletonSection

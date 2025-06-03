@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import OSVideoPlayer from "../../../../OS_PLAYER/OSVideoPlayer";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchMovie } from "../../../../api/ServerFunctions";
 import { TMovie, TMovieCard } from "../../../types/MovieTypes";
 import { useQuery } from "@tanstack/react-query";
@@ -53,13 +53,13 @@ export default function MoviePlayer() {
     return newFileName;
   }
   const isMovie = data?.movie.type == 0 || data?.movie.type == 2 ? true : false;
-  const ad = {
-    link: "https://record.moviesgo.ge/?to=https://onservice.ge",
-    video: "/ads/onservice_ad.mp4",
-  };
-  const show_ad = useMemo(() => {
-    return Math.random() > 0.6;
-  }, [id]);
+  // const ad = {
+  //   link: "https://record.moviesgo.ge/?to=https://onservice.ge",
+  //   video: "/ads/onservice_ad.mp4",
+  // };
+  // const show_ad = useMemo(() => {
+  //   return Math.random() > 0.6;
+  // }, [id]);
   return (
     <>
       {!data?.movie.players || !playerData?.initial || isLoading ? (
@@ -87,7 +87,8 @@ export default function MoviePlayer() {
       ) : (
         <div className="w-full mobile:h-[590px] aspect-video flex">
           <OSVideoPlayer
-            preroll={show_ad ? ad : null}
+            // preroll={show_ad ? ad : null}
+            preroll={null}
             key={`${data.movie.id}-${JSON.stringify(playerData.initial)}`}
             isMovie={isMovie}
             id={data.movie.id}

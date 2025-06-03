@@ -33,7 +33,9 @@ export type THomeList = {
 // SEO MetaTags Component
 function MetaTags({ data }: { data?: THomeList }) {
   // Base title and description
-  const seo_title = "ფილმები ქართულად | Filmebi Qartulad | MyMovies";
+  const seo_title = "MYMOVIES | ფილმები ქართულად | Filmebi Qartulad";
+  const seo_title2 = "ფილმები ქართულად | Filmebi Qartulad | MyMovies";
+
   const seo_desc =
     "უყურე ფილმებს, სერიალებს და ანიმეებს ქართულად MyMovies-ზე | ფილმები ქართულად, სერიალები ქართულად, ანიმეები ქართულად | Filmebi Qartulad | Serialebi Qartulad ";
 
@@ -80,7 +82,7 @@ function MetaTags({ data }: { data?: THomeList }) {
   return (
     <>
       <title>{seo_title}</title>
-      <meta name="title" content={seo_title} />
+      <meta name="title" content={seo_title2} />
       <meta name="description" content={seo_desc} />
       <meta name="keywords" content={keywords} />
       <meta name="robots" content="index, follow" />
@@ -277,7 +279,7 @@ function PopularsSection({
               <MovieCardSkeleton small key={i} />
             ))
           : visibleList.map((movie: TMovieCard, i: number) => (
-              <div className="relative" key={movie.id}>
+              <div className="relative max-mobile:w-full" key={movie.id}>
                 <div className="absolute top-0 left-0 text-textHead text-lg font-mainRegular bg-navBg h-9 aspect-square justify-center items-center flex z-10 pointer-events-none select-none">
                   {i + 1}
                 </div>

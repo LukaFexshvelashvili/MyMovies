@@ -28,7 +28,7 @@ export default function RatedMovies(props: {
 
   return (
     <div
-      className={`h-[350px] overflow-hidden max-mobile:h-auto max-mobile:py-5 relative bg-black w-full`}
+      className={`mobile:min-h-[350px] overflow-hidden h-auto  py-5 relative bg-black w-full`}
     >
       <img
         src={props.image}
@@ -36,8 +36,8 @@ export default function RatedMovies(props: {
         alt={props.title}
       />
       <div className="absolute top-0 left-0 h-full w-full bg-black/70"></div>
-      <div className="my_container relative h-full w-full flex items-center overflow-hidden gap-8 max-mobile:gap-0 max-mobile:flex-col ">
-        <div className="flex flex-col text-xl shrink-0">{props.title}</div>
+      <div className="my_container relative h-full w-full flex items-center overflow-hidden   gap-0 flex-col ">
+        <div className="flex flex-col  shrink-0 text-lg">{props.title}</div>
         <div className="flex-col flex-1 gap-4 overflow-hidden  items-center relative w-full">
           {!isLoading && data ? (
             <>

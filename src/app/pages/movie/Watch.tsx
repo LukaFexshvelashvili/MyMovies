@@ -54,14 +54,7 @@ export default function Watch() {
     <>
       {data?.movie && <MetaDataGenerate movie={data.movie} />}
       <main className="pb-20">
-        <div className="mobile:h-[160px] h-auto  w-full bg-[#0E0101] flex justify-center">
-          <img
-            src="/decorations/movieBanner.png"
-            role="decorative"
-            alt=""
-            className="max-w-full"
-          />
-        </div>
+        <div className="mobile:h-[160px] h-auto  w-full bg-[url('/decorations/background.svg')] bg-[#0c0c0c] flex justify-center"></div>
         <section className="mobile:mt-6 mt-0  overflow-x-hidden ">
           <div className="my_container max-mobile:!p-0">
             <MoviePlayer />
