@@ -168,7 +168,7 @@ export default function Home() {
           />
         </div>
         <div
-          className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/animesBg.png')] bg-no-repeat bg-cover bg-center"
+          className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/animesBg.webp')] bg-no-repeat bg-cover bg-center"
           style={{ "--color-main": "#E24456" } as React.CSSProperties}
         >
           <div className="my_container">
@@ -192,7 +192,7 @@ export default function Home() {
           />
         </div>
         <div
-          className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/tvShowsBg.png')] bg-no-repeat bg-cover bg-center"
+          className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/tvShowsBg.webp')] bg-no-repeat bg-cover bg-center"
           style={{ "--color-main": "#1093cf" } as React.CSSProperties}
         >
           <div className="my_container">
@@ -207,7 +207,7 @@ export default function Home() {
           </div>
         </div>
         <div
-          className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/animationsBg.png')] bg-no-repeat bg-cover bg-center"
+          className="bg-[rgb(17,_17,_17)] mobile:py-10 py-5 bg-[url('/decorations/animationsBg.webp')] bg-no-repeat bg-cover bg-center"
           style={{ "--color-main": "#01b698" } as React.CSSProperties}
         >
           <div className="my_container">

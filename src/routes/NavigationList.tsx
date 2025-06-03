@@ -13,7 +13,11 @@ const RoutesList = {
     { title: "სერიალები", path: "/tv-shows", icon: TvShowIcon },
     { title: "ანიმაციები", path: "/animations", icon: AnimationsIcon },
     { title: "ანიმეები", path: "/animes", icon: AnimesIcon },
-    { title: "თრეილერები", path: "/trailers", icon: TrailerIcon },
+    {
+      title: "თრეილერები",
+      path: `/search/?page=1&addons=%5B"თრეილერი"%5D`,
+      icon: TrailerIcon,
+    },
   ],
 };
 export default RoutesList;

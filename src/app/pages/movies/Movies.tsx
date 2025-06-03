@@ -52,7 +52,7 @@ export default function Movies({ type }: { type: number }) {
       {/* <div className="bg-[rgb(17,_17,_17)] mobile:h-[200px] h-[100px] bg-[url('decorations/background.svg')] bg-no-repeat bg-cover bg-center w-full "></div> */}
       <RatedMovies
         title={"რჩეული " + getCategoryName(type)}
-        image="decorations/movies.png"
+        image={getCategoryBg(type)}
         type={type}
       />
       <Filters
@@ -161,6 +161,20 @@ const getCategoryName = (type: number): string => {
       return "ანიმეები";
     default:
       return "ფილმები";
+  }
+};
+const getCategoryBg = (type: number): string => {
+  switch (type) {
+    case 0:
+      return "decorations/moviesRated.webp";
+    case 1:
+      return "decorations/tvShowsRated.webp";
+    case 2:
+      return "decorations/animationsRated.webp";
+    case 3:
+      return "decorations/animesRated.webp";
+    default:
+      return "decorations/moviesRated.webp";
   }
 };
 
