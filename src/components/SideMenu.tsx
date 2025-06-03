@@ -55,7 +55,7 @@ export default function SideMenu(props: {
               <SideBarButton
                 key={genre.title}
                 title={genre.title}
-                link={`/search/a?genres=%5B"${genre.title}"%5D`}
+                link={`/search/?genres=%5B"${genre.title}"%5D`}
                 setActive={setActiveLink}
                 active={activeLink}
               />

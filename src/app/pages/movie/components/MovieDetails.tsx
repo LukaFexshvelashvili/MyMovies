@@ -106,7 +106,7 @@ export default function MovieDetails({
                   <>
                     {wrappedGenres.map((genre: TGenre, index: number) => (
                       <Link
-                        to={`/search/a?genres=%5B"${genre.title}"%5D`}
+                        to={`/search/?genres=%5B"${genre.title}"%5D`}
                         key={index}
                         className="py-1 flex items-center px-3 bg-white/5 cursor-pointer text-white/50 hover:bg-white/10 hover:text-main transition-colors"
                       >

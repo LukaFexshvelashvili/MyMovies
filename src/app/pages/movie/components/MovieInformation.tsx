@@ -3,6 +3,7 @@ import { decodeHtmlEntities } from "../../../hooks/Customs";
 import { TMovie } from "../../../types/MovieTypes";
 import RateMovie from "./RateMovie";
 import MovieDetails from "./MovieDetails";
+import { useBreakpoint } from "../../../hooks/useBreakpoint";
 
 export default function MovieInformation({
   isActive,
@@ -13,6 +14,7 @@ export default function MovieInformation({
   movie: TMovie | undefined;
   isLoading: boolean;
 }) {
+  const isMobile = useBreakpoint(768);
   const addons = movie?.addons ? JSON.parse(movie.addons) : [];
 
   return (
@@ -115,14 +117,11 @@ export default function MovieInformation({
                 }
               />
             </div>
-            <div className="hidden mobile:flex">
-              <MovieDetails movie={movie} isLoading={isLoading} />
-            </div>
+
+            {!isMobile && <MovieDetails movie={movie} isLoading={isLoading} />}
           </div>
         </div>
-        <div className="flex mobile:hidden">
-          <MovieDetails movie={movie} isLoading={isLoading} />
-        </div>
+        {isMobile && <MovieDetails movie={movie} isLoading={isLoading} />}
       </div>
     </section>
   );

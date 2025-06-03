@@ -44,7 +44,7 @@ export default function SelectorSection() {
   ];
   return (
     <>
-      <div className="bg-gradient-to-b from-[#111111] to-[#141414] w-full h-[86px] mobile:h-[110px] flex items-center overflow-x-auto mobile:py-5 py-3 custom_scrollbar no_mobile_scrollbar ">
+      <div className="bg-gradient-to-b from-[#111111] to-[#141414] sm_scrollbar w-full h-[86px] mobile:h-[110px] flex items-center overflow-x-auto mobile:py-5 py-3 custom_scrollbar no_mobile_scrollbar ">
         <div className="my_container flex items-center gap-5 h-full">
           {lists.map((list) => (
             <SelectorItem

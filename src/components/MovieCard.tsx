@@ -335,7 +335,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
           <div className="flex gap-2 flex-wrap max-mobile:hidden">
             {genres.map((genre: string, index: number) => (
               <Link
-                to={`/search/a?genres=%5B"${genre}"%5D`}
+                to={`/search/?genres=%5B"${genre}"%5D`}
                 key={index}
                 className="py-1 flex items-center px-3 bg-white/5 cursor-pointer text-white/50 hover:bg-white/10 hover:text-main transition-colors"
               >

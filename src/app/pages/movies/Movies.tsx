@@ -11,35 +11,47 @@ import MovieCard, {
 import { useQuery } from "@tanstack/react-query";
 import { TMovieCard } from "../../types/MovieTypes";
 import RatedMovies from "./components/RatedMovies";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchMovies } from "../../../api/ServerFunctions";
 import { useParams, useSearchParams } from "react-router";
 import { TSearchResponse } from "../search/Search";
+import SearchPagination from "../../pages/search/components/SearchPagination";
 
-export default function Movies({
-  type,
-  title,
-}: {
-  type: number;
-  title: string;
-}) {
+export default function Movies({ type }: { type: number }) {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState<object>({
     ...params,
     ...Object.fromEntries(searchParams),
   });
+  const [currentPage, setCurrentPage] = useState<number>(
+    searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1
+  );
+
+  const page_limit = 32;
   const { data, isPending } = useQuery<TSearchResponse>({
-    queryKey: ["movies", { filters }, type],
-    queryFn: () => fetchMovies({ types: JSON.stringify([type]), ...filters }),
+    queryKey: ["movies", { filters, page: currentPage }, type],
+    queryFn: () =>
+      fetchMovies({
+        types: JSON.stringify([type]),
+        page: currentPage,
+        ...filters,
+      }),
   });
+
+  const pages = data?.total_rows ? Math.ceil(data.total_rows / page_limit) : 1;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const [sortCard, setSortCard] = useState<"card" | "wide">("card");
   return (
     <main>
+      <MetaTags type={type} filters={filters} data={data} />
       {/* <div className="bg-[rgb(17,_17,_17)] mobile:h-[200px] h-[100px] bg-[url('decorations/background.svg')] bg-no-repeat bg-cover bg-center w-full "></div> */}
       <RatedMovies
-        title={"რჩეული " + title}
+        title={"რჩეული " + getCategoryName(type)}
         image="decorations/movies.png"
         type={type}
       />
@@ -109,7 +121,7 @@ export default function Movies({
           )
         ) : null}
         {sortCard === "card" ? (
-          <div className="flex gap-6 justify-between flex-wrap py-3">
+          <div className="grid grid-cols-1 540:grid-cols-2  992:grid-cols-3  1250:grid-cols-4  1680:grid-cols-5 gap-4 py-5 w-full place-items-center">
             {data?.query.map((movie: TMovieCard) => (
               <MovieCard mobile_full small key={movie.id} movie={movie} />
             ))}{" "}
@@ -122,6 +134,143 @@ export default function Movies({
           </div>
         )}
       </div>
+      <SearchPagination
+        setSearchParams={(new_params) =>
+          setSearchParams((old_params) => ({
+            ...Object.fromEntries(old_params),
+            ...new_params,
+          }))
+        }
+        setCurrentPage={setCurrentPage}
+        pages={pages}
+        currentPage={currentPage}
+      />
     </main>
+  );
+}
+// Utility function to get category name from type
+const getCategoryName = (type: number): string => {
+  switch (type) {
+    case 0:
+      return "ფილმები";
+    case 1:
+      return "სერიალები";
+    case 2:
+      return "ანიმაციები";
+    case 3:
+      return "ანიმეები";
+    default:
+      return "ფილმები";
+  }
+};
+
+// SEO MetaTags Component
+function MetaTags({
+  type,
+  filters,
+  data,
+}: {
+  type: number;
+  filters: any;
+  data?: TSearchResponse;
+}) {
+  const categoryName = getCategoryName(type);
+
+  // Get currently active filters for title enhancement
+  const activeFilters = Object.entries(filters)
+    .filter(([key, value]) => value && key !== "page")
+    .map(([_, value]) => `${value}`)
+    .join(", ");
+
+  // Base title and descriptions
+  let seo_title = `${categoryName} ქართულად - MyMovies`;
+  let seo_desc = `უყურე ${categoryName
+    .toLowerCase()
+    .slice(0, -1)}ს ქართულად MyMovies-ზე | `;
+
+  // Add filter info if present
+  if (activeFilters) {
+    seo_title = `${categoryName} - ${activeFilters} ქართულად - MyMovies`;
+    seo_desc += `${activeFilters}, `;
+  }
+
+  // Add total results if available
+  if (data?.total_rows) {
+    seo_desc += `${data.total_rows} ${categoryName.toLowerCase()} | `;
+  }
+
+  // Complete description with general site info
+  seo_desc += "ფილმები ქართულად | Filmebi Qartulad | Serialebi Qartulad";
+
+  // Optimize lengths
+  if (seo_title.length >= 60) {
+    seo_title = `${categoryName} ქართულად - MyMovies`;
+  }
+  if (seo_desc.length >= 160) {
+    seo_desc = seo_desc.slice(0, 159);
+  }
+
+  // Current URL
+  const url = window.location.href;
+
+  // Keywords based on type and filters
+  const keywords = `${categoryName} ქართულად, ${activeFilters}, MyMovies, ფილმები ქართულად, ${categoryName.toLowerCase()} ქართულად`;
+
+  // Schema.org data
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": url,
+    url: url,
+    name: seo_title,
+    description: seo_desc,
+    numberOfItems: data?.total_rows || 0,
+    itemListElement:
+      data?.query?.map((movie: TMovieCard, index: number) => ({
+        "@type": "Movie",
+        "@id": `https://mymovies.cc/watch/${movie.id}`,
+        position: index + 1,
+        url: `https://mymovies.cc/watch/${movie.id}-${movie.name_eng.replace(
+          /\s+/g,
+          "-"
+        )}`,
+        name: movie.name,
+        image: movie.poster_url,
+        dateCreated: movie.year,
+      })) || [],
+  };
+
+  return (
+    <>
+      <title>{seo_title}</title>
+      <meta name="title" content={seo_title} />
+      <meta name="description" content={seo_desc} />
+      <meta name="keywords" content={keywords} />
+      <meta name="robots" content="index, follow" />
+      <link rel="canonical" href={url} />
+      <link
+        rel="icon"
+        type="image/png"
+        href="/assets/meta/icon.png"
+        sizes="512x512"
+      />
+      <link rel="apple-touch-icon" href="/assets/meta/icon.png" />
+
+      {/* Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={seo_title} />
+      <meta property="og:description" content={seo_desc} />
+      <meta property="og:url" content={url} />
+      <meta property="og:locale" content="ka_GE" />
+      <meta property="og:site_name" content="mymovies" />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content={seo_title} />
+      <meta name="twitter:description" content={seo_desc} />
+
+      {/* JSON-LD */}
+      <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+    </>
   );
 }

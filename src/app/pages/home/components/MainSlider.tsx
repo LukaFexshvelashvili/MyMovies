@@ -1,4 +1,4 @@
-import { IMDbIcon } from "../../../../assets/icons/MyIcons";
+import { IMDbIcon, InfoIcon } from "../../../../assets/icons/MyIcons";
 import { useQuery } from "@tanstack/react-query";
 import { THomeList } from "../Home";
 import { fetchMoviesList } from "../../../../api/ServerFunctions";
@@ -12,13 +12,14 @@ import { useRef, useState } from "react";
 import {
   decodeHtmlEntities,
   get_type_link,
-  get_type_link_geo,
   image_resize,
   movie_link_generate,
 } from "../../../hooks/Customs";
 import { Link } from "react-router";
+import useDetailsOverlay from "../../../store/useDetailsOverlay";
 
 export default function MainSlider() {
+  const { setDetailsId } = useDetailsOverlay();
   const { history } = useWatchHistory();
   const { data: moviesList, isLoading } = useQuery<THomeList>({
     queryKey: ["moviesList"],
@@ -34,7 +35,7 @@ export default function MainSlider() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="relative medium:h-[380px] h-[300px] bg-black flex justify-center">
+    <div className="relative medium:h-[410px] h-[300px] bg-black flex justify-center">
       <Swiper
         modules={[Autoplay, EffectFade]}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
@@ -56,7 +57,11 @@ export default function MainSlider() {
           : SliderList.map((movie: TMovieCard, i: number) =>
               movie ? (
                 <SwiperSlide key={movie.id}>
-                  <SliderCard eager={i === 0} movie={movie} />
+                  <SliderCard
+                    eager={i === 0}
+                    movie={movie}
+                    getDetails={() => setDetailsId(movie.id)}
+                  />
                 </SwiperSlide>
               ) : null
             )}
@@ -87,8 +92,15 @@ export default function MainSlider() {
   );
 }
 
-function SliderCard({ movie, eager }: { movie: TMovieCard; eager?: boolean }) {
-  const genres = movie.genres ? JSON.parse(movie.genres) : [];
+function SliderCard({
+  movie,
+  eager,
+  getDetails,
+}: {
+  movie: TMovieCard;
+  eager?: boolean;
+  getDetails: () => void;
+}) {
   const movie_link = `/${get_type_link(movie.type)}/${
     movie.id
   }/${movie_link_generate(decodeHtmlEntities(movie.name_eng))}`;
@@ -97,49 +109,39 @@ function SliderCard({ movie, eager }: { movie: TMovieCard; eager?: boolean }) {
     <div className="relative w-full h-full shrink-0 select-none z-90">
       <div className="bg-gradient-to-b from-transparent to-[#111111]  absolute h-full w-full top-0 left-0 z-10"></div>
       <div className="my_container relative z-20 h-full flex items-end mobile:py-10 py-4 ">
-        <div className="absolute top-6 mobile:top-10 left-4 text-textDescLight z-10 font-robotoGeoCaps cursor-pointer line-clamp-1">
-          <span className="text-textDescLight2 hover:text-textDescLight2">
-            {get_type_link_geo(movie.type)}
-          </span>{" "}
-          /{" "}
-          {genres[0] && (
-            <span className="hover:text-textDescLight2">
-              {movie?.genres ? JSON.parse(movie.genres)[0] : ""}
-            </span>
-          )}{" "}
-          {genres[1] && (
-            <span className="hover:text-textDescLight2">
-              {movie?.genres ? JSON.parse(movie.genres)[1] : ""}
-            </span>
-          )}{" "}
-          {genres[2] && (
-            <span className="hover:text-textDescLight2">
-              {movie?.genres ? JSON.parse(movie.genres)[2] : ""}
-            </span>
-          )}
-          ...
-        </div>
         <Link
           to={movie_link}
           className="flex flex-col tracking-wider mobile:gap-0 gap-1 items-start"
         >
-          <h3 className="text-head mobile:text-[20px] text-[18px] line-clamp-1">
+          <h2 className="text-head mobile:text-[20px] text-[18px] line-clamp-1">
             {movie.name}
-          </h3>
-          <h4 className="text-white/60 mobile:text-[18px] text-[16px] line-clamp-1">
+          </h2>
+          <h3 className="text-white/60 mobile:text-[18px] text-[16px] line-clamp-1">
             {movie.name_eng} ({movie.year})
-          </h4>
+          </h3>
           <div className="flex items-center mobile:gap-4 gap-2  text-[15px] tracking-wider mt-1">
             <IMDbIcon className="mobile:h-[30px] mobile:w-[40px]  w-[36px]" />
             {Number(movie.imdb).toFixed(1)}
           </div>
-          <button className="h-[38px] w-[150px] mobile:flex hidden bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg items-center gap-2 justify-center mt-4">
-            უყურე
-          </button>
+          <div className="flex gap-5 items-center mt-4">
+            <button className="h-[38px] w-[150px] mobile:flex hidden bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg items-center gap-2 justify-center">
+              უყურე
+            </button>
+            <button
+              title="ინფორმაცია"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+
+                getDetails();
+              }}
+              className="flex justify-center items-center absolute mobile:static mobile:left-3 right-3 top-3 text-lg text-textHead mobile:h-9.5 h-8 aspect-square z-20 cursor-pointer rounded-[20px] mobile:bg-white/5 bg-black/25 mobile:hover:bg-white/10  p-1 transition-colors"
+            >
+              <InfoIcon className="mobile:h-4.5 h-4" />
+            </button>
+          </div>
         </Link>
       </div>
-      <div className="absolute w-full top-0 left-0 h-full z-[2] bg-gradient-to-r from-bodyBg/80 to-bodyBg/10"></div>
-      <div className="absolute w-full top-0 left-0 h-full z-[2] bg-gradient-to-t from-bodyBg/80 to-bodyBg/10"></div>
       <img
         src={"https://cdn.moviesgo.ge/" + movie.thumbnail_url}
         alt={movie.name + " | " + movie.name_eng}

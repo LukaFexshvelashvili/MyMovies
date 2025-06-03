@@ -19,13 +19,16 @@ import {
 import { MovieSkeletonSection } from "../../pages/movie/Watch";
 import { Link } from "react-router";
 import useAlerts from "../../store/useAlerts";
+import { genres, TGenre } from "../../../api/themes";
+import useTrailerOverlay from "../../store/useTrailerOverlay";
+import { useEffect } from "react";
 
 export default function DetailsOverlay() {
   const { detailsId, setDetailsId } = useDetailsOverlay();
 
   if (detailsId == null) return null;
   return (
-    <div className="fixed z-80  h-full w-full top-0 left-0 flex justify-center items-center">
+    <div className="fixed z-60  h-full w-full top-0 left-0 flex justify-center items-center">
       <div
         onClick={() => setDetailsId(null)}
         className="absolute top-0 left-0 h-full w-full z-0 bg-black/50"
@@ -52,8 +55,14 @@ function GetDetails({
     staleTime: 300000,
     refetchOnWindowFocus: false,
   });
+  const { setTrailerLink } = useTrailerOverlay();
   const addons = data?.movie.addons ? JSON.parse(data.movie.addons) : [];
-
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
   const movie_link = data
     ? `https://mymovies.cc/watch/${get_type_link(data.movie.type)}/${
         data.movie.id
@@ -76,6 +85,7 @@ function GetDetails({
         });
     }
   };
+
   return (
     <div className="relative bg-bodyBg aspect-video w-[94%] max-w-[900px] p-3 ">
       <div className="flex items-stretch gap-5 overflow-hidden ">
@@ -151,7 +161,7 @@ function GetDetails({
               isLoading={isLoading}
               placeholder="Garfield"
               show={
-                <h2 className="text-white/50 uppercase mobile:text-[18px] text-[17px]  line-clamp-2">
+                <h2 className="text-white/60 uppercase mobile:text-[18px] text-[17px]  line-clamp-2">
                   {decodeHtmlEntities(
                     data?.movie.name_eng ? data.movie.name_eng : ""
                   )}
@@ -159,7 +169,7 @@ function GetDetails({
               }
             />
           </div>
-          <div className="flex gap-2.5 text-white/40 mt-1 text-[14px] relative">
+          <div className="flex gap-2.5 text-white/60 mt-1 text-[14px] relative">
             <SkeletonSection
               isLoading={isLoading}
               placeholder="Garfi"
@@ -196,7 +206,7 @@ function GetDetails({
             show={
               <p
                 className="`mt-2  text-[15px]  leading-6.5 
-                           font-mainRegular tracking-wider text-textDescLight2  w-full line-clamp-6 relative"
+                           font-mainMedium tracking-wider text-textDescLight2  w-full line-clamp-6 relative"
               >
                 {decodeHtmlEntities(
                   data?.movie.description ? data?.movie.description : ""
@@ -206,35 +216,43 @@ function GetDetails({
           />
 
           <MovieDetailsOverlay movie={data?.movie} isLoading={isLoading} />
-          <div className="flex items-center gap-3 relative z-10 mt-auto ml-auto pt-5">
-            <Link
-              target="_blank"
-              to={"https://www.facebook.com/sharer/sharer.php?u=" + movie_link}
-              className="flex items-center bg-white/5 h-[34px] w-[150px] cursor-pointer hover:bg-white/10 transition-colors"
-            >
-              <div className="h-[34px] aspect-square bg-[#0077ff] flex justify-center items-center p-2">
-                <FacebookIcon className="h-full text-[#ffffff]" />
+          <div className="flex items-center gap-3 relative z-10 mt-auto justify-between pt-5  max-mobile:items-stretch flex-wrap">
+            <div className="flex items-center gap-3">
+              <Link
+                target="_blank"
+                to={
+                  "https://www.facebook.com/sharer/sharer.php?u=" + movie_link
+                }
+                className="flex items-center bg-white/5 h-[34px] w-[150px] cursor-pointer hover:bg-white/10 transition-colors"
+              >
+                <div className="h-[34px] aspect-square bg-[#0077ff] flex justify-center items-center p-2">
+                  <FacebookIcon className="h-full text-[#ffffff]" />
+                </div>
+                <p className="text-textDescLight text-sm ml-4">გაზიარება</p>
+              </Link>
+              <div
+                onClick={copyLink}
+                className="flex items-center bg-white/5 h-[34px] w-[150px] cursor-pointer hover:bg-white/10 transition-colors select-none"
+              >
+                <div className="h-[34px] aspect-square bg-main flex justify-center items-center p-2">
+                  <CopyIcon className="h-full text-white" />
+                </div>
+                <p className="text-textDescLight text-sm ml-4">კოპირება</p>
               </div>
-              <p className="text-textDescLight text-sm ml-4">გაზიარება</p>
-            </Link>
-            {/* <Link
-              to={"https://t.me/share/url?url=" + movie_link}
-              className="flex items-center bg-white/5 h-[34px] w-[150px] cursor-pointer hover:bg-white/10 transition-colors"
-            >
-              <div className="h-[34px] aspect-square bg-[#24a1de] flex justify-center items-center p-2">
-                <TelegramIcon className="h-full text-[#ffffff]" />
-              </div>
-              <p className="text-textDescLight text-sm ml-4">გაზიარება</p>
-            </Link> */}
-            <div
-              onClick={copyLink}
-              className="flex items-center bg-white/5 h-[34px] w-[150px] cursor-pointer hover:bg-white/10 transition-colors select-none"
-            >
-              <div className="h-[34px] aspect-square bg-main flex justify-center items-center p-2">
-                <CopyIcon className="h-full text-white" />
-              </div>
-              <p className="text-textDescLight text-sm ml-4">კოპირება</p>
             </div>
+            {data?.movie.trailer && (
+              <button
+                onClick={() => setTrailerLink(data.movie.trailer!)}
+                className="text-textDescLight px-4 text-sm justify-center flex items-center bg-white/5 h-[34px] w-[150px] cursor-pointer hover:bg-white/10 transition-colors flex-1"
+              >
+                თრეილერი
+              </button>
+            )}
+            <Link to={movie_link} className="flex-1">
+              <button className=" flex-1 h-[34px] w-[150px] text-sm text-textHead bg-main cursor-pointer hover:bg-mainHover max-mobile:ml-0 max-mobile:w-full">
+                უყურე
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -268,18 +286,23 @@ export function MovieDetailsOverlay({
   movie: TMovie | undefined;
   isLoading: boolean;
 }) {
+  const selectedTitles = movie?.genres ? JSON.parse(movie.genres) : [];
+
+  const wrappedGenres = genres.filter((genre: TGenre) =>
+    selectedTitles.includes(genre.title)
+  );
   return (
     <div className="flex items-start gap-5 mt-5 relative">
-      <div className="flex flex-col  gap-1  text-end">
+      <div className="flex flex-col  gap-1  ">
         <div className="flex gap-4">
-          <div className="mobile:flex-1 key text-white/40">
+          <div className="flex-1 key max-w-[150px] text-white/60">
             <MovieSkeletonSection
               isLoading={isLoading}
               placeholder="OnSe"
               show={<p>წელი:</p>}
             />
           </div>
-          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+          <div className="flex-1 text-start value text-textHead2">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}
@@ -289,14 +312,14 @@ export function MovieDetailsOverlay({
           </div>
         </div>
         <div className="flex gap-4">
-          <div className="mobile:flex-1 key text-white/40">
+          <div className="flex-1 key max-w-[150px] text-white/60">
             <MovieSkeletonSection
               isLoading={isLoading}
               placeholder="OnService"
               show={<p>ხანგრძლივობა:</p>}
             />
           </div>
-          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+          <div className="flex-1 text-start value text-textHead2">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}
@@ -306,7 +329,7 @@ export function MovieDetailsOverlay({
           </div>
         </div>
         <div className="flex gap-4">
-          <div className="mobile:flex-1 key text-white/40">
+          <div className="flex-1 key max-w-[150px] text-white/60">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}
@@ -314,7 +337,7 @@ export function MovieDetailsOverlay({
               show={<p>ქვეყანა:</p>}
             />
           </div>
-          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+          <div className="flex-1 text-start value text-textHead2">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}
@@ -324,7 +347,7 @@ export function MovieDetailsOverlay({
           </div>
         </div>
         <div className="flex gap-4">
-          <div className="mobile:flex-1 key text-white/40">
+          <div className="flex-1 key max-w-[150px] text-white/60">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}
@@ -332,7 +355,7 @@ export function MovieDetailsOverlay({
               show={<p>სტუდია:</p>}
             />
           </div>
-          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+          <div className="flex-1 text-start value text-textHead2">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}
@@ -342,7 +365,7 @@ export function MovieDetailsOverlay({
           </div>
         </div>
         <div className="flex gap-4">
-          <div className="mobile:flex-1 key text-white/40">
+          <div className="flex-1 key max-w-[150px] text-white/60">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}
@@ -350,33 +373,31 @@ export function MovieDetailsOverlay({
               show={<p>ჟანრი:</p>}
             />
           </div>
-          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+          <div className="flex-1 text-start value text-textHead2">
             {" "}
             <p className="flex gap-3 flex-wrap !h-auto">
               <MovieSkeletonSection
                 isLoading={isLoading}
                 placeholder="OnService Luka Fexshvelashvili"
                 show={
-                  movie?.genres
-                    ? JSON.parse(movie.genres).map(
-                        (genre: string, index: number) => (
-                          <Link
-                            to={`/search/a?genres=%5B"${genre}"%5D`}
-                            key={index}
-                            className="py-1 flex items-center px-3 bg-white/5 cursor-pointer text-white/50 hover:bg-white/10 hover:text-main transition-colors"
-                          >
-                            {genre}
-                          </Link>
-                        )
-                      )
-                    : null
+                  <>
+                    {wrappedGenres.map((genre: TGenre, index: number) => (
+                      <Link
+                        to={`/search/?genres=%5B"${genre.title}"%5D`}
+                        key={index}
+                        className="py-1 flex items-center px-3 bg-white/5 cursor-pointer text-white/50 hover:bg-white/10 hover:text-main transition-colors"
+                      >
+                        {genre.title}
+                      </Link>
+                    ))}
+                  </>
                 }
               />
             </p>
           </div>
         </div>
         <div className="flex gap-4">
-          <div className="mobile:flex-1 key text-white/40 ">
+          <div className="flex-1 key max-w-[150px] text-white/40 ">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}
@@ -384,7 +405,7 @@ export function MovieDetailsOverlay({
               show={<p>რეჟისორი:</p>}
             />
           </div>
-          <div className="mobile:flex-[2.5] text-start value text-textHead2">
+          <div className="flex-1 text-start value text-textHead2">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}

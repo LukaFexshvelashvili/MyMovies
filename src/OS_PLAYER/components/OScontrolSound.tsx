@@ -30,7 +30,10 @@ export default function OScontrolSound() {
 
   const volumeUp = () => {
     if (videoRef.current) {
-      setSound((state) => (state + 0.1 > 1 ? 1 : state + 0.1));
+      setSound((state) => {
+        videoRef.current!.volume = state + 0.1 > 1 ? 1 : state + 0.1;
+        return state + 0.1 > 1 ? 1 : state + 0.1;
+      });
     }
     if (sound >= 0 && isMuted) {
       setIsMuted(false);
@@ -38,7 +41,10 @@ export default function OScontrolSound() {
   };
   const volumeDown = () => {
     if (videoRef.current) {
-      setSound((state) => (state - 0.1 < 0 ? 0 : state - 0.1));
+      setSound((state) => {
+        videoRef.current!.volume = state - 0.1 < 0 ? 0 : state - 0.1;
+        return state - 0.1 < 0 ? 0 : state - 0.1;
+      });
     }
     if (sound === 0 && !isMuted) {
       setIsMuted(true);

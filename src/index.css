@@ -43,6 +43,15 @@
   --breakpoint-os_player_mobile: 850px;
   --breakpoint-medium: 1200px;
   --breakpoint-filterChange: 1400px;
+  --breakpoint-460: 460px;
+  --breakpoint-540: 540px;
+  --breakpoint-600: 600px;
+  --breakpoint-768: 768px;
+  --breakpoint-992: 992px;
+  --breakpoint-1024: 1024px;
+  --breakpoint-1250: 1250px;
+  --breakpoint-1400: 1400px;
+  --breakpoint-1680: 1680px;
 }
 
 @font-face {
@@ -215,6 +224,9 @@ input {
 .no_mobile_scrollbar::-webkit-scrollbar {
   display: none;
 }
+.sm_scrollbar::-webkit-scrollbar {
+  height: 4px;
+}
 .arrow_after::before {
   cursor: default;
   content: "";
@@ -244,9 +256,9 @@ input {
     width: 970px;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1250px) {
   .my_container {
-    width: 1170px;
+    width: 1240px;
   }
 }
 @media (min-width: 1400px) {

@@ -30,7 +30,7 @@ export default function GenresSelector() {
 function GenreBlock({ genre }: { genre: TGenre }) {
   return (
     <div className="relative h-[130px] w-[300px] select-none cursor-pointer group">
-      <Link to={`/search/a?genres=%5B"${genre.title}"%5D`}>
+      <Link to={`/search/?genres=%5B"${genre.title}"%5D`}>
         <img
           src={genre.image}
           className="absolute top-0 left-0 h-full w-full object-cover"

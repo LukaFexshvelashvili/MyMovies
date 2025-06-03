@@ -39,23 +39,12 @@ function App() {
           <Route path="/">
             <Route index element={<Home />} />
             <Route path="logout" element={<Logout />} />
+            <Route path="search/" element={<Search />} />
             <Route path="search/:search_query" element={<Search />} />
-            <Route
-              path="movies"
-              element={<Movies type={0} title="ფილმები" />}
-            />
-            <Route
-              path="tv-shows"
-              element={<Movies type={1} title="სერიალები" />}
-            />
-            <Route
-              path="animations"
-              element={<Movies type={2} title="ანიმაციები" />}
-            />
-            <Route
-              path="animes"
-              element={<Movies type={3} title="ანიმეები" />}
-            />
+            <Route path="movies" element={<Movies type={0} />} />
+            <Route path="tv-shows" element={<Movies type={1} />} />
+            <Route path="animations" element={<Movies type={2} />} />
+            <Route path="animes" element={<Movies type={3} />} />
             <Route path="movie/:id/:title" element={<Watch />} />
             <Route path="tv-show/:id/:title" element={<Watch />} />
             <Route path="anime/:id/:title" element={<Watch />} />
@@ -72,7 +61,7 @@ export default App;
 
 export function SuspenseLoader() {
   return (
-    <div className="flex justify-center items-center min-h-[400px] ">
+    <div className="flex justify-center items-center min-h-[400px] w-full h-full ">
       <div className="my_loader"></div>
     </div>
   );

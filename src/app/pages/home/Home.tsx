@@ -30,6 +30,96 @@ export type THomeList = {
   animes: TMovieCard[];
 };
 
+// SEO MetaTags Component
+function MetaTags({ data }: { data?: THomeList }) {
+  // Base title and description
+  const seo_title = "ფილმები ქართულად | Filmebi Qartulad | MyMovies";
+  const seo_desc =
+    "უყურე ფილმებს, სერიალებს და ანიმეებს ქართულად MyMovies-ზე | ფილმები ქართულად, სერიალები ქართულად, ანიმეები ქართულად | Filmebi Qartulad | Serialebi Qartulad ";
+
+  // Keywords based on available content
+  const keywords =
+    "ფილმები ქართულად, სერიალები ქართულად, ანიმეები ქართულად, " +
+    "filmebi qartulad, serialebi qartulad, animebi qartulad, MyMovies";
+
+  // Current URL
+  const url = window.location.href;
+
+  // Schema.org data for movie website
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": url,
+    url: url,
+    name: "MyMovies",
+    description: seo_desc,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://mymovies.cc/search/{search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+    // Adding latest movies as ItemList
+    about: {
+      "@type": "ItemList",
+      itemListElement:
+        data?.news?.slice(0, 10).map((movie: TMovieCard, index: number) => ({
+          "@type": "Movie",
+          "@id": `https://mymovies.cc/watch/${movie.id}`,
+          position: index + 1,
+          url: `https://mymovies.cc/watch/${movie.id}-${movie.name_eng.replace(
+            /\s+/g,
+            "-"
+          )}`,
+          name: movie.name,
+          image: movie.poster_url,
+          dateCreated: movie.year,
+        })) || [],
+    },
+  };
+
+  return (
+    <>
+      <title>{seo_title}</title>
+      <meta name="title" content={seo_title} />
+      <meta name="description" content={seo_desc} />
+      <meta name="keywords" content={keywords} />
+      <meta name="robots" content="index, follow" />
+      <link rel="canonical" href={url} />
+      <link
+        rel="icon"
+        type="image/png"
+        href="/assets/meta/icon.png"
+        sizes="512x512"
+      />
+      <link rel="apple-touch-icon" href="/assets/meta/icon.png" />
+
+      {/* Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={seo_title} />
+      <meta property="og:description" content={seo_desc} />
+      <meta property="og:url" content={url} />
+      <meta property="og:locale" content="ka_GE" />
+      <meta property="og:site_name" content="mymovies" />
+      <meta
+        property="og:image"
+        content={data?.main_slider?.[0]?.poster_url || "/assets/meta/icon.png"}
+      />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={seo_title} />
+      <meta name="twitter:description" content={seo_desc} />
+      <meta
+        name="twitter:image"
+        content={data?.main_slider?.[0]?.poster_url || "/assets/meta/icon.png"}
+      />
+
+      {/* JSON-LD */}
+      <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+    </>
+  );
+}
+
 export default function Home() {
   const queryClient = useQueryClient();
   const { history } = useWatchHistory();
@@ -39,10 +129,15 @@ export default function Home() {
     staleTime: 1000000,
   });
   queryClient.setQueryData(["watch_history", 1], moviesList?.watch_history);
+
   return (
     <>
-      <title>ფილმები ქართულად | Filmebi Qartulad | MyMovies</title>
+      <MetaTags data={moviesList} />
       <main>
+        <h1 className="hidden">
+          ფილმები ქართულად | Filmebi Qartulad | Serialebi Qartulad | Animeebi
+          Qartulad | MyMovies
+        </h1>
         <MainSlider />
         <SelectorSection />
         <div className="my_container my-10">

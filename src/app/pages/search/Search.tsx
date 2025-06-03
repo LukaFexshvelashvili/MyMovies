@@ -15,6 +15,106 @@ import {
 } from "../../../assets/icons/MyIcons";
 
 export type TSearchResponse = { total_rows: number; query: TMovieCard[] };
+
+// SEO MetaTags Component
+function MetaTags({
+  searchQuery,
+  filters,
+  data,
+}: {
+  searchQuery?: string;
+  filters: any;
+  data?: TSearchResponse;
+}) {
+  // Get currently active filters for title enhancement
+
+  // Base title and descriptions
+  let seo_title = searchQuery
+    ? `${searchQuery} - ძიების შედეგები MyMovies`
+    : "ფილმების ძიება - MyMovies";
+
+  let seo_desc = searchQuery
+    ? `${searchQuery} - ${data?.total_rows || 0} შედეგი | `
+    : "მოძებნე ფილმები, სერიალები ანიმაციები და ანიმეები ქართულად | MyMovies ";
+
+  // Add filter info if present
+
+  // Complete description with general site info
+  seo_desc += "ფილმები ქართულად | Filmebi Qartulad | Serialebi Qartulad";
+
+  // Optimize lengths
+  if (seo_title.length >= 60) {
+    seo_title = `${searchQuery} - ძიების შედეგები MyMovies`;
+  }
+  if (seo_desc.length >= 160) {
+    seo_desc = seo_desc.slice(0, 159);
+  }
+
+  // Current URL
+  const url = window.location.href;
+
+  // Keywords based on search query and filters
+  const keywords = `${searchQuery}, ${searchQuery} Qartulad, ${searchQuery} ქართულად, MyMovies, ფილმები ქართულად, ძიება`;
+
+  // Schema.org data for search results
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SearchResultsPage",
+    "@id": url,
+    url: url,
+    name: seo_title,
+    description: seo_desc,
+    numberOfItems: data?.total_rows || 0,
+    itemListElement:
+      data?.query?.map((movie: TMovieCard, index: number) => ({
+        "@type": "Movie",
+        "@id": `https://mymovies.cc/watch/${movie.id}`,
+        position: index + 1,
+        url: `https://mymovies.cc/watch/${movie.id}-${movie.name_eng.replace(
+          /\s+/g,
+          "-"
+        )}`,
+        name: movie.name,
+        image: movie.poster_url,
+        dateCreated: movie.year,
+      })) || [],
+  };
+
+  return (
+    <>
+      <title>{seo_title}</title>
+      <meta name="title" content={seo_title} />
+      <meta name="description" content={seo_desc} />
+      <meta name="keywords" content={keywords} />
+      <meta name="robots" content="index, follow" />
+      <link rel="canonical" href={url} />
+      <link
+        rel="icon"
+        type="image/png"
+        href="/assets/meta/icon.png"
+        sizes="512x512"
+      />
+      <link rel="apple-touch-icon" href="/assets/meta/icon.png" />
+
+      {/* Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={seo_title} />
+      <meta property="og:description" content={seo_desc} />
+      <meta property="og:url" content={url} />
+      <meta property="og:locale" content="ka_GE" />
+      <meta property="og:site_name" content="mymovies" />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content={seo_title} />
+      <meta name="twitter:description" content={seo_desc} />
+
+      {/* JSON-LD */}
+      <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+    </>
+  );
+}
+
 export default function Search() {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -53,6 +153,11 @@ export default function Search() {
 
   return (
     <main>
+      <MetaTags
+        searchQuery={params.search_query}
+        filters={filters}
+        data={moviesList}
+      />
       <section>
         <Filters
           initialFilters={filters}
@@ -116,10 +221,10 @@ export default function Search() {
                 <MovieCardSkeleton mobile_full />
               </>
             ) : sortCard === "card" ? (
-              <div className="flex gap-3 gap-y-5 justify-between flex-wrap py-5">
+              <div className="grid grid-cols-1 540:grid-cols-2  992:grid-cols-3  1250:grid-cols-4  1680:grid-cols-5 gap-4 py-5 w-full place-items-center">
                 {moviesList?.query.map((movie: TMovieCard) => (
                   <MovieCard mobile_full small key={movie.id} movie={movie} />
-                ))}{" "}
+                ))}
               </div>
             ) : (
               <div className="flex flex-col py-5 divide-y divide-white/5">
@@ -132,7 +237,7 @@ export default function Search() {
           <SearchPagination
             setSearchParams={(new_params) =>
               setSearchParams((old_params) => ({
-                ...Object.fromEntries(old_params), // convert to object first
+                ...Object.fromEntries(old_params),
                 ...new_params,
               }))
             }

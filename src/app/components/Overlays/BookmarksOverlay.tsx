@@ -4,6 +4,7 @@ import MovieCard, { MovieCardSkeleton } from "../../../components/MovieCard";
 import useOverlayStore from "../../store/useOverlay";
 import { useBookmarks } from "../../store/useBookmarks";
 import { fetchBookmarks } from "../../../api/ServerFunctions";
+import { CloseIcon } from "../../../assets/icons/MyIcons";
 
 export default function BookmarksOverlay() {
   const { bookmarksOverlay, setBookmarksOverlay } = useOverlayStore();
@@ -23,6 +24,12 @@ export default function BookmarksOverlay() {
       <div
         className={`h-full w-[260px] mobile:w-[350px] bg-sidebarBg relative top-0 right-0 z-10 case_up duration-250 transition-transform flex flex-col slideInAnimate`}
       >
+        <div
+          onClick={() => setBookmarksOverlay(false)}
+          className="absolute right-3 top-2 text-lg text-textHead2 h-8 aspect-square z-20 cursor-pointer rounded-[20px] bg-white/5 hover:bg-white/10 p-1 transition-colors"
+        >
+          <CloseIcon />
+        </div>
         <div className="border-b border-white/10 py-3 text-textDesc text-center">
           {" "}
           ჩანიშნული ფილმები

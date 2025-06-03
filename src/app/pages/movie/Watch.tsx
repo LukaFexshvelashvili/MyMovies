@@ -1,10 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-
 import MovieComments from "./components/MovieComments";
-
 import { useParams } from "react-router";
 import { fetchMovie } from "../../../api/ServerFunctions";
-
 import { TMovie, TMovieCard } from "../../types/MovieTypes";
 import { useWatchHistory } from "../../store/useWatchHistory";
 import { decodeHtmlEntities } from "../../hooks/Customs";
@@ -27,6 +24,7 @@ export default function Watch() {
     staleTime: 300000,
     refetchOnWindowFocus: false,
   });
+
   useEffect(() => {
     if (!id) return;
     setActiveOption(-1);
@@ -54,7 +52,7 @@ export default function Watch() {
 
   return (
     <>
-      <MetaHeaders movie={data?.movie} />
+      {data?.movie && <MetaDataGenerate movie={data.movie} />}
       <main className="pb-20">
         <div className="mobile:h-[160px] h-auto  w-full bg-[#0E0101] flex justify-center">
           <img
@@ -74,13 +72,13 @@ export default function Watch() {
                     isLoading={isLoading}
                     placeholder="Garfield"
                     show={
-                      <h1
+                      <h2
                         className={`text-[17px] font-robotoGeoCaps tracking-wider text-textHead`}
                       >
                         {decodeHtmlEntities(
                           data?.movie.name ? data.movie.name : ""
                         )}
-                      </h1>
+                      </h2>
                     }
                   />
                   <MovieSkeletonSection
@@ -99,7 +97,7 @@ export default function Watch() {
                 </div>
               </div>
               <MovieSettings
-                id={id ? id : -1}
+                id={id ? id : "-1"}
                 movie={data?.movie}
                 isLoading={isLoading}
               />
@@ -158,16 +156,48 @@ export function MovieSkeletonSection(props: {
     </>
   );
 }
-function MetaHeaders({ movie }: { movie: TMovie | undefined }) {
-  if (!movie) return;
+
+function MetaDataGenerate({ movie }: { movie: TMovie }) {
+  // Meta data generation
   const getMovieSchemaType = (type: number): "Movie" | "TVSeries" => {
     return [1, 3].includes(type) ? "TVSeries" : "Movie";
   };
 
-  const fullTitle = `${movie.name} ქართულად / ${movie.name_eng} Qartulad - MyMovies`;
-  const description = `${movie.name_eng} (${
-    movie.year
-  }) ქართულად - ${movie.description.slice(0, 150)}...`;
+  // Determine if movie has Georgian audio
+  const is_geo = movie.addons
+    ? JSON.parse(movie.addons).includes("ქართულად")
+    : false;
+  const ending_geo = is_geo ? "ქართულად" : "ინგლისურად";
+  const ending_eng = is_geo ? "Qartulad" : "Inglisurad";
+
+  // Optimize title length
+  let seo_title = `${movie.name} ${ending_geo} / ${movie.name_eng} ${ending_eng}`;
+  if (seo_title.length >= 60) {
+    seo_title = `${movie.name} ${ending_geo}`;
+  }
+  if (seo_title.length <= 48) {
+    seo_title += " - MyMovies";
+  }
+
+  // Optimize description length
+  let seo_desc = `${movie.name} (${movie.year}) ${ending_geo} | ${
+    movie.name_eng
+  } (${movie.year}) ${ending_eng} - ${movie.description.slice(
+    0,
+    40
+  )}... MyMovies - ფილმები ქართულად | Filmebi Qartulad | Animeebi Qartulad | Serialebi Qartulad`;
+  if (seo_desc.length >= 60) {
+    seo_desc = `${movie.name_eng} (${
+      movie.year
+    }) qartulad - ${movie.description.slice(
+      0,
+      40
+    )}... MyMovies - ფილმები ქართულად | Filmebi Qartulad | Animeebi Qartulad | Serialebi Qartulad`;
+  }
+  if (seo_desc.length >= 160) {
+    seo_desc = seo_desc.slice(0, 159);
+  }
+
   const keywords = `${movie.name} ქართულად, ${movie.name_eng}, MyMovies - ${movie.name}`;
   const url = `https://mymovies.cc/watch/${movie.id}-${movie.name_eng.replace(
     /\s+/g,
@@ -196,9 +226,9 @@ function MetaHeaders({ movie }: { movie: TMovie | undefined }) {
 
   return (
     <>
-      <title>{fullTitle}</title>
-      <meta name="title" content={fullTitle} />
-      <meta name="description" content={description} />
+      <title>{seo_title}</title>
+      <meta name="title" content={seo_title} />
+      <meta name="description" content={seo_desc} />
       <meta name="keywords" content={keywords} />
       <meta name="robots" content="index, follow" />
       <link rel="canonical" href={url} />
@@ -212,8 +242,8 @@ function MetaHeaders({ movie }: { movie: TMovie | undefined }) {
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
+      <meta property="og:title" content={seo_title} />
+      <meta property="og:description" content={seo_desc} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={image} />
       <meta property="og:locale" content="ka_GE" />
@@ -221,8 +251,8 @@ function MetaHeaders({ movie }: { movie: TMovie | undefined }) {
 
       {/* Twitter */}
       <meta name="twitter:card" content={image} />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
+      <meta name="twitter:title" content={seo_title} />
+      <meta name="twitter:description" content={seo_desc} />
       <meta name="twitter:image" content={image} />
 
       {/* JSON-LD */}
