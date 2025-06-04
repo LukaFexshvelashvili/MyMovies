@@ -86,13 +86,6 @@ function MetaTags({
       <meta name="keywords" content={keywords} />
       <meta name="robots" content="index, follow" />
       <link rel="canonical" href={url} />
-      <link
-        rel="icon"
-        type="image/png"
-        href="/assets/meta/icon.png"
-        sizes="512x512"
-      />
-      <link rel="apple-touch-icon" href="/assets/meta/icon.png" />
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />

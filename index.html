@@ -4,12 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/meta/icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="120x120"
+      href="/assets/meta/icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="/assets/meta/icon512.png"
+    />
+    <link rel="apple-touch-icon" href="/assets/meta/icon512.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <link
       rel="preload"
       href="/fonts/blockfont.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-DZ4H9CQV4Z"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-DZ4H9CQV4Z");
+    </script>
   </head>
   <body class="bg-bodyBg custom_scrollbar">
     <div id="root"></div>

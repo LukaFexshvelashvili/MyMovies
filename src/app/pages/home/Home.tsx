@@ -54,6 +54,7 @@ function MetaTags({ data }: { data?: THomeList }) {
     "@id": url,
     url: url,
     name: "MyMovies",
+    image: "https://mymovies.cc/assets/meta/banner.png",
     description: seo_desc,
     potentialAction: {
       "@type": "SearchAction",
@@ -87,13 +88,7 @@ function MetaTags({ data }: { data?: THomeList }) {
       <meta name="keywords" content={keywords} />
       <meta name="robots" content="index, follow" />
       <link rel="canonical" href={url} />
-      <link
-        rel="icon"
-        type="image/png"
-        href="/assets/meta/icon.png"
-        sizes="512x512"
-      />
-      <link rel="apple-touch-icon" href="/assets/meta/icon.png" />
+     
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />
@@ -102,19 +97,13 @@ function MetaTags({ data }: { data?: THomeList }) {
       <meta property="og:url" content={url} />
       <meta property="og:locale" content="ka_GE" />
       <meta property="og:site_name" content="mymovies" />
-      <meta
-        property="og:image"
-        content={data?.main_slider?.[0]?.poster_url || "/assets/meta/icon.png"}
-      />
+      <meta property="og:image" content={"/assets/meta/banner.png"} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={seo_title} />
       <meta name="twitter:description" content={seo_desc} />
-      <meta
-        name="twitter:image"
-        content={data?.main_slider?.[0]?.poster_url || "/assets/meta/icon.png"}
-      />
+      <meta name="twitter:image" content={"/assets/meta/banner.png"} />
 
       {/* JSON-LD */}
       <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>

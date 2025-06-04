@@ -64,7 +64,7 @@ function GetDetails({
     };
   }, []);
   const movie_link = data
-    ? `https://mymovies.cc/watch/${get_type_link(data.movie.type)}/${
+    ? `https://mymovies.cc/${get_type_link(data.movie.type)}/${
         data.movie.id
       }/${movie_link_generate(decodeHtmlEntities(data.movie.name_eng))}`
     : "";
@@ -248,8 +248,12 @@ function GetDetails({
                 თრეილერი
               </button>
             )}
-            <Link to={movie_link} className="flex-1">
-              <button className=" flex-1 h-[34px] w-[150px] text-sm text-textHead bg-main cursor-pointer hover:bg-mainHover max-mobile:ml-0 max-mobile:w-full">
+            <Link
+              to={movie_link}
+              className=" flex-1"
+              onClick={() => closeDetails()}
+            >
+              <button className="w-full flex-1 h-[34px] text-sm text-textHead bg-main cursor-pointer hover:bg-mainHover max-mobile:ml-0 ">
                 უყურე
               </button>
             </Link>

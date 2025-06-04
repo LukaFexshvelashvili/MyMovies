@@ -77,7 +77,7 @@ export default function MainSlider() {
                 <button
                   key={movie.id}
                   onClick={() => swiperRef.current?.slideToLoop(idx)}
-                  className={`h-[11px] cursor-pointer aspect-square rounded-xl ${
+                  className={`mobile:h-[11px] h-[9px] cursor-pointer aspect-square rounded-xl ${
                     activeIndex === idx
                       ? "bg-white"
                       : "bg-white/50 transition-colors hover:bg-white/80"
@@ -123,8 +123,8 @@ function SliderCard({
             <IMDbIcon className="mobile:h-[30px] mobile:w-[40px] w-[36px]" />
             {Number(movie.imdb).toFixed(1)}
           </div>
-          <div className="flex gap-5 items-center mt-4">
-            <button className="h-[38px] w-[150px] mobile:flex hidden bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg items-center gap-2 justify-center">
+          <div className="flex gap-5 items-center mt-4 mobile:flex hidden">
+            <button className="h-[38px] w-[150px]  bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg items-center gap-2 justify-center">
               უყურე
             </button>
             <button
@@ -162,7 +162,7 @@ function SliderCard({
             loading={eager ? "eager" : "lazy"}
             width="1920"
             height="410"
-            decoding="async"
+            decoding={eager ? "async" : "sync"}
             fetchPriority={eager ? "high" : "auto"}
             className="absolute top-0 left-0 h-full w-full object-cover medium:object-[0px_-200px]"
           />

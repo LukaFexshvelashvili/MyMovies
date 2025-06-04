@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from "react-router";
 import Navbar from "../components/Navbar";
-// import Home from "./pages/home/Home";
+import Home from "./pages/home/Home";
 import { lazy, Suspense, useEffect, useState } from "react";
 // import Movies from "./pages/movies/Movies";
 import Overlays from "./components/Overlays/Overlays";
@@ -10,7 +10,7 @@ import UserDataControl from "../components/UserDataControl";
 // import Logout from "./pages/Logout";
 // import Watch from "./pages/movie/Watch";
 import Footer from "../components/Footer";
-const Home = lazy(() => import("./pages/home/Home"));
+// const Home = lazy(() => import("./pages/home/Home"));
 const Movies = lazy(() => import("./pages/movies/Movies"));
 const Search = lazy(() => import("./pages/search/Search"));
 const Logout = lazy(() => import("./pages/Logout"));

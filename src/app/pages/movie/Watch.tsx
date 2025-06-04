@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import MovieComments from "./components/MovieComments";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { fetchMovie } from "../../../api/ServerFunctions";
 import { TMovie, TMovieCard } from "../../types/MovieTypes";
 import { useWatchHistory } from "../../store/useWatchHistory";
@@ -54,7 +54,15 @@ export default function Watch() {
     <>
       {data?.movie && <MetaDataGenerate movie={data.movie} />}
       <main className="pb-20">
-        <div className="mobile:h-[160px] h-auto  w-full bg-[url('/decorations/background.svg')] bg-[#0c0c0c] flex justify-center"></div>
+        <div className="mobile:h-[160px] h-auto  w-full  bg-[#0c0c0c] mobile:flex hidden justify-center">
+          <Link to={"https://moviesgo.ge"} target="_blank">
+            <img
+              src="/decorations/moviesgo_x_mymovies.webp"
+              alt="Moviesgo X MyMovies"
+              className="h-full w-full object-cover"
+            />
+          </Link>
+        </div>
         <section className="mobile:mt-6 mt-0  overflow-x-hidden ">
           <div className="my_container max-mobile:!p-0">
             <MoviePlayer />
@@ -225,13 +233,6 @@ function MetaDataGenerate({ movie }: { movie: TMovie }) {
       <meta name="keywords" content={keywords} />
       <meta name="robots" content="index, follow" />
       <link rel="canonical" href={url} />
-      <link
-        rel="icon"
-        type="image/png"
-        href="/assets/meta/icon.png"
-        sizes="512x512"
-      />
-      <link rel="apple-touch-icon" href="/assets/meta/icon.png" />
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />
