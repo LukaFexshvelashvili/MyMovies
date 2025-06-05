@@ -105,14 +105,14 @@ export default function MovieCard({
           <div className="absolute gap-1 top-1.5 right-1.5 flex items-center">
             <button
               onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
-              className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
+              className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2 cursor-pointer"
               aria-label="თრეილერი"
             >
               <TrailerIcon className="h-5 aspect-square" />
             </button>
             <button
               onClick={() => setDetailsId(Number(movie.id))}
-              className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
+              className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2 cursor-pointer"
               aria-label="ინფორმაცია"
             >
               <InfoIcon className="h-5 aspect-square" />
@@ -305,14 +305,14 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
           <div className="absolute gap-1 top-1.5 right-1.5 flex items-center">
             <button
               onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
-              className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
+              className=" my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2 cursor-pointer"
               aria-label="თრეილერი"
             >
               <TrailerIcon className="h-5 aspect-square" />
             </button>
             <button
               onClick={() => setDetailsId(Number(movie.id))}
-              className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2"
+              className="my_tooltip flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2 cursor-pointer"
               aria-label="ინფორმაცია"
             >
               <InfoIcon className="h-5 aspect-square" />

@@ -123,7 +123,7 @@ function SliderCard({
             <IMDbIcon className="mobile:h-[30px] mobile:w-[40px] w-[36px]" />
             {Number(movie.imdb).toFixed(1)}
           </div>
-          <div className="flex gap-5 items-center mt-4 mobile:flex hidden">
+          <div className=" gap-5 items-center mt-4 mobile:flex hidden">
             <button className="h-[38px] w-[150px]  bg-main cursor-pointer transition-colors hover:bg-mainHover text-white text-lg items-center gap-2 justify-center">
               უყურე
             </button>

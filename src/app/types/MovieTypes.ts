@@ -1,5 +1,6 @@
 export type TMovie = {
   id: number;
+  mid: number;
   name_eng: string;
   name: string;
   subtitle?: string | null;
@@ -21,6 +22,7 @@ export type TMovie = {
 };
 export type TMovieCard = {
   id: number;
+  mid: number;
   name_eng: string;
   name: string;
   subtitle?: string | null;
@@ -39,4 +41,19 @@ export type TMovieCard = {
   genres?: string | null;
   views?: number | null;
   create_date: string;
+};
+
+export type TCast = {
+  adult: boolean;
+  gender: string;
+  id: string;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string | null;
+  cast_id: string;
+  character: string;
+  credit_id: string;
+  order: string;
 };

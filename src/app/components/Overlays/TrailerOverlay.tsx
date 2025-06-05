@@ -5,7 +5,7 @@ export default function TrailerOverlay() {
   const { trailerLink, setTrailerLink } = useTrailerOverlay();
   if (!trailerLink) return null;
   return (
-    <div className="fixed z-70  h-full w-full top-0 left-0 flex justify-center items-center">
+    <div className="fixed z-[101]  h-full w-full top-0 left-0 flex justify-center items-center">
       <div
         onClick={() => setTrailerLink("")}
         className="absolute top-0 left-0 h-full w-full z-0 bg-black/50"

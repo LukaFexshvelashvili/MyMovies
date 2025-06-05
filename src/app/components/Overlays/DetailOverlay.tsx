@@ -28,7 +28,7 @@ export default function DetailsOverlay() {
 
   if (detailsId == null) return null;
   return (
-    <div className="fixed z-60  h-full w-full top-0 left-0 flex justify-center items-center">
+    <div className="fixed z-[100]  h-full w-full top-0 left-0 flex justify-center items-center">
       <div
         onClick={() => setDetailsId(null)}
         className="absolute top-0 left-0 h-full w-full z-0 bg-black/50"

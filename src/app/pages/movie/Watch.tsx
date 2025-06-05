@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import MovieComments from "./components/MovieComments";
 import { Link, useParams } from "react-router";
-import { fetchMovie } from "../../../api/ServerFunctions";
-import { TMovie, TMovieCard } from "../../types/MovieTypes";
+import { fetchCasts, fetchMovie } from "../../../api/ServerFunctions";
+import { TCast, TMovie, TMovieCard } from "../../types/MovieTypes";
 import { useWatchHistory } from "../../store/useWatchHistory";
 import { decodeHtmlEntities } from "../../hooks/Customs";
 import SimilarMovies from "./components/SimilarMovies";
@@ -24,7 +24,16 @@ export default function Watch() {
     staleTime: 300000,
     refetchOnWindowFocus: false,
   });
-
+  const { data: casts, isLoading: castsLoading } = useQuery<{
+    cast: TCast[] | null;
+  }>({
+    queryKey: ["casts", data?.movie.mid],
+    queryFn: () => fetchCasts(data?.movie.mid ? data?.movie.mid : -1),
+    staleTime: 300000,
+    refetchOnWindowFocus: false,
+    enabled: data?.movie.mid ? true : false,
+  });
+  console.log(casts);
   useEffect(() => {
     if (!id) return;
     setActiveOption(-1);
@@ -127,6 +136,27 @@ export default function Watch() {
           movie={data?.movie}
           isLoading={isLoading}
         />
+        <div className="my_container my-6">
+          <h2 className="text-textHead text-xl mobile:block hidden mb-6">
+            მსახიობები
+          </h2>
+          <div className="flex gap-6">
+            {!castsLoading &&
+              casts?.cast?.map((actor) => (
+                <div className="">
+                  {actor.profile_path && (
+                    <img
+                      src={
+                        "https://media.themoviedb.org/t/p/w235_and_h235_face" +
+                        actor.profile_path
+                      }
+                      alt={"Actor |" + actor.name}
+                    />
+                  )}
+                </div>
+              ))}
+          </div>
+        </div>
         <SimilarMovies
           isActive={activeOption == 1}
           isLoading={isLoading}

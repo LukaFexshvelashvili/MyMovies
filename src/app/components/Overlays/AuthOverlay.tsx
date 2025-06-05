@@ -122,15 +122,30 @@ function RegisterSection(props: { changeForm: Function }) {
   const [data, action, isPending] = useActionState(registerRequest, null);
 
   const [show, setShow] = useState(false);
-
+  const { setUser } = useUser();
+  useEffect(() => {
+    if (data?.status == 200) {
+      setUser(data.data);
+    }
+  }, [data]);
   return (
     <form action={action}>
       <div className="flex flex-col gap-3  px-5 py-5">
-        {data?.status == 3 ? (
+        {data?.status == 12 && (
           <div className="w-full py-3 flex justify-center items-center text-warning bg-warning/10 border border-warning">
             პაროლები არ ემთხვევა
           </div>
-        ) : null}
+        )}
+        {data?.status == 3 && (
+          <div className="w-full py-3 flex justify-center items-center text-warning bg-warning/10 border border-warning">
+            მსგავსი მეილი უკვე არსებობს
+          </div>
+        )}
+        {data?.status == 4 && (
+          <div className="w-full py-3 flex justify-center items-center text-warning bg-warning/10 border border-warning">
+            მსგავსი სახელი უკვე არსებობს
+          </div>
+        )}
         <div className="flex flex-col gap-6">
           <InputBlock label="სახელი" name="username" />
           <InputBlock label="ელ-ფოსტა" name="email" />
