@@ -43,7 +43,7 @@ export default function MovieSettings({
   };
   return (
     <div className="flex justify-between items-center">
-      <div className="flex items-center mobile:gap-3 gap-2 mobile:py-3 py-3 select-none">
+      <div className="flex items-center mobile:gap-3 gap-2 mobile:py-3 py-4 select-none">
         <button
           onClick={() =>
             addAlert({

@@ -127,8 +127,15 @@ export default function MovieInformation({
           </div>
         </div>
         {isMobile && <MovieDetails movie={movie} isLoading={isLoading} />}
-        <MovieCast casts={casts} castsLoading={castsLoading} />
       </div>
+      {(casts?.cast?.length == 0 && !castsLoading) || (
+        <>
+          <div className="w-full h-[2px] bg-white/5 my-5 mobile:invisible"></div>
+          <div className="my_container">
+            <MovieCast casts={casts} castsLoading={castsLoading} />
+          </div>
+        </>
+      )}
     </section>
   );
 }

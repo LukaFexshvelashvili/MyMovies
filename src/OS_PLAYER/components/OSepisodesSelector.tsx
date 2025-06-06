@@ -100,7 +100,7 @@ export default function OSepisodesSelector({
         });
       }
     }
-  }, []);
+  }, [id, episodes]);
 
   useEffect(() => {
     if (!episodesList.current) return;

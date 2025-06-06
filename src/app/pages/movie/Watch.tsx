@@ -10,7 +10,6 @@ import MoviePlayer from "./components/MoviePlayer";
 import MovieSettings from "./components/MovieSettings";
 import MovieInformation from "./components/MovieInformation";
 import { useEffect, useState } from "react";
-import MovieCast from "./components/MovieCast";
 
 export default function Watch() {
   const { addToHistory } = useWatchHistory();
@@ -34,7 +33,6 @@ export default function Watch() {
     refetchOnWindowFocus: false,
     enabled: data?.movie.mid ? true : false,
   });
-  console.log(casts);
   useEffect(() => {
     if (!id) return;
     setActiveOption(-1);
@@ -63,7 +61,7 @@ export default function Watch() {
   return (
     <>
       {data?.movie && <MetaDataGenerate movie={data.movie} />}
-      <main className="pb-20">
+      <main className="mobile:pb-20 pb-10">
         <div className="mobile:h-[160px] h-auto  w-full  bg-[#0c0c0c] mobile:flex hidden justify-center">
           <Link to={"https://moviesgo.ge"} target="_blank">
             <img
