@@ -35,7 +35,7 @@ export default function SideMenu(props: {
                   key={route.title}
                   title={route.title}
                   icon={
-                    <route.icon className="text-textDesc h-3.5 aspect-square group-hover:text-white" />
+                    <route.icon className="h-3.5 aspect-square group-hover:text-white" />
                   }
                   link={route.path}
                   setActive={setActiveLink}
@@ -111,19 +111,27 @@ function SideBarButton({
     <Link
       to={link}
       onClick={() => setActive(title)}
-      className={`h-[44px] mobile:h-[42px] w-full flex items-center  font-mainMedium tracking-wider text-[15px] mobile:text-[15px] cursor-pointer group side_line ${
-        title == active
-      } text-sidebarText hover:before:bg-main`}
+      className={`h-[44px] mobile:h-[42px] w-full flex items-center font-mainMedium tracking-wider text-[15px] mobile:text-[15px] cursor-pointer group relative ${
+        title === active
+          ? "before:absolute before:left-0 before:top-0 before:w-[3px] before:h-full before:bg-main bg-white/5"
+          : ""
+      }`}
     >
       {icon && (
-        <div className="ml-5 h-[28px] aspect-square rounded-[20px] bg-[#2B2B2B] group-hover:bg-main transition-colors duration-100 flex justify-center items-center ">
+        <div
+          className={`ml-5 h-[28px] aspect-square rounded-[20px] ${
+            title === active
+              ? "bg-main text-white"
+              : "bg-[#2B2B2B] group-hover:bg-main text-textDesc "
+          } transition-colors duration-200 flex justify-center items-center`}
+        >
           {icon}
         </div>
       )}
       <p
-        className={`${
-          icon ? "px-4" : "px-7"
-        } group-hover:text-main transition-colors duration-100`}
+        className={`${icon ? "px-4" : "px-7"} ${
+          title === active ? "text-main" : "text-textDesc group-hover:text-main"
+        } transition-colors duration-200`}
       >
         {title}
       </p>

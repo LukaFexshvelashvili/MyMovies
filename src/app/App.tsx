@@ -34,7 +34,7 @@ function App() {
       <UserDataControl />
       <Navbar />
       <Overlays />
-      <Suspense fallback={<SuspenseLoader />}>
+      <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
@@ -63,6 +63,13 @@ export function SuspenseLoader() {
   return (
     <div className="flex justify-center items-center min-h-[400px] w-full h-full ">
       <div className="my_loader"></div>
+    </div>
+  );
+}
+export function PageLoader() {
+  return (
+    <div className="flex justify-center items-center min-h-[400px] w-full h-full ">
+      <div className="my_loader_page"></div>
     </div>
   );
 }

@@ -3,9 +3,9 @@ import SideMenu from "./SideMenu";
 import { Link, useLocation } from "react-router";
 import QuickSearch from "./QuickSearch";
 import { BookmarkIcon, ContinueWatchIcon } from "../assets/icons/MyIcons";
+import NavigationList from "../routes/NavigationList";
 import useOverlayStore from "../app/store/useOverlay";
 import useUser from "../app/store/useUser";
-import RoutesList from "../routes/NavigationList";
 
 export default function Navbar() {
   const { setHistoryOverlay, setBookmarksOverlay } = useOverlayStore();
@@ -103,15 +103,22 @@ export default function Navbar() {
         </nav>
         <div className="mobile:hidden h-11 w-full bg-navBg border-t border-white/5">
           <div className="flex items-stretch w-full h-full overflow-x-scroll no_scrollbar">
-            {RoutesList.mainRoutes.map((route, i) => (
-              <Link
-                key={i}
-                to={route.path}
-                className="px-3.5 h-full text-textDesc text-[15px]]"
-              >
-                <button className="h-full w-full">{route.title}</button>
-              </Link>
-            ))}
+            {NavigationList.mainRoutes.map((route, i) => {
+              const location = useLocation();
+              const isActive = location.pathname === route.path;
+
+              return (
+                <Link
+                  key={i}
+                  to={route.path}
+                  className={`px-3.5 h-full ${
+                    isActive ? "text-main" : "text-textDesc"
+                  } text-[15px] transition-colors duration-200`}
+                >
+                  <button className="h-full w-full">{route.title}</button>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </header>

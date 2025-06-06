@@ -287,6 +287,16 @@ input {
   font-family: blok;
   border-radius: 50%;
 }
+.my_loader_page {
+  will-change: box-shadow;
+  -webkit-animation: cssload-spin 4.6s ease infinite;
+  animation: cssload-spin 4.6s ease infinite;
+  margin: auto;
+  width: 12px;
+  height: 12px;
+  font-family: blok;
+  border-radius: 50%;
+}
 
 .slideInAnimate {
   animation: 0.2s slideIn ease-out forwards;

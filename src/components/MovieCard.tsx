@@ -289,7 +289,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
     <div
       className={` w-full group/card duration-200 cursor-pointer transition-colors shrink-0 flex gap-5 max-mobile:gap-3 max-mobile:px-2 px-4 py-5  bg-white/0 hover:bg-black/15`}
     >
-      <div className="relative mobile:w-[300px] w-[120px] min-h-[170px] shrink-0 mobile:aspect-video aspect-[3/4] bg-[#3b3b3b]">
+      <div className="relative mobile:w-[300px] w-[120px] min-h-[170px] shrink-0 mobile:aspect-video aspect-[3/4]">
         <div className="top-0 right-0 color-white absolute text-[13px] flex group-hover/card:opacity-0  pointer-events-none"></div>
         <div className="h-full w-full absolute top-0 left-0  pointer-events-none group-hover/card:pointer-events-auto opacity-0 group-hover/card:opacity-100 z-10">
           <Link
@@ -331,21 +331,8 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
         >
           <div className="relative w-full mobile:aspect-video aspect-[3/4]">
             <picture className="hidden mobile:block">
-              {/* Mobile: small image */}
-              <source
-                media="(max-width: 480px)"
-                srcSet={optimized_image.small}
-                type="image/webp"
-              />
-              {/* Tablet: medium image */}
-              <source
-                media="(max-width: 780px)"
-                srcSet={optimized_image.medium}
-                type="image/webp"
-              />
-              {/* Desktop: high-res image */}
               <img
-                src={optimized_image.high}
+                src={optimized_image.small}
                 alt={movie.name + " | " + movie.name_eng}
                 loading="lazy"
                 width="300"
@@ -355,11 +342,6 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
               />
             </picture>
             <picture className="block mobile:hidden">
-              <source
-                media="(max-width: 480px)"
-                srcSet={image_resize(movie.poster_url).small}
-                type="image/webp"
-              />
               <img
                 src={image_resize(movie.poster_url).small}
                 alt={movie.name + " | " + movie.name_eng}
@@ -372,6 +354,7 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
             </picture>
           </div>
           <div className="bg-gradient-to-t from-[rgba(0,0,0,0.85)] to-transparent absolute bottom-0 left-0 h-2/4 w-full hidden mobile:block"></div>
+
           <div className=" px-2.5 absolute z-[2] bottom-2 hidden mobile:block">
             <div className="flex items-center gap-2 font-mainMedium text-white text-sm tracking-wider">
               <IMDbIcon className="w-[40px] h-[18px]" />
@@ -406,7 +389,23 @@ export function MovieCardWide({ movie }: { movie: TMovieCard }) {
         <p className="text-textDescLight text-[15px] mt-0.5 max-h-[100px] truncate whitespace-normal line-clamp-3 max-mobile:text-[14px]">
           {movie.description}
         </p>{" "}
-        <div className="flex items-center justify-between max-mobile:justify-end mt-auto">
+        <div className="flex items-center justify-between  mt-auto">
+          <div className="  gap-1  mobile:hidden flex items-center">
+            <button
+              onClick={() => setTrailerLink(movie.trailer ? movie.trailer : "")}
+              className="  flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2 cursor-pointer"
+              aria-label="თრეილერი"
+            >
+              <TrailerIcon className="h-4 aspect-square text-icon" />
+            </button>
+            <button
+              onClick={() => setDetailsId(Number(movie.id))}
+              className=" flex justify-center transition-colors hover:bg-white/10 rounded-[20px] p-2 cursor-pointer"
+              aria-label="ინფორმაცია"
+            >
+              <InfoIcon className="h-4 aspect-square text-icon" />
+            </button>
+          </div>
           <div className="flex gap-2 flex-wrap max-mobile:hidden">
             {genres.map((genre: string, index: number) => (
               <Link

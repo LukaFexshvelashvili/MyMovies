@@ -10,6 +10,7 @@ import MoviePlayer from "./components/MoviePlayer";
 import MovieSettings from "./components/MovieSettings";
 import MovieInformation from "./components/MovieInformation";
 import { useEffect, useState } from "react";
+import MovieCast from "./components/MovieCast";
 
 export default function Watch() {
   const { addToHistory } = useWatchHistory();
@@ -119,7 +120,7 @@ export default function Watch() {
             <button
               key={option.id}
               onClick={() => setActiveOption(option.id)}
-              className={`px-7 text-textHead2 text-[15px] flex-1 h-full shrink-0  transition-all ${
+              className={`px-7 text-textHead2 text-[14px] flex-1 h-full shrink-0  transition-all ${
                 activeOption == option.id
                   ? "border-t-2 border-main text-main bg-bodyBg"
                   : option.id == 0 && activeOption == -1
@@ -135,28 +136,10 @@ export default function Watch() {
           isActive={activeOption == 0 || activeOption == -1}
           movie={data?.movie}
           isLoading={isLoading}
+          casts={casts}
+          castsLoading={castsLoading}
         />
-        <div className="my_container my-6">
-          <h2 className="text-textHead text-xl mobile:block hidden mb-6">
-            მსახიობები
-          </h2>
-          <div className="flex gap-6">
-            {!castsLoading &&
-              casts?.cast?.map((actor) => (
-                <div className="">
-                  {actor.profile_path && (
-                    <img
-                      src={
-                        "https://media.themoviedb.org/t/p/w235_and_h235_face" +
-                        actor.profile_path
-                      }
-                      alt={"Actor |" + actor.name}
-                    />
-                  )}
-                </div>
-              ))}
-          </div>
-        </div>
+
         <SimilarMovies
           isActive={activeOption == 1}
           isLoading={isLoading}

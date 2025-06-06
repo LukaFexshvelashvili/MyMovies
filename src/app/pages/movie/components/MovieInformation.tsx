@@ -1,18 +1,23 @@
 import { MovieSkeletonSection } from "../Watch";
 import { decodeHtmlEntities } from "../../../hooks/Customs";
-import { TMovie } from "../../../types/MovieTypes";
+import { TCast, TMovie } from "../../../types/MovieTypes";
 import RateMovie from "./RateMovie";
 import MovieDetails from "./MovieDetails";
 import { useBreakpoint } from "../../../hooks/useBreakpoint";
+import MovieCast from "./MovieCast";
 
 export default function MovieInformation({
   isActive,
   movie,
   isLoading,
+  casts,
+  castsLoading,
 }: {
   isActive: boolean;
   movie: TMovie | undefined;
   isLoading: boolean;
+  casts: { cast: TCast[] | null } | undefined;
+  castsLoading: boolean;
 }) {
   const isMobile = useBreakpoint(768);
   const addons = movie?.addons ? JSON.parse(movie.addons) : [];
@@ -122,6 +127,7 @@ export default function MovieInformation({
           </div>
         </div>
         {isMobile && <MovieDetails movie={movie} isLoading={isLoading} />}
+        <MovieCast casts={casts} castsLoading={castsLoading} />
       </div>
     </section>
   );
