@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useMemo } from "react";
 import useOSPlayer from "./useOSPlayer";
 import { useOSPreviewThumbnails } from "./useOSPreviewThumbnails";
 import { formatTime } from "./OStimeDisplay";
@@ -15,8 +15,9 @@ export default function OStimeline() {
   const percentageRef = useRef<HTMLDivElement>(null);
   const isHoveringRef = useRef<boolean>(false);
   const isDraggingRef = useRef<boolean>(false);
-  const current_preview = getPreviewForTime(1, duration) ? true : false;
-
+  const current_preview = useMemo(() => {
+    return getPreviewForTime(1, duration) ? true : false;
+  }, [videoSource, duration]);
   const percentage_by_time = (duration: number, currentTime: number) => {
     return duration > 0 ? (currentTime / duration) * 100 : 0;
   };
