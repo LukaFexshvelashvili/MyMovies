@@ -24,7 +24,7 @@ export default function MoviePlayer() {
     refetchOnWindowFocus: false,
   });
 
-  const { playerData, isMovie, error } = useMemo(() => {
+  const { playerData, isMovie } = useMemo(() => {
     if (!data?.movie.players || isLoading) {
       return { playerData: null, isMovie: false, error: null };
     }

@@ -1,0 +1,211 @@
+{
+  "sheets": [
+    {
+      "sheet": "previews\\preview_sheet_1.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 0
+    },
+    {
+      "sheet": "previews\\preview_sheet_2.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 25
+    },
+    {
+      "sheet": "previews\\preview_sheet_3.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 50
+    },
+    {
+      "sheet": "previews\\preview_sheet_4.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 75
+    },
+    {
+      "sheet": "previews\\preview_sheet_5.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 100
+    },
+    {
+      "sheet": "previews\\preview_sheet_6.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 125
+    },
+    {
+      "sheet": "previews\\preview_sheet_7.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 150
+    },
+    {
+      "sheet": "previews\\preview_sheet_8.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 175
+    },
+    {
+      "sheet": "previews\\preview_sheet_9.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 200
+    },
+    {
+      "sheet": "previews\\preview_sheet_10.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 225
+    },
+    {
+      "sheet": "previews\\preview_sheet_11.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 250
+    },
+    {
+      "sheet": "previews\\preview_sheet_12.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 275
+    },
+    {
+      "sheet": "previews\\preview_sheet_13.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 300
+    },
+    {
+      "sheet": "previews\\preview_sheet_14.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 325
+    },
+    {
+      "sheet": "previews\\preview_sheet_15.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 350
+    },
+    {
+      "sheet": "previews\\preview_sheet_16.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 375
+    },
+    {
+      "sheet": "previews\\preview_sheet_17.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 400
+    },
+    {
+      "sheet": "previews\\preview_sheet_18.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 425
+    },
+    {
+      "sheet": "previews\\preview_sheet_19.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 450
+    },
+    {
+      "sheet": "previews\\preview_sheet_20.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 475
+    },
+    {
+      "sheet": "previews\\preview_sheet_21.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 500
+    },
+    {
+      "sheet": "previews\\preview_sheet_22.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 525
+    },
+    {
+      "sheet": "previews\\preview_sheet_23.jpg",
+      "frames": 25,
+      "columns": 5,
+      "rows": 5,
+      "frame_width": 160,
+      "frame_height": 90,
+      "start_frame_index": 550
+    }
+  ]
+}

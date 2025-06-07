@@ -1,15 +1,17 @@
 import { useRef, useEffect, useCallback } from "react";
 import useOSPlayer from "./useOSPlayer";
-
+import { useOSPreviewThumbnails } from "./useOSPreviewThumbnails";
 import { formatTime } from "./OStimeDisplay";
 
 export default function OStimeline() {
-  const { videoRef, duration, changeVideoTime } = useOSPlayer();
+  const { videoRef, duration, changeVideoTime, videoSource } = useOSPlayer();
+  const { getPreviewForTime } = useOSPreviewThumbnails(videoSource);
   const timeline = useRef<HTMLDivElement | null>(null);
   const timeline_helper = useRef<HTMLDivElement | null>(null);
   const timeline_indicator = useRef<HTMLDivElement | null>(null);
+  const timeline_indicator_time = useRef<HTMLSpanElement | null>(null);
   const loadedRef = useRef<HTMLDivElement>(null);
-
+  const previewRef = useRef<HTMLDivElement>(null);
   const percentageRef = useRef<HTMLDivElement>(null);
   const isHoveringRef = useRef<boolean>(false);
   const isDraggingRef = useRef<boolean>(false);
@@ -23,11 +25,29 @@ export default function OStimeline() {
   };
 
   const indicatorShow = (offsetX: number, percentage: number) => {
-    if (!timeline_indicator.current) return;
+    if (!timeline_indicator.current || !timeline_indicator_time.current) return;
     timeline_indicator.current.style.visibility = "visible";
     timeline_indicator.current.style.opacity = "1";
-    timeline_indicator.current.style.left = `${offsetX}px`;
-    timeline_indicator.current.textContent = formatTime(
+    if (offsetX > timeline_indicator.current.offsetWidth / 2) {
+      timeline_indicator.current.style.left = `${offsetX}px`;
+      if (
+        offsetX <
+        timeline.current!.offsetWidth -
+          timeline_indicator.current.offsetWidth / 2
+      ) {
+        timeline_indicator.current.style.left = `${offsetX}px`;
+      } else {
+        timeline_indicator.current.style.left = `${
+          timeline.current!.offsetWidth -
+          timeline_indicator.current.offsetWidth / 2
+        }px`;
+      }
+    } else {
+      timeline_indicator.current.style.left = `${
+        timeline_indicator.current.offsetWidth / 2
+      }px`;
+    }
+    timeline_indicator_time.current.textContent = formatTime(
       time_by_percentage(duration, percentage)
     );
   };
@@ -45,11 +65,25 @@ export default function OStimeline() {
       const rect = timeline.current.getBoundingClientRect();
       const offsetX = clientX - rect.left;
       const percentage = (offsetX / rect.width) * 100;
+      const previewTime = time_by_percentage(duration, percentage);
 
+      // Show time indicator
       indicatorShow(offsetX, percentage);
       timeline_helper.current.style.width = `${percentage}%`;
+
+      // Show preview thumbnail
+      const preview = getPreviewForTime(previewTime, duration);
+
+      if (preview && previewRef.current) {
+        const previewEl = previewRef.current;
+
+        previewEl.style.backgroundImage = `url(${preview.sheetUrl})`;
+        previewEl.style.backgroundPosition = `-${preview.x}px -${preview.y}px`;
+        previewEl.style.width = `${preview.width}px`;
+        previewEl.style.height = `${preview.height}px`;
+      }
     },
-    [duration]
+    [duration, getPreviewForTime]
   );
 
   const peekEnd = () => {
@@ -69,13 +103,27 @@ export default function OStimeline() {
         0,
         Math.min(100, (offsetX / rect.width) * 100)
       );
-
-      changeVideoTime(time_by_percentage(duration, percentage));
+      const previewTime = time_by_percentage(duration, percentage);
+      changeVideoTime(previewTime);
       if (percentageRef.current)
         percentageRef.current.style.width = percentage + "%";
 
       if (!indicator_hide) {
         indicatorShow(offsetX, percentage);
+      }
+      const preview = getPreviewForTime(previewTime, duration);
+
+      if (preview && previewRef.current) {
+        const previewEl = previewRef.current;
+
+        previewEl.style.backgroundImage = `url(${preview.sheetUrl})`;
+        previewEl.style.backgroundPosition = `-${preview.x}px -${preview.y}px`;
+        // Check if mobile
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        const previewWidth = isMobile ? preview.width * 0.8 : preview.width;
+        const previewHeight = isMobile ? preview.height * 0.8 : preview.height;
+        previewEl.style.width = `${previewWidth}px`;
+        previewEl.style.height = `${previewHeight}px`;
       }
     },
     [duration, changeVideoTime]
@@ -83,33 +131,27 @@ export default function OStimeline() {
 
   // Touch event handlers
 
+  const handleTouchMove = useCallback(
+    (e: TouchEvent) => {
+      if (e.touches[0]) {
+        handleSeek(e.touches[0].clientX);
+      }
+    },
+    [peek]
+  );
+
   const handleTouchStart = useCallback(
     (e: TouchEvent) => {
-      isDraggingRef.current = true;
-
       if (e.touches[0]) {
         handleSeek(e.touches[0].clientX, true);
       }
-      e.preventDefault();
     },
-    [handleSeek]
+    [peek]
   );
-
-  const handleTouchMove = useCallback(
-    (e: TouchEvent) => {
-      if (isDraggingRef.current && e.touches[0]) {
-        handleSeek(e.touches[0].clientX);
-        e.preventDefault();
-      }
-    },
-    [handleSeek]
-  );
-
   const handleTouchEnd = useCallback(() => {
     isDraggingRef.current = false;
     if (!isHoveringRef.current) peekEnd();
   }, []);
-
   // Mouse event handlers
   const handleMouseDown = useCallback(
     (e: MouseEvent) => {
@@ -166,10 +208,13 @@ export default function OStimeline() {
 
     // Add touch event listeners
     timelineElement.addEventListener("touchstart", handleTouchStart, {
-      passive: false,
+      passive: true,
     });
-    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+    timelineElement.addEventListener("touchmove", handleTouchMove, {
+      passive: true,
+    });
     document.addEventListener("touchend", handleTouchEnd);
+
     if (!videoRef.current) return;
     videoRef.current.addEventListener("timeupdate", updateLine);
     videoRef.current.addEventListener("progress", updateBuffered);
@@ -185,8 +230,9 @@ export default function OStimeline() {
 
       // Remove touch event listeners
       timelineElement.removeEventListener("touchstart", handleTouchStart);
-      document.removeEventListener("touchmove", handleTouchMove);
+      timelineElement.removeEventListener("touchmove", handleTouchMove);
       document.removeEventListener("touchend", handleTouchEnd);
+
       if (!videoRef.current) return;
       videoRef.current.removeEventListener("progress", updateBuffered);
       videoRef.current.removeEventListener("seeked", updateBuffered);
@@ -200,7 +246,6 @@ export default function OStimeline() {
     handleMouseUp,
     handleTouchStart,
     handleTouchMove,
-    handleTouchEnd,
   ]);
 
   return (
@@ -214,14 +259,32 @@ export default function OStimeline() {
       }}
       ref={timeline}
     >
+      {/* Preview thumbnail */}
+      <div
+        ref={timeline_indicator}
+        className="absolute transition-[visibility,opacity] -translate-x-2/4 bottom-5 pointer-events-none bg-[#1d1d1d] invisible opacity-0 flex flex-col items-center"
+      >
+        <div
+          ref={previewRef}
+          className="flex transition-[visibility,opacity] pointer-events-none bg-no-repeat   overflow-hidden items-center justify-center "
+        ></div>
+        <span
+          ref={timeline_indicator_time}
+          className="block px-3 py-1.5 tracking-wider text-center w-full font-mainMedium mobile:text-[12px] text-white/90 text-[11px] mobile:py-1"
+        >
+          00:00
+        </span>
+      </div>
+
       {/* Background track */}
-      <div className="absolute w-full h-[4px] bg-white/10 "></div>
+      <div className="absolute w-full h-[4px] bg-white/10"></div>
 
       {/* Hover preview track */}
       <div
         ref={timeline_helper}
         className="h-[4px] bg-[#dfdfdf38] pointer-events-none"
       ></div>
+
       {/* Loaded progress track */}
       <div
         ref={loadedRef}
@@ -233,13 +296,6 @@ export default function OStimeline() {
         className="absolute z-[1] flex items-center h-[4px] bg-main pointer-events-none before:content-[''] before:absolute before:right-0 before:translate-x-2/4 before:shadow-lg before:pointer-events-none before:scale-0 before:transition-transform group-hover:before:scale-100 before:h-3 before:aspect-square before:rounded-[50%] before:bg-main"
         ref={percentageRef}
       ></div>
-
-      <div
-        ref={timeline_indicator}
-        className="absolute px-2 py-1 transition-[visibility,opacity] -translate-x-2/4 bottom-4 pointer-events-none bg-[#272727] items-center justify-center text-white/80 text-[12px] font-os_medium tracking-wider invisible opacity-0"
-      >
-        00:00
-      </div>
     </div>
   );
 }
