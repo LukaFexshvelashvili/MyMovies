@@ -26,18 +26,24 @@ export function useOSPreviewThumbnails(videoUrl: string | undefined) {
   };
 
   useEffect(() => {
-    if (!videoUrl) return;
-
-    // Reset states when video source changes
+    // Reset states immediately when video source changes
     setPreviewData(null);
     setTotalFrames(0);
-    setHasPreview(true);
+    setHasPreview(false);
+    setBasePath("");
+
+    if (!videoUrl) return;
+
+    let isMounted = true;
 
     // Get the directory path from the video URL
     const urlParts = videoUrl.split("/");
     urlParts.pop(); // Remove the video filename
     const baseDir = urlParts.join("/");
-    setBasePath(baseDir);
+
+    if (isMounted) {
+      setBasePath(baseDir);
+    }
 
     // Load preview.json from the same directory as the video
     fetch(`${baseDir}/preview.json`)
@@ -48,6 +54,8 @@ export function useOSPreviewThumbnails(videoUrl: string | undefined) {
         return res.json();
       })
       .then((data) => {
+        if (!isMounted) return;
+
         // Normalize all sheet paths in the data
         const normalizedData = {
           ...data,
@@ -63,10 +71,19 @@ export function useOSPreviewThumbnails(videoUrl: string | undefined) {
         );
         setTotalFrames(total);
         setPreviewData(normalizedData);
+        setHasPreview(true);
       })
       .catch(() => {
-        setHasPreview(false);
+        if (isMounted) {
+          setHasPreview(false);
+          setPreviewData(null);
+          setTotalFrames(0);
+        }
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, [videoUrl]);
 
   const getPreviewForTime = (time: number, duration: number) => {

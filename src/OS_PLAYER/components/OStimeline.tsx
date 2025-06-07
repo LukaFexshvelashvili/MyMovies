@@ -118,12 +118,6 @@ export default function OStimeline() {
 
         previewEl.style.backgroundImage = `url(${preview.sheetUrl})`;
         previewEl.style.backgroundPosition = `-${preview.x}px -${preview.y}px`;
-        // Check if mobile
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        const previewWidth = isMobile ? preview.width * 0.8 : preview.width;
-        const previewHeight = isMobile ? preview.height * 0.8 : preview.height;
-        previewEl.style.width = `${previewWidth}px`;
-        previewEl.style.height = `${previewHeight}px`;
       }
     },
     [duration, changeVideoTime]
@@ -262,11 +256,11 @@ export default function OStimeline() {
       {/* Preview thumbnail */}
       <div
         ref={timeline_indicator}
-        className="absolute transition-[visibility,opacity] -translate-x-2/4 bottom-5 pointer-events-none bg-[#1d1d1d] invisible opacity-0 flex flex-col items-center"
+        className="absolute transition-[visibility,opacity] -translate-x-2/4 bottom-5 pointer-events-none bg-[#252525] invisible opacity-0 flex flex-col items-center"
       >
         <div
           ref={previewRef}
-          className="flex transition-[visibility,opacity] pointer-events-none bg-no-repeat   overflow-hidden items-center justify-center "
+          className="flex max-[500px]:hidden transition-[visibility,opacity] pointer-events-none bg-no-repeat   overflow-hidden items-center justify-center "
         ></div>
         <span
           ref={timeline_indicator_time}

@@ -114,10 +114,10 @@ function SliderCard({
           className="flex flex-col tracking-wider mobile:gap-0 gap-1 items-start"
         >
           <h2 className="text-head mobile:text-[20px] text-[18px] line-clamp-1">
-            {movie.name}
+            {decodeHtmlEntities(movie.name)}
           </h2>
           <h3 className="text-white/60 mobile:text-[18px] text-[16px] line-clamp-1">
-            {movie.name_eng} ({movie.year})
+            {decodeHtmlEntities(movie.name_eng)} ({movie.year})
           </h3>
           <div className="flex items-center mobile:gap-4 gap-2 text-[15px] tracking-wider mt-1">
             <IMDbIcon className="mobile:h-[30px] mobile:w-[40px] w-[36px]" />
