@@ -192,22 +192,16 @@ function MetaDataGenerate({ movie }: { movie: TMovie }) {
   }
 
   // Optimize description length
-  let seo_desc = `${movie.name} (${movie.year}) ${ending_geo} | ${
-    movie.name_eng
-  } (${movie.year}) ${ending_eng} - ${movie.description.slice(
-    0,
-    40
-  )}... MyMovies - ფილმები ქართულად | Filmebi Qartulad | Animeebi Qartulad | Serialebi Qartulad`;
+  let seo_desc = `იხილეთ ${movie.name} (${movie.name_eng} ${
+    movie.year
+  }) ${ending_geo} - ${movie.description.slice(0, 150)}`;
   if (seo_desc.length >= 60) {
-    seo_desc = `${movie.name_eng} (${
+    seo_desc = `იხილეთ ${movie.name} (${movie.name_eng} ${
       movie.year
-    }) qartulad - ${movie.description.slice(
-      0,
-      40
-    )}... MyMovies - ფილმები ქართულად | Filmebi Qartulad | Animeebi Qartulad | Serialebi Qartulad`;
+    }) ${ending_geo} - ${movie.description.slice(0, 150)}`;
   }
-  if (seo_desc.length >= 160) {
-    seo_desc = seo_desc.slice(0, 159);
+  if (seo_desc.length >= 135) {
+    seo_desc = seo_desc.slice(0, 135) + "... ნახეთ MyMovies - ზე";
   }
 
   const keywords = `${movie.name} ქართულად, ${movie.name_eng}, MyMovies - ${movie.name}`;

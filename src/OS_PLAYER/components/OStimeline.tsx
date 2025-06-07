@@ -118,6 +118,8 @@ export default function OStimeline() {
 
         previewEl.style.backgroundImage = `url(${preview.sheetUrl})`;
         previewEl.style.backgroundPosition = `-${preview.x}px -${preview.y}px`;
+        previewEl.style.width = `${preview.width}px`;
+        previewEl.style.height = `${preview.height}px`;
       }
     },
     [duration, changeVideoTime]
@@ -256,15 +258,15 @@ export default function OStimeline() {
       {/* Preview thumbnail */}
       <div
         ref={timeline_indicator}
-        className="absolute transition-[visibility,opacity] -translate-x-2/4 bottom-5 pointer-events-none bg-[#252525] invisible opacity-0 flex flex-col items-center"
+        className="absolute transition-[visibility,opacity]   -translate-x-2/4 bottom-5 pointer-events-none invisible opacity-0 flex flex-col items-center"
       >
         <div
           ref={previewRef}
-          className="flex max-[500px]:hidden transition-[visibility,opacity] pointer-events-none bg-no-repeat   overflow-hidden items-center justify-center "
+          className="flex transition-[visibility,opacity] pointer-events-none bg-no-repeat   overflow-hidden items-center justify-center bg-navBg "
         ></div>
         <span
           ref={timeline_indicator_time}
-          className="block px-3 py-1.5 tracking-wider text-center w-full font-mainMedium mobile:text-[12px] text-white/90 text-[11px] mobile:py-1"
+          className="block px-2 py-1 tracking-wider text-center   font-mainMedium mobile:text-[12px]    text-white/90 text-[11px] mobile:py-1 bg-main absolute top-0 left-0"
         >
           00:00
         </span>
