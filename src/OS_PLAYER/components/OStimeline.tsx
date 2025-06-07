@@ -15,6 +15,7 @@ export default function OStimeline() {
   const percentageRef = useRef<HTMLDivElement>(null);
   const isHoveringRef = useRef<boolean>(false);
   const isDraggingRef = useRef<boolean>(false);
+  const current_preview = getPreviewForTime(1, duration) ? true : false;
 
   const percentage_by_time = (duration: number, currentTime: number) => {
     return duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -28,23 +29,23 @@ export default function OStimeline() {
     if (!timeline_indicator.current || !timeline_indicator_time.current) return;
     timeline_indicator.current.style.visibility = "visible";
     timeline_indicator.current.style.opacity = "1";
-    if (offsetX > timeline_indicator.current.offsetWidth / 2) {
+    if (offsetX > timeline_indicator.current.scrollWidth / 2) {
       timeline_indicator.current.style.left = `${offsetX}px`;
       if (
         offsetX <
-        timeline.current!.offsetWidth -
-          timeline_indicator.current.offsetWidth / 2
+        timeline.current!.scrollWidth -
+          timeline_indicator.current.scrollWidth / 2
       ) {
         timeline_indicator.current.style.left = `${offsetX}px`;
       } else {
         timeline_indicator.current.style.left = `${
-          timeline.current!.offsetWidth -
-          timeline_indicator.current.offsetWidth / 2
+          timeline.current!.scrollWidth -
+          timeline_indicator.current.scrollWidth / 2
         }px`;
       }
     } else {
       timeline_indicator.current.style.left = `${
-        timeline_indicator.current.offsetWidth / 2
+        timeline_indicator.current.scrollWidth / 2
       }px`;
     }
     timeline_indicator_time.current.textContent = formatTime(
@@ -258,7 +259,7 @@ export default function OStimeline() {
       {/* Preview thumbnail */}
       <div
         ref={timeline_indicator}
-        className="absolute transition-[visibility,opacity]   -translate-x-2/4 bottom-5 pointer-events-none invisible opacity-0 flex flex-col items-center"
+        className="absolute transition-[visibility,opacity] -translate-x-2/4 bottom-5 pointer-events-none invisible opacity-0 flex flex-col items-center"
       >
         <div
           ref={previewRef}
@@ -266,7 +267,11 @@ export default function OStimeline() {
         ></div>
         <span
           ref={timeline_indicator_time}
-          className="block px-2 py-1 tracking-wider text-center   font-mainMedium mobile:text-[12px]    text-white/90 text-[11px] mobile:py-1 bg-main absolute top-0 left-0"
+          className={
+            !current_preview
+              ? "block px-3 py-1.5 tracking-wider text-center w-full font-mainMedium mobile:text-[12px] text-white/90 text-[11px] mobile:py-1 bg-bodyBg"
+              : "block px-2 py-1 tracking-wider text-center font-mainMedium mobile:text-[12px] text-white/90 text-[11px] mobile:py-1 bg-main absolute top-0 left-0"
+          }
         >
           00:00
         </span>

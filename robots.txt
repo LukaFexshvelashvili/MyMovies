@@ -1,0 +1,6 @@
+   <span
+          ref={timeline_indicator_time}
+          className="block px-2 py-1 tracking-wider text-center   font-mainMedium mobile:text-[12px]    text-white/90 text-[11px] mobile:py-1 bg-main absolute top-0 left-0"
+        >
+          00:00
+        </span>

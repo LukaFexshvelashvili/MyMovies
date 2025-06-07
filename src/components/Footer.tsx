@@ -14,7 +14,7 @@ export default function Footer() {
           </div>
           <ul className="flex-1 flex flex-wrap">
             {RoutesList.mainRoutes.map((route, i) => (
-              <li className=" min-w-1/3 max-992:min-w-2/4 h-[42px] ">
+              <li key={i} className=" min-w-1/3 max-992:min-w-2/4 h-[42px] ">
                 <Link
                   key={i}
                   to={route.path}
