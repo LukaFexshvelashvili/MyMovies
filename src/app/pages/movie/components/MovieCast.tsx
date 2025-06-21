@@ -76,7 +76,7 @@ export default function MovieCast({
               className="!w-[140px] mobile:!w-[180px]"
             >
               <div className="group relative flex flex-col  w-[140px] mobile:w-[180px] mobile:h-[285px] overflow-hidden transition-all duration-300    ">
-                <div className="relative w-[140px] mobile:w-[180px] h-[140px] mobile:h-[180px] overflow-hidden">
+                <div className="relative w-[140px] mobile:w-[180px] h-[140px] mobile:h-[180px] min-h-[140px] mobile:min-h-[180px] overflow-hidden">
                   {imageErrors[actor.id.toString()] ? (
                     <div className="w-full h-full flex items-center justify-center bg-black/20">
                       <AvatarFallbackIcon className="text-white/25 w-12 mobile:w-16 h-12 mobile:h-16" />
@@ -91,6 +91,7 @@ export default function MovieCast({
                       height={180}
                       width={180}
                       alt={"Actor | " + actor.name}
+                      title={"Actor | " + actor.name}
                       onError={() => handleImageError(actor.id)}
                       loading="lazy"
                     />
@@ -100,7 +101,7 @@ export default function MovieCast({
                 <div className="relative flex flex-col py-3 px-1 mobile:p-4 gap-1 transition-all duration-300  ">
                   {actor.character ? (
                     <>
-                      <p className="text-textHead text-[14px] mobile:text-[16px] font-medium line-clamp-2 group-hover:text-main text-white  transition-colors duration-300 tracking-wider">
+                      <p className="text-textHead text-[14px] mobile:text-[16px] font-medium line-clamp-2 group-hover:text-main  transition-colors duration-300 tracking-wider">
                         {actor.name}
                       </p>
                       <p className="text-textDesc text-[12px] mobile:text-[14px] font-medium line-clamp-2 min-h-[32px] mobile:min-h-[40px] group-hover:text-white/80 transition-colors duration-300">

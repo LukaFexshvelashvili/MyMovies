@@ -331,13 +331,11 @@ export default function OSepisodesSelector({
         ))}
       </div>
       <div
-        className={`relative w-full h-full overflow-x-hidden ${
+        className={`relative w-full h-[calc(100%-52px)]  overflow-hidden  ${
           activeSection == "episodes" ? "hidden" : ""
         }`}
       >
-        <div
-          className={`h-full overflow-y-auto overflow-x-hidden flex flex-col items-center pb-3 `}
-        >
+        <div className="h-full overflow-y-auto overflow-x-hidden flex flex-col items-center  custom_scrollbar">
           {Object.keys(episodes).map((season: string | number) => (
             <Season
               key={season}
