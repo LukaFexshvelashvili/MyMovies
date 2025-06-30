@@ -1,0 +1,20 @@
+{
+  "name": "MyMovies | ფილმები ქართულად",
+  "short_name": "MyMovies",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1d1d1d",
+  "theme_color": "#1d1d1d",
+  "icons": [
+    {
+      "src": "/assets/meta/icon.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/meta/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

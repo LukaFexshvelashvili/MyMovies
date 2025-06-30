@@ -1,33 +1,46 @@
 import { useEffect } from "react";
 import useUser from "../store/useUser";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { api } from "../../api/axios";
+import { SuspenseLoader } from "../App";
 
 export default function Logout() {
-  const { setUser } = useUser();
+  const { setUser, user } = useUser();
+  const [searchParams] = useSearchParams();
+
+  const returnTo = searchParams.get("returnTo");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const logoutRequest = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const returnTo = urlParams.get("returnTo") || "/";
+    if (!returnTo) {
+      navigate("/");
+      return;
+    }
+    if (user !== null) {
+      const logoutRequest = async () => {
+        try {
+          await api.get(`/auth/logout`, {
+            withCredentials: true,
+          });
 
-      try {
-        await api.get(`/auth/logout`, {
-          withCredentials: true,
-        });
+          setUser(null);
 
-        setUser(null);
+          navigate(returnTo, { replace: true });
+        } catch (error) {
+          console.error("Logout failed:", error);
+          navigate(returnTo, { replace: true });
+        }
+      };
 
-        navigate(-1);
-      } catch (error) {
-        console.error("Logout failed:", error);
-        navigate(-1);
-      }
-    };
+      logoutRequest();
+    } else {
+      navigate(returnTo, { replace: true });
+    }
+  }, [navigate, setUser, user]);
 
-    logoutRequest();
-  }, [navigate, setUser]);
-
-  return null;
+  return (
+    <>
+      <SuspenseLoader />
+    </>
+  );
 }

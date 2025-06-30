@@ -1,5 +1,28 @@
 export type TMovie = {
   id: number;
+  mid: number;
+  name_eng: string;
+  name: string;
+  subtitle?: string | null;
+  year: string;
+  country: string;
+  imdb: string;
+  creator: string;
+  actors?: string | null;
+  description: string;
+  players: string;
+  trailer?: string | null;
+  poster_url: string | null;
+  thumbnail_url: string | null;
+  type: number;
+  addons: string;
+  genres?: string | null;
+  views?: number | null;
+  create_date: string;
+};
+export type TMovieCard = {
+  id: number;
+  mid: number;
   name_eng: string;
   name: string;
   subtitle?: string | null;
@@ -19,24 +42,18 @@ export type TMovie = {
   views?: number | null;
   create_date: string;
 };
-export type TMovieCard = {
-  id: number;
-  name_eng: string;
+
+export type TCast = {
+  adult: boolean;
+  gender: string;
+  id: string;
+  known_for_department: string;
   name: string;
-  subtitle?: string | null;
-  year: string;
-  country: string;
-  imdb: string;
-  creator: string;
-  actors?: string | null;
-  description: string;
-  players: string;
-  trailer?: string | null;
-  poster_url?: string | null;
-  thumbnail_url?: string | null;
-  type: number;
-  addons: string;
-  genres?: string | null;
-  views?: number | null;
-  create_date: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string | null;
+  cast_id: string;
+  character: string;
+  credit_id: string;
+  order: string;
 };

@@ -58,13 +58,19 @@ export async function registerRequest(_: unknown, formData: FormData) {
   const password = formData.get("password");
   const repeat_password = formData.get("repeat_password");
   if (password !== repeat_password) {
-    return { status: 3 };
+    return { status: 12 };
   }
-  const { data } = await api.post(`/auth/register`, {
-    nickname: username,
-    email,
-    password,
-  });
+  const { data } = await api.post(
+    `/auth/register`,
+    {
+      nickname: username,
+      email,
+      password,
+    },
+    {
+      withCredentials: true,
+    }
+  );
   return data;
 }
 export async function fetchQuickSearch(query: string) {
@@ -98,11 +104,49 @@ export async function fetchMovie(id: number) {
   });
   return data;
 }
+export async function fetchCasts(mid: number) {
+  const { data } = await api.get(
+    `https://api.themoviedb.org/3/movie/${mid}/credits`,
+    {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNzAxM2M4ZmIyNTBiZDYzZjQ3N2M5ODU4MDAxODE3MCIsIm5iZiI6MTc0OTE1NTM4MC44NTUsInN1YiI6IjY4NDFmZTM0N2NkZTQ3YzYxOWJmMTY1ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Rq_DLa8AU3E3PFMdgLIUZDJBw3QzunUBazLDb8W8mNs",
+      },
+    }
+  );
+  return data;
+}
 
 export async function fetchMoviesList(history?: string[]) {
   const { data } = await api.get("/list/home", {
     params: {
       watch_history: history ? JSON.stringify(history) : null,
+    },
+  });
+  return data;
+}
+export async function fetchHistory(history?: string[]) {
+  const { data } = await api.get("/list/history", {
+    params: {
+      watch_history: history ? JSON.stringify(history) : null,
+    },
+  });
+  return data;
+}
+
+export async function fetchBookmarks(bookmarks?: (string | number)[]) {
+  const { data } = await api.get("/list/bookmarks", {
+    params: {
+      bookmarks: bookmarks ? JSON.stringify(bookmarks) : null,
+    },
+  });
+  return data;
+}
+
+export async function fetchMostViews(type?: string | number) {
+  const { data } = await api.get("/list/most_viewed", {
+    params: {
+      type,
     },
   });
   return data;
