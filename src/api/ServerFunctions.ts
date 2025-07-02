@@ -73,15 +73,21 @@ export async function registerRequest(_: unknown, formData: FormData) {
   );
   return data;
 }
-export async function fetchQuickSearch(query: string) {
+export async function fetchQuickSearch(rawQuery: string) {
+  const query = encodeURIComponent(rawQuery);
   const { data } = await api.get(`/actions/quick_search`, {
     params: { title: query },
   });
   return data;
 }
-export async function fetchSearch(filters: object) {
+export async function fetchSearch(filters: Record<string, string>) {
+  const safeFilters: Record<string, string> = {};
+  for (const key in filters) {
+    safeFilters[key] = encodeURIComponent(filters[key]);
+  }
+
   const { data } = await api.get(`/actions/search`, {
-    params: filters,
+    params: safeFilters,
   });
   return data;
 }

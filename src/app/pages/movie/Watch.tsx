@@ -188,23 +188,23 @@ function MetaDataGenerate({ movie }: { movie: TMovie }) {
     seo_title = `${movie.name} ${ending_geo}`;
   }
   if (seo_title.length <= 48) {
-    seo_title += " - MyMovies";
+    seo_title += " | MyMovies";
   }
 
   // Optimize description length
-  let seo_desc = `იხილეთ ${movie.name} (${movie.name_eng} ${
+  let seo_desc = `${movie.name_eng} (${
     movie.year
-  }) ${ending_geo} - ${movie.description.slice(0, 150)}`;
+  }) ${ending_eng} - ${movie.description.slice(0, 150)}`;
   if (seo_desc.length >= 60) {
-    seo_desc = `იხილეთ ${movie.name} (${movie.name_eng} ${
+    seo_desc = `{movie.name_eng} (${
       movie.year
-    }) ${ending_geo} - ${movie.description.slice(0, 150)}`;
+    }) ${ending_eng} - ${movie.description.slice(0, 150)}`;
   }
   if (seo_desc.length >= 135) {
     seo_desc = seo_desc.slice(0, 135) + "... ნახეთ MyMovies - ზე";
   }
 
-  const keywords = `${movie.name} ქართულად, ${movie.name_eng}, MyMovies - ${movie.name}`;
+  const keywords = `${movie.name} ქართულად, ${movie.name_eng} Qartulad, MyMovies - ${movie.name}`;
   const url = `https://mymovies.cc/watch/${movie.id}-${movie.name_eng.replace(
     /\s+/g,
     "-"

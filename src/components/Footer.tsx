@@ -47,6 +47,12 @@ export default function Footer() {
         <div className="border-t border-white/10 h-[80px] flex justify-between items-center px-5  max-992:flex-col  max-992:h-auto  max-992:py-5  max-992:gap-5">
           <CensoredContentIcon />
           <Link
+            to={"https://moviesgo.ge/"}
+            className="text-textDescDark2 hover:text-textDesc"
+          >
+            MOVIESGO.GE
+          </Link>{" "}
+          <Link
             to={"https://mymovies.cc/"}
             className="text-textDescDark2 hover:text-textDesc"
           >

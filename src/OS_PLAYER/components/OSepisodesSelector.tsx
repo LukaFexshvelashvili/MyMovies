@@ -51,7 +51,6 @@ export default function OSepisodesSelector({
   const [activeSection, setActiveSection] = useState<"episodes" | "seasons">(
     "seasons"
   );
-
   const videoEnded = useCallback(() => {
     if (
       episodes[activeSeason][activeEpisode + 1] &&
@@ -64,7 +63,7 @@ export default function OSepisodesSelector({
     } else if (episodes[activeSeason + 1][0]) {
       episodeChange(0, episodes[activeSeason + 1][0], false, activeSeason + 1);
     }
-  }, [activeEpisode]);
+  }, [activeEpisode, activeSeason]);
 
   useEffect(() => {
     if (!videoRef.current) return;
@@ -73,7 +72,7 @@ export default function OSepisodesSelector({
       if (!videoRef.current) return;
       videoRef.current.removeEventListener("ended", videoEnded);
     };
-  }, [activeEpisode]);
+  }, [activeEpisode, videoEnded]);
   useLayoutEffect(() => {
     const storedData = localStorage.getItem("os_player");
     let storage: Tstorage[] = storedData ? JSON.parse(storedData) : [];
