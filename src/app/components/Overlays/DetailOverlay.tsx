@@ -206,7 +206,7 @@ function GetDetails({
             show={
               <p
                 className="`mt-2  text-[15px]  leading-6.5 
-                           font-mainMedium tracking-wider text-textDescLight2  w-full line-clamp-6 relative"
+                           font-mainMedium tracking-wider text-textDescLight2  w-full line-clamp-6 relative mobile:max-h-[200px] max-h-[160px] overflow-y-auto"
               >
                 {decodeHtmlEntities(
                   data?.movie.description ? data?.movie.description : ""
@@ -379,7 +379,7 @@ export function MovieDetailsOverlay({
           </div>
           <div className="flex-1 text-start value text-textHead2">
             {" "}
-            <p className="flex gap-3 flex-wrap !h-auto">
+            <p className="flex gap-3 flex-wrap !h-auto mobile:max-h-[120px] max-h-[60px] overflow-y-auto">
               <MovieSkeletonSection
                 isLoading={isLoading}
                 placeholder="OnService Luka Fexshvelashvili"
@@ -409,7 +409,7 @@ export function MovieDetailsOverlay({
               show={<p>რეჟისორი:</p>}
             />
           </div>
-          <div className="flex-1 text-start value text-textHead2">
+          <div className="flex-1 text-start value text-textHead2  mobile:max-h-[120px] max-h-[60px] overflow-y-auto">
             {" "}
             <MovieSkeletonSection
               isLoading={isLoading}
