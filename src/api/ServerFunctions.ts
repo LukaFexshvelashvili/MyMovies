@@ -80,14 +80,9 @@ export async function fetchQuickSearch(rawQuery: string) {
   });
   return data;
 }
-export async function fetchSearch(filters: Record<string, string>) {
-  const safeFilters: Record<string, string> = {};
-  for (const key in filters) {
-    safeFilters[key] = encodeURIComponent(filters[key]);
-  }
-
+export async function fetchSearch(filters: object) {
   const { data } = await api.get(`/actions/search`, {
-    params: safeFilters,
+    params: filters,
   });
   return data;
 }

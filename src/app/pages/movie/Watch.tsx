@@ -62,15 +62,7 @@ export default function Watch() {
     <>
       {data?.movie && <MetaDataGenerate movie={data.movie} />}
       <main className="mobile:pb-20 pb-10">
-        <div className="mobile:h-[160px] h-auto  w-full  bg-[#0c0c0c] mobile:flex hidden justify-center">
-          <Link to={"https://moviesgo.ge"} target="_blank">
-            <img
-              src="/decorations/moviesgo_x_mymovies.webp"
-              alt="Moviesgo X MyMovies"
-              className="h-full w-full object-cover"
-            />
-          </Link>
-        </div>
+        <div className="mobile:h-[160px] h-auto  w-full  bg-[#0c0c0c] bg-[url('/decorations/background.svg')] bg-repeat bg-center mobile:flex hidden justify-center"></div>
         <section className="mobile:mt-6 mt-0  overflow-x-hidden ">
           <div className="my_container max-mobile:!p-0">
             <MoviePlayer />
